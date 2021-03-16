@@ -8,6 +8,7 @@
 import ArticleHeader from '../components/ArticleHeader';
 
 export default {
+  layout: 'panel',
   components: {
       ArticleHeader
   },
