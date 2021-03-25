@@ -37,19 +37,9 @@
       </div>
       <div class="flex items-center justify-center">
         <h2 class="mr-1 block text-sm text-gray-900">Already Have an Account</h2>
-        <nuxt-link to="/" class="font-medium text-yellow-500 hover:text-yellow-400"> Sign In</nuxt-link>
+        <nuxt-link to="/dashboard" class="font-medium text-yellow-500 hover:text-yellow-400"> Sign In</nuxt-link>
       </div>
     </form>
   </div>
 </div>
 </template>
-
-<script>
-export default {
-
-}
-</script>
-
-<style>
-
-</style>
