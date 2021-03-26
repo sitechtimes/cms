@@ -10,6 +10,7 @@
     <main>
 
       <!--    table  -->
+      <div class="py-4">
       <h1 class="text-l lg:px-10 font-bold">Drafts</h1>
       <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
         <div class="flex flex-col">
@@ -19,7 +20,7 @@
                 <table class="min-w-full divide-y divide-gray-200">
                   <tbody class="bg-white divide-y divide-gray-200">
 
-                  <ArticleRow />
+                  <ArticleRow :article="{ name: 'Veronica', company: 'Veridian Dynamics' }"/>
                   <ArticleRow />
                   <ArticleRow />
 
@@ -30,8 +31,11 @@
           </div>
         </div>
       </div>
+      </div>
 
       <!--    table  -->
+
+      <div class="py-4">
       <h1 class="text-l lg:px-10 font-bold">In Review</h1>
       <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
         <div class="flex flex-col">
@@ -51,8 +55,11 @@
           </div>
         </div>
       </div>
+      </div>
 
       <!-- table -->
+
+      <div class="py-4">
       <h1 class="text-l lg:px-10 font-bold">Ready for Publication</h1>
       <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
 
@@ -72,6 +79,7 @@
             </div>
           </div>
         </div>
+      </div>
       </div>
 
 
