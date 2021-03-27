@@ -29,17 +29,17 @@
         </div>
 
         <div class="text-sm">
-          <a href="#" class="font-medium text-yellow-500 hover:text-yellow-400">
+          <a href="#" class="font-medium text-indigo-600 hover:text-indigo-400">
             Forgot your password?
           </a>
         </div>
       </div>
 
       <div>
-        <button type="submit" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-yellow-400 hover:bg-yellow-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500">
+        <button type="submit" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500">
           <span class="absolute left-0 inset-y-0 flex items-center pl-3">
             <!-- Heroicon name: solid/lock-closed -->
-            <svg class="h-5 w-5 text-yellow-300 group-hover:text-yellow-20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <svg class="h-5 w-5 text-indigo-000 group-hover:text-indigo-000" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
               <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
             </svg>
           </span>
@@ -48,7 +48,7 @@
       </div>
       <div class="flex items-center justify-center">
         <h2 class="mr-1 block text-sm text-gray-900">Don't Have an Account Yet?</h2>
-        <nuxt-link to="/signup" class="font-medium text-yellow-500 hover:text-yellow-400"> Sign Up</nuxt-link>
+        <nuxt-link to="/signup" class="font-medium text-indigo-600 hover:text-indigo-400"> Sign Up</nuxt-link>
       </div>
     </form>
   </div>
