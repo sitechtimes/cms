@@ -20,8 +20,9 @@
                 <table class="min-w-full divide-y divide-gray-200">
                   <tbody class="bg-white divide-y divide-gray-200">
 
-                  <ArticleRow />
-                  <ArticleRow />
+<!--                  <ArticleRow v-bind:article="article" />-->
+                  <ArticleRow title='This is an Article title'/>
+                  <ArticleRow title='This is an Article title'/>
 
                   </tbody>
                 </table>
@@ -91,7 +92,7 @@
 
   export default {
     layout: 'dashboard',
-    component: {
+    components: {
       ArticleRow
     }
   }

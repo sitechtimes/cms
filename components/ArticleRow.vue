@@ -5,8 +5,7 @@
 
         <div class="ml-4">
           <div class="text-sm font-medium text-gray-900">
-<!--            {{ name }}-->
-            How to use Tailwind Components in Vue.js
+            {{ title }}
           </div>
 
         </div>
@@ -29,4 +28,8 @@
 </template>
 
 <script>
+  export default {
+    name: 'ArticleRow',
+    props: ['title'],
+  }
 </script>
