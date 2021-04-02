@@ -5,7 +5,7 @@
 
         <div class="ml-4">
           <div class="text-sm font-medium text-gray-900">
-            {{ title }}
+            {{ article.title }}
           </div>
 
         </div>
@@ -30,6 +30,6 @@
 <script>
   export default {
     name: 'ArticleRow',
-    props: ['title'],
+    props: ['article']
   }
 </script>
