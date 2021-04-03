@@ -49,7 +49,7 @@
       </div>
       <div class="flex items-center justify-center">
         <h2 class="mr-1 block text-sm text-gray-900">Don't Have an Account Yet?</h2>
-        <nuxt-link to="/signup" class="text-sm text-indigo-600 hover:text-indigo-500">Sign Up</nuxt-link>
+        <nuxt-link to="/auth/signup" class="text-sm text-indigo-600 hover:text-indigo-500">Sign Up</nuxt-link>
       </div>
     </form>
   </div>
