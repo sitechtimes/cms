@@ -21,7 +21,7 @@
     </div>
     <main>
 
-      <!--    table  -->
+      <!--   table  -->
       <ArticleTable title="Draft" :articles="articles"/>
       <ArticleTable title="In Review" :articles="articles"/>
       <ArticleTable title="Ready for Publication" :articles="articles"/>

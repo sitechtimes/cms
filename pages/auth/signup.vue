@@ -8,6 +8,10 @@
       </h2>
     </div>
 
+<!--   TODO: refactor into errors comp. -->
+
+    <ErrorMessage :errors="errors"/>
+
     <form class="mt-8 space-y-6" action="#"  @submit.prevent="signUp">
       <input type="hidden" name="remember" value="true">
       <div class="rounded-md shadow-sm -space-y-px">
@@ -50,16 +54,20 @@
 </div>
 </template>
 <script>
-  import { mapActions, mapGetters, mapState } from 'vuex';
+  import ErrorMessage from "../../components/ErrorMessage";
 
   export default {
+    components: {
+      ErrorMessage
+    },
     data () {
-      return { name: '', email: '', password: '' , errors: [] }
+      return { name: '', email: '', password: '' , errors: null }
     },
     methods: {
+      // TODO: move to vuex store
       async signUp() {
-
         try {
+
           await this.$axios.post('/auth/signup', {
             name: this.name,
             email: this.email,
@@ -72,14 +80,15 @@
               password: this.password
             }
           })
+
+          const resp = await this.$axios.get('https://sitechtimes.dev/api/auth/current-user');
+          console.log(resp);
+
         } catch (err) {
-           this.errors = err.response.data.errors
+            this.errors = err.response.data.errors
         }
-
-
-        // TODO: make request to create user then sign them up
-
       }
+
     }
   }
 </script>

@@ -7,6 +7,9 @@
         Sign in to your account
       </h2>
     </div>
+
+    <ErrorMessage :errors="errors" />
+
     <form class="mt-8 space-y-6" action="#" method="POST" @submit.prevent="signIn" >
       <input type="hidden" name="remember" value="true">
       <div class="rounded-md shadow-sm -space-y-px">
@@ -60,11 +63,14 @@
 </template>
 
 <script>
+  import ErrorMessage from "../../components/ErrorMessage";
 export default{
+  components: { ErrorMessage },
   data () {
     return {
       email: "",
-      password: ""
+      password: "",
+      errors: null
     }
   },
   methods: {
@@ -76,7 +82,10 @@ export default{
             password: this.password
           }
         });
-      }catch { }
+      }catch (err) {
+        console.log(err.response.data.errors[0].message);
+        this.errors = err.response.data.errors;
+      }
     }
   }
 }
