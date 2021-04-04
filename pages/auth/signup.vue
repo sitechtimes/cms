@@ -7,7 +7,8 @@
         Sign Up
       </h2>
     </div>
-    <form class="mt-8 space-y-6" action="#"  @submit.prevent>
+
+    <form class="mt-8 space-y-6" action="#"  @submit.prevent="signUp">
       <input type="hidden" name="remember" value="true">
       <div class="rounded-md shadow-sm -space-y-px">
         <div>
@@ -30,7 +31,7 @@
       </div>
 
       <div>
-        <button @click="signUp" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+        <button class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
           <span class="absolute left-0 inset-y-0 flex items-center pl-3">
             <!-- Heroicon name: solid/lock-closed -->
             <svg class="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -42,7 +43,7 @@
       </div>
       <div class="flex items-center justify-center">
         <h2 class="mr-1 block text-sm text-gray-900">Already Have an Account</h2>
-        <nuxt-link to="/dashboard" class="text-sm text-indigo-600 hover:text-indigo-400">Sign in</nuxt-link>
+        <nuxt-link to="/auth/signin" class="text-sm text-indigo-600 hover:text-indigo-400">Sign in</nuxt-link>
       </div>
     </form>
   </div>
@@ -53,12 +54,32 @@
 
   export default {
     data () {
-      return { name: '', email: '', password: '' }
+      return { name: '', email: '', password: '' , errors: [] }
     },
     methods: {
-      ...mapActions({
-        signUp: 'auth/signUp'
-      })
+      async signUp() {
+
+        try {
+          await this.$axios.post('/auth/signup', {
+            name: this.name,
+            email: this.email,
+            password: this.password
+          })
+
+          await this.$auth.loginWith('local', {
+            data: {
+              email: this.email,
+              password: this.password
+            }
+          })
+        } catch (err) {
+           this.errors = err.response.data.errors
+        }
+
+
+        // TODO: make request to create user then sign them up
+
+      }
     }
   }
 </script>

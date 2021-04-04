@@ -34,6 +34,8 @@ export default {
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
+    '@nuxtjs/axios',
+    '@nuxtjs/auth-next'
   ],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
@@ -43,5 +45,26 @@ export default {
   // change default port to 8000
   server: {
     port: 8000
-  }
+  },
+
+  axios: {
+    baseURL: 'https://sitechtimes.dev/api'
+  },
+
+  auth: {
+    strategies: {
+      local: {
+        endpoints: {
+          login: { url: '/auth/signin', method: 'post', propertyName: 'token' },
+          logout: { },
+          user: false
+        },
+
+        tokenType: '',
+      },
+    },
+    redirect: {
+      login: 'auth/signin'
+    }
+  },
 }
