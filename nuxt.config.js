@@ -21,6 +21,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    '~/plugins/axios',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -55,7 +56,7 @@ export default {
     strategies: {
       local: {
         user: {
-          property: ''
+          property: false
         },
         endpoints: {
           login: { url: '/auth/signin', method: 'post', propertyName: 'token' },
@@ -66,9 +67,9 @@ export default {
         tokenType: '',
       },
     },
-    redirect: {
-      login: '/auth/signup',
-      home: '/'
-    }
+    // redirect: {
+    //   login: '/auth/signin',
+    //   home: '/'
+    // }
   },
 }
