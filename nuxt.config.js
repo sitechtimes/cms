@@ -55,12 +55,11 @@ export default {
     strategies: {
       local: {
         user: {
-          property: false
+          property: ''
         },
         endpoints: {
           login: { url: '/auth/signin', method: 'post', propertyName: 'token' },
-          // user: { url: '/auth/current-user', method: 'get' },
-          user: false,
+          user: { url: '/auth/current-user', method: 'get' },
           logout: false,
         },
 

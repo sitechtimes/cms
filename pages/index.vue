@@ -39,6 +39,9 @@
     layout: 'dashboard',
     middleware: ['auth'],
     components: { ArticleTable,  ArticleRow },
+    mounted() {
+      console.log(this.$auth.user)
+    },
     data() {
       return {
         articles: [
