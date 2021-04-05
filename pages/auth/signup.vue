@@ -61,7 +61,7 @@
       ErrorMessage
     },
     data () {
-      return { name: '', email: '', password: '' , errors: null }
+      return { name: 'example', email: 'example@sitechhs.com', password: 'password' , errors: null }
     },
     methods: {
       // TODO: move to vuex store
@@ -81,11 +81,9 @@
             }
           })
 
-          const resp = await this.$axios.get('https://sitechtimes.dev/api/auth/current-user');
-          console.log(resp);
-
         } catch (err) {
-            this.errors = err.response.data.errors
+          console.log(err);
+            // this.errors = err.response.data.errors
         }
       }
 

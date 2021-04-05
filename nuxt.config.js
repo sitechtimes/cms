@@ -54,9 +54,12 @@ export default {
   auth: {
     strategies: {
       local: {
+        user: {
+          property: false
+        },
         endpoints: {
           login: { url: '/auth/signin', method: 'post', propertyName: 'token' },
-          user: { url: '/auth/current-user', method: 'get', propertyName: false },
+          user: { url: '/auth/current-user', method: 'get' },
           logout: false,
         },
 
@@ -64,7 +67,8 @@ export default {
       },
     },
     redirect: {
-      login: 'auth/signin'
+      login: '/auth/signup',
+      home: '/'
     }
   },
 }
