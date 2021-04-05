@@ -57,9 +57,8 @@
   import ErrorMessage from "../../components/ErrorMessage";
 
   export default {
-    components: {
-      ErrorMessage
-    },
+    middleware: ['guest'],
+    components: { ErrorMessage },
     data () {
       return { name: 'example', email: 'example@sitechhs.com', password: 'password' , errors: null }
     },
@@ -82,8 +81,7 @@
           })
 
         } catch (err) {
-          console.log(err);
-            // this.errors = err.response.data.errors
+            this.errors = err.response.data.errors
         }
       }
 

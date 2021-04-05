@@ -65,6 +65,7 @@
 <script>
   import ErrorMessage from "../../components/ErrorMessage";
 export default{
+  middleware: ['guest'],
   components: { ErrorMessage },
   data () {
     return {
@@ -83,7 +84,6 @@ export default{
           }
         });
       }catch (err) {
-        console.log(err.response.data.errors[0].message);
         this.errors = err.response.data.errors;
       }
     }
