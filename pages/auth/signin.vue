@@ -65,7 +65,7 @@
 <script>
   import ErrorMessage from "../../components/ErrorMessage";
 export default{
-  // middleware: ['guest'],
+  middleware: ['guest'],
   components: { ErrorMessage },
   data () {
     return {
@@ -75,18 +75,18 @@ export default{
     }
   },
   methods: {
-    // async signIn () {
-    //   try {
-    //     await this.$auth.loginWith('local', {
-    //       data: {
-    //         email: this.email,
-    //         password: this.password
-    //       }
-    //     });
-    //   }catch (err) {
-    //     this.errors = err.response.data.errors;
-    //   }
-    // }
+    async signIn () {
+      try {
+        await this.$auth.loginWith('local', {
+          data: {
+            email: this.email,
+            password: this.password
+          }
+        });
+      }catch (err) {
+        this.errors = err.response.data.errors;
+      }
+    }
   }
 }
 </script>

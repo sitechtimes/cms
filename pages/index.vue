@@ -37,7 +37,7 @@
 
   export default {
     layout: 'dashboard',
-    middleware: ['custom-auth'],
+    middleware: ['auth'],
     components: { ArticleTable,  ArticleRow },
     data() {
       return {

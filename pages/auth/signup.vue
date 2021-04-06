@@ -57,8 +57,8 @@
   import ErrorMessage from "../../components/ErrorMessage";
 
   export default {
-    // middleware: ['auth'],
     components: { ErrorMessage },
+    middleware: ['guest'],
     data () {
       return { name: 'example', email: 'example@sitechhs.com', password: 'password' , errors: null }
     },
@@ -80,7 +80,7 @@
             }
           })
 
-          console.log(this.$auth.user);
+          console.log(this.$auth.loggedIn);
           // this.$router.push('/')
 
         } catch (err) {

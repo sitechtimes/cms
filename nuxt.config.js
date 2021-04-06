@@ -36,7 +36,7 @@ export default {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     '@nuxtjs/axios',
-    '@nuxtjs/auth-next'
+    '@nuxtjs/auth'
   ],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
@@ -60,7 +60,8 @@ export default {
         },
         endpoints: {
           login: { url: '/auth/signin', method: 'post', propertyName: 'token' },
-          user: { url: '/auth/current-user', method: 'get' },
+          user: false,
+          // user: { url: '/auth/current-user', method: 'get' },
           logout: false,
         },
 
@@ -69,7 +70,7 @@ export default {
     },
     redirect: {
       login: '/auth/signin',
-      home: false
+      home: '/'
     }
   }
 }
