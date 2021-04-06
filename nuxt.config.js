@@ -60,8 +60,8 @@ export default {
         },
         endpoints: {
           login: { url: '/auth/signin', method: 'post', propertyName: 'token' },
-          user: false,
           // user: { url: '/auth/current-user', method: 'get' },
+          user: false,
           logout: false,
         },
 
