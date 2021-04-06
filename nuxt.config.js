@@ -67,9 +67,9 @@ export default {
         tokenType: '',
       },
     },
-    // redirect: {
-    //   login: '/auth/signin',
-    //   home: '/'
-    // }
-  },
+    redirect: {
+      login: '/auth/signin',
+      home: false
+    }
+  }
 }

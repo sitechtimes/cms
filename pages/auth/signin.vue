@@ -65,7 +65,7 @@
 <script>
   import ErrorMessage from "../../components/ErrorMessage";
 export default{
-  middleware: ['guest'],
+  // middleware: ['guest'],
   components: { ErrorMessage },
   data () {
     return {
