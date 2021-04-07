@@ -12,17 +12,18 @@
       </div>
     </td>
     <td class="px-6 py-4 whitespace-nowrap">
-      <div class="text-sm text-gray-900">January 10, 2020</div>
+      <div class="text-sm text-gray-900">{{ article.updatedAt }}</div>
     </td>
 
     <td class="px-6 py-4 whitespace-nowrap">
         <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-          Draft
+          {{ capitalizeStatus }}
         </span>
     </td>
 
     <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-      <a class="text-indigo-600 hover:text-indigo-900" href="#">Edit</a>
+      <nuxt-link v-if="article.status === 'draft'" class="text-indigo-600 hover:text-indigo-900"
+                 :to="`/articles/${article.id}`">Edit</nuxt-link>
     </td>
   </tr>
 </template>
@@ -30,6 +31,12 @@
 <script>
   export default {
     name: 'ArticleRow',
-    props: ['article']
+    props: ['article'],
+    computed: {
+      capitalizeStatus() {
+        return this.article.status.charAt(0).toUpperCase() + this.article.status.slice(1);
+      }
+    }
+
   }
 </script>

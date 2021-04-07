@@ -33,7 +33,8 @@
     components: { ArticleRow },
     props: {
       title: String,
-      articles: Array
-    }
+      articles: Array,
+    },
+
   }
 </script>
