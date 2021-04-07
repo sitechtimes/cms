@@ -54,6 +54,9 @@
           }
         ]
       }
+    },
+    mounted() {
+      console.log(this.$auth.user.email)
     }
   }
 </script>

@@ -80,11 +80,9 @@
             }
           })
 
-          console.log(this.$auth.loggedIn);
-          // this.$router.push('/')
+          this.$router.push('/')
 
         } catch (err) {
-          console.log(err)
             this.errors = err.response.data.errors
         }
       }
