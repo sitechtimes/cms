@@ -1,5 +1,6 @@
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
+  ssr: false,
   head: {
     title: 'Tech Times CMS',
     htmlAttrs: {
@@ -55,13 +56,9 @@ export default {
   auth: {
     strategies: {
       local: {
-        user: {
-          property: false
-        },
         endpoints: {
           login: { url: '/auth/signin', method: 'post', propertyName: 'token' },
-          // user: { url: '/auth/current-user', method: 'get' },
-          user: false,
+          user: { url: '/auth/current-user', method: 'get', propertyName: false },
           logout: false,
         },
 
@@ -70,7 +67,8 @@ export default {
     },
     redirect: {
       login: '/auth/signin',
-      home: '/'
+      logout: '/auth/signin',
+      home: '/',
     }
   }
 }

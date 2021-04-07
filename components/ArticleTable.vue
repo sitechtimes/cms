@@ -34,9 +34,6 @@
     props: {
       title: String,
       articles: Array
-    },
-    mounted() {
-
     }
   }
 </script>
