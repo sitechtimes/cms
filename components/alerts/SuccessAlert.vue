@@ -1,7 +1,5 @@
 <!-- TODO: make alert dynamic and allow to pass prop type -->
 <template>
-  <div v-show="show" class="container mx-auto">
-        <div class="max-w-7xl mx-auto py-3 px-3 sm:px-6 lg:px-8">
     <div class=" py-3 pl-4 pr-10 leading-normal text-green-700 bg-green-100 rounded-lg flex center items-center justify-between" role="alert">
       <p class="text-sm font-bold inline-block">
 
@@ -22,8 +20,6 @@
         </button>
       </div>
     </div>
-    </div>
-  </div>
 </template>
 
 <script>

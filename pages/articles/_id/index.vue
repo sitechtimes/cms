@@ -1,8 +1,11 @@
 <template>
   <div>
-  <Banner />
+
   <div class="container mx-auto">
-    <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto px-2 py-4 sm:px-6 lg:px-8">
+
+      <SuccessAlert v-if="success !== null" :message="success"/>
+      <ErrorMessage v-if="errors !== null" :errors="errors"/>
 
     <div class="lg:flex lg:items-center lg:justify-between py-6">
       <div class="flex-1 min-w-0">
@@ -51,18 +54,22 @@
 
 <script>
   import { VueEditor } from "vue2-editor";
-  import Banner from "../../../components/alerts/SuccessAlert";
+  import SuccessAlert from "../../../components/alerts/SuccessAlert";
+  import ErrorMessage from "../../../components/ErrorMessage";
 
   export default {
     layout: 'dashboard',
     components: {
-      VueEditor, Banner
+      VueEditor, SuccessAlert, ErrorMessage
     },
   data () {
     return {
       preview: false,
+
+      success: null,
+      errors: null,
+
       article: Object,
-      successOnSave: false,
       customToolbar: [
         [{ header: [false, 1, 2, 3, 4, 5, 6] }],
         ["bold", "italic", "underline", "strike"],
@@ -73,7 +80,7 @@
       ]
     }
   },
-  // TODO: add error handling
+
   async mounted() {
     // fill editor with info
     try {
@@ -82,8 +89,8 @@
       this.article = article.data;
 
     }catch (e){
-      // TODO: if no such article exists send to 404 page
-      console.log(e.response)
+      // TODO: add 404 page
+      this.$router.push('/')
     }
   },
     methods: {
@@ -95,9 +102,12 @@
             ...this.article
           });
 
+          this.errors = null
+          this.success = "The Article has been successfully saved!";
+
         }catch(e){
-          // TODO: error handling
-          console.log(e.response)
+          this.success = null
+          this.errors = e.response.data.errors;
         }
       }
     }

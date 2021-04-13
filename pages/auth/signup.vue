@@ -8,8 +8,6 @@
       </h2>
     </div>
 
-<!--   TODO: refactor into errors comp. -->
-
     <ErrorMessage :errors="errors"/>
 
     <form class="mt-8 space-y-6" action="#"  @submit.prevent="signUp">
@@ -63,7 +61,6 @@
       return { name: 'example', email: 'example@sitechhs.com', password: 'password' , errors: null }
     },
     methods: {
-      // TODO: move to vuex store
       async signUp() {
         try {
 
