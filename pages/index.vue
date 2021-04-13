@@ -45,7 +45,7 @@
       }
     },
     async mounted() {
-      const articles = await this.$axios.get(`users/${this.$auth.user.id}/articles/`);
+      const articles = await this.$axios.get(`users/${this.$auth.user.id}/articles`);
       this.articles = articles.data;
     },
     methods: {
@@ -56,8 +56,8 @@
       },
       async createArticle() {
         try {
-          const article = await this.$axios.post(`/users/${this.$auth.user.id}/articles`);
-          this.$router.push(`/articles/${article.id}`)
+          const article = await this.$axios.post(`users/${this.$auth.user.id}/articles`);
+          this.$router.push(`/articles/${article.data.id}`)
         }catch(e){
           console.log(e);
         }
