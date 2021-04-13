@@ -12,7 +12,7 @@
       </div>
     </td>
     <td class="px-6 py-4 whitespace-nowrap">
-      <div class="text-sm text-gray-900">{{ article.updatedAt }}</div>
+      <div class="text-sm text-gray-900">{{ formatDate }}</div>
     </td>
 
     <td class="px-6 py-4 whitespace-nowrap">
@@ -35,6 +35,15 @@
     computed: {
       capitalizeStatus() {
         return this.article.status.charAt(0).toUpperCase() + this.article.status.slice(1);
+      },
+      formatDate() {
+        const date  = new Date(this.article.updatedAt);
+        const formattedDate = `${date.getMonth()}`
+        // Thu Feb 28, 2012
+        console.log(date.getMonth())
+        console.log(date.getDate())
+        console.log(date.getFullYear())
+        return this.article.updatedAt;
       }
     }
 
