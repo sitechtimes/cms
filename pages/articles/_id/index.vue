@@ -4,7 +4,7 @@
   <div class="container mx-auto">
     <div class="max-w-7xl mx-auto px-2 py-4 sm:px-6 lg:px-8">
 
-      <SuccessAlert v-if="success !== null" :message="success"/>
+      <SuccessAlert v-if="success !== null" :message="success" @dismissAlert="dismissAlert"/>
       <ErrorMessage v-if="errors !== null" :errors="errors"/>
 
     <div class="lg:flex lg:items-center lg:justify-between py-6">
@@ -109,6 +109,9 @@
           this.success = null
           this.errors = e.response.data.errors;
         }
+      },
+      dismissAlert(){
+        this.success = null
       }
     }
 }
