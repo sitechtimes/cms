@@ -124,6 +124,9 @@
           this.errors = e.response.data.errors;
         }
       },
+      async sendToReview() {
+        console.log("Sending article to review ...")
+      },
       dismissAlert(){
         this.success = null
       },
