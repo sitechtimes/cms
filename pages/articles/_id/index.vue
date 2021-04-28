@@ -1,9 +1,12 @@
 <template>
   <div>
+   <!--  TODO: refactor draft check into separate component  -->
 
   <div class="container mx-auto">
     <div class="max-w-7xl mx-auto px-2 py-4 sm:px-6 lg:px-8">
 
+
+      <div v-show="article.status === 'draft'">
       <SuccessAlert v-if="success !== null" :message="success" @dismissAlert="dismissAlert"/>
       <ErrorMessage v-if="errors !== null" :errors="errors"/>
 
@@ -19,7 +22,6 @@
 
         <span class="hidden sm:block ml-3">
         <button @click="preview = !preview" type="button" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-
 
 
         <svg class="-ml-1 mr-2 h-5 w-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -57,7 +59,20 @@
         </button>
       </div>
 
-      <SendToReviewModel v-if="reviewModel" @dismissModelAlert="dismissModelAlert" />
+      <SendToReviewModel v-if="reviewModel" @dismissModelAlert="dismissModelAlert" @sendToReview="sendToReview"/>
+      </div>
+
+
+      <div v-show="article.status === 'review'|| article.status === 'ready'">
+           <div class="lg:flex lg:items-center lg:justify-between py-6">
+             <div class="flex-1 min-w-0">
+               <h1 class="text-2xl font-bold leading-7 background-blue sm:text-3xl sm:truncate inline-block
+               focus:outline-none focus:ring focus:border-blue-300 bg-gray-100">{{ article.title }}</h1>
+             </div>
+           </div>
+         <div class="preview-content" v-html="article.content"></div>
+      </div>
+
     </div>
 
   </div>
@@ -77,6 +92,8 @@
     },
   data () {
     return {
+      articleId: this.$route.params.id,
+
       preview: false,
       reviewModel: false,
 
@@ -98,8 +115,7 @@
   async mounted() {
     // fill editor with info
     try {
-      const id  = this.$route.params.id;
-      const article = await this.$axios.get(`/users/${this.$auth.user.id}/articles/${id}`);
+      const article = await this.$axios.get(`/users/${this.$auth.user.id}/articles/${this.articleId}`);
       this.article = article.data;
 
     }catch (e){
@@ -110,9 +126,8 @@
     methods: {
       async saveArticle() {
         try {
-          const id = this.$route.params.id;
 
-          await this.$axios.put(`/users/${this.$auth.user.id}/articles/${id}`, {
+          await this.$axios.put(`/users/${this.$auth.user.id}/articles/${this.articleId}`, {
             ...this.article
           });
 
@@ -125,7 +140,19 @@
         }
       },
       async sendToReview() {
-        console.log("Sending article to review ...")
+        try {
+
+          await this.$axios.put(`/users/${this.$auth.user.id}/articles/${this.articleId}`, {
+            ...this.article,
+            status: 'review'
+          });
+
+          this.reviewModel = false
+
+        }catch(e){
+          // TODO: handle error
+          console.log(e);
+        }
       },
       dismissAlert(){
         this.success = null

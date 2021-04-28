@@ -49,8 +49,7 @@
         this.$emit('dismissModelAlert')
       },
       sendToReview() {
-        // TODO: make request
-        this.$router.push('/')
+        this.$emit('sendToReview')
       }
     }
   }

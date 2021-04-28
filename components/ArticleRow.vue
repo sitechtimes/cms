@@ -22,8 +22,8 @@
     </td>
 
     <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-      <nuxt-link v-if="article.status === 'draft'" class="text-indigo-600 hover:text-indigo-900"
-                 :to="`/articles/${article.id}`">Edit</nuxt-link>
+      <nuxt-link class="text-indigo-600 hover:text-indigo-900"
+                 :to="`/articles/${article.id}`">{{ articleActionText }}</nuxt-link>
     </td>
   </tr>
 </template>
@@ -44,6 +44,11 @@
           { month: 'short', weekday: 'short', day: 'numeric', year: 'numeric'});
 
         return formattedDate;
+      },
+
+      articleActionText() {
+        if (this.article.status === 'draft') return "Edit"
+        if (this.article.status === 'review' || 'ready') return "View"
       }
     },
   }
