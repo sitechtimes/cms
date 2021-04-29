@@ -92,6 +92,7 @@
     },
   data () {
     return {
+      // TODO: user id should be passed
       articleId: this.$route.params.id,
 
       preview: false,
@@ -115,7 +116,7 @@
   async mounted() {
     // fill editor with info
     try {
-      const article = await this.$axios.get(`/users/${this.$auth.user.id}/articles/${this.articleId}`);
+      const article = await this.$axios.get(`cms/${this.articleId}`);
       this.article = article.data;
 
     }catch (e){
@@ -127,7 +128,7 @@
       async saveArticle() {
         try {
 
-          await this.$axios.put(`/users/${this.$auth.user.id}/articles/${this.articleId}`, {
+          await this.$axios.put(`cms/${this.articleId}`, {
             ...this.article
           });
 
@@ -142,8 +143,7 @@
       async sendToReview() {
         try {
 
-          await this.$axios.put(`/users/${this.$auth.user.id}/articles/${this.articleId}`, {
-            ...this.article,
+          await this.$axios.put(`cms/${this.articleId}`, {
             status: 'review'
           });
 

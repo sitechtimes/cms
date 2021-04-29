@@ -20,11 +20,22 @@
     </div>
     <main>
 
-      <!--   table  -->
-      <ArticleTable title="Draft" :articles="sortArticles('draft')"/>
-      <ArticleTable title="In Review" :articles="sortArticles('review')"/>
-      <ArticleTable title="Ready for Publication" :articles="sortArticles('ready')"/>
+      <TabPanel @tabClicked="tabClicked"/>
 
+      <!--   table  -->
+      <div v-if="tabId === 1">
+        <ArticleTable title="Draft" :articles="sortArticles('draft')"/>
+        <ArticleTable title="In Review" :articles="sortArticles('review')"/>
+        <ArticleTable title="Ready for Publication" :articles="sortArticles('ready')"/>
+      </div>
+
+      <div v-if="tabId === 2">
+        <ArticleTable title="" :articles="reviewArticles" />
+      </div>
+
+      <div v-if="tabId === 3">
+        <ArticleTable title="" :articles="reviewArticles" />
+      </div>
 
     </main>
   </div>
@@ -33,19 +44,29 @@
 <script>
   import ArticleRow from '../components/ArticleRow.vue' ;
   import ArticleTable from "../components/ArticleTable";
+  import TabPanel from "../components/TabPanel";
 
   export default {
     layout: 'dashboard',
     middleware: ['auth'],
-    components: { ArticleTable,  ArticleRow },
+    components: { ArticleTable,  ArticleRow, TabPanel },
     data() {
       return {
-        articles: []
+        tabId: 1,
+        articles: [],
+        reviewArticles: [],
+        readyArticles: [],
       }
     },
     async mounted() {
-      const articles = await this.$axios.get(`users/${this.$auth.user.id}/articles`);
+      const articles = await this.$axios.get(`cms/`);
       this.articles = articles.data;
+
+      // if (this.$auth.role === 'editor') {
+      const reviewArticles = await this.$axios.get('cms/review');
+      this.reviewArticles = reviewArticles.data;
+      // }
+
     },
     methods: {
       sortArticles (status) {
@@ -55,12 +76,17 @@
       },
       async createArticle() {
         try {
-          const article = await this.$axios.post(`users/${this.$auth.user.id}/articles`);
+          const article = await this.$axios.post(`/cms`);
           this.$router.push(`/articles/${article.data.id}`)
         }catch(e){
           console.log(e);
         }
-      }
+      },
+
+      tabClicked(tabId){
+        this.tabId = tabId
+      },
+
     }
   }
 </script>
