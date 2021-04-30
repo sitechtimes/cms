@@ -47,8 +47,8 @@
       },
 
       articleActionText() {
-        if (this.article.status === 'draft') return "Edit"
-        if (this.article.status === 'review' || 'ready') return "View"
+        if (this.article.status === 'draft') return "Edit";
+        if (this.article.status === 'review' || 'ready') return "View";
       }
     },
   }

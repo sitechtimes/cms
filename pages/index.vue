@@ -23,18 +23,18 @@
       <TabPanel @tabClicked="tabClicked"/>
 
       <!--   table  -->
-      <div v-if="tabId === 1">
+      <div class="pt-6" v-if="tabId === 1">
         <ArticleTable title="Draft" :articles="sortArticles('draft')"/>
         <ArticleTable title="In Review" :articles="sortArticles('review')"/>
         <ArticleTable title="Ready for Publication" :articles="sortArticles('ready')"/>
       </div>
 
-      <div v-if="tabId === 2">
+      <div class="pt-2" v-if="tabId === 2">
         <ArticleTable title="" :articles="reviewArticles" />
       </div>
 
-      <div v-if="tabId === 3">
-        <ArticleTable title="" :articles="reviewArticles" />
+      <div class="pt-2" v-if="tabId === 3">
+        <ArticleTable title="" :articles="readyArticles" />
       </div>
 
     </main>
@@ -44,7 +44,7 @@
 <script>
   import ArticleRow from '../components/ArticleRow.vue' ;
   import ArticleTable from "../components/ArticleTable";
-  import TabPanel from "../components/TabPanel";
+  import TabPanel from "../components/tab/TabPanel";
 
   export default {
     layout: 'dashboard',
@@ -62,11 +62,15 @@
       const articles = await this.$axios.get(`cms/`);
       this.articles = articles.data;
 
-      // if (this.$auth.role === 'editor') {
-      const reviewArticles = await this.$axios.get('cms/review');
-      this.reviewArticles = reviewArticles.data;
-      // }
+      if (['editor', 'admin'].includes(this.$auth.user.role)) {
+        const reviewArticles = await this.$axios.get('cms/review');
+        this.reviewArticles = reviewArticles.data;
+      }
 
+      if (this.$auth.user.role === 'admin') {
+        const readyArticles = await this.$axios.get('cms/ready');
+        this.readyArticles = readyArticles.data;
+      }
     },
     methods: {
       sortArticles (status) {

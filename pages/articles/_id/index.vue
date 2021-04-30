@@ -46,6 +46,10 @@
       </div>
     </div>
 
+<!--        <div class="pb-4">-->
+<!--          <FileUpload />-->
+<!--      </div>-->
+
       <vue-editor v-model="article.content" v-show="!preview" :editor-toolbar="customToolbar" class="py-2" />
 
       <div class="preview-content" v-show="preview" v-html="article.content"></div>
@@ -63,14 +67,70 @@
       </div>
 
 
-      <div v-show="article.status === 'review'|| article.status === 'ready'">
+      <div v-show="article.status === 'review'">
            <div class="lg:flex lg:items-center lg:justify-between py-6">
              <div class="flex-1 min-w-0">
                <h1 class="text-2xl font-bold leading-7 background-blue sm:text-3xl sm:truncate inline-block
                focus:outline-none focus:ring focus:border-blue-300 bg-gray-100">{{ article.title }}</h1>
              </div>
+
+             <div class="mt-5 flex lg:mt-0 lg:ml-4"
+                  v-if="['editor', 'admin'].includes(this.$auth.user.role)">
+
+                <span class="hidden sm:block ml-3">
+                  <button @click="sendToDraft" type="button" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <svg class="-ml-1 mr-2 h-5 w-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    </svg>
+                            Send back to Writer
+                  </button>
+                </span>
+
+              <span class="sm:ml-3">
+                  <button @click="sendToAdmin" type="button" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                     <svg class="-ml-1 mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                       <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                      </svg>
+                      Send to Admin
+                  </button>
+                </span>
+
+             </div>
            </div>
          <div class="preview-content" v-html="article.content"></div>
+      </div>
+
+      <div v-show="article.status === 'ready'">
+        <div class="lg:flex lg:items-center lg:justify-between py-6">
+          <div class="flex-1 min-w-0">
+            <h1 class="text-2xl font-bold leading-7 background-blue sm:text-3xl sm:truncate inline-block
+               focus:outline-none focus:ring focus:border-blue-300 bg-gray-100">{{ article.title }}</h1>
+          </div>
+
+          <div class="mt-5 flex lg:mt-0 lg:ml-4"
+               v-if="this.$auth.user.role === 'admin'">
+
+                <span class="hidden sm:block ml-3">
+                  <button @click="sendToDraft" type="button" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <svg class="-ml-1 mr-2 h-5 w-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    </svg>
+                            Send back to Writer
+                  </button>
+                </span>
+
+            <span class="sm:ml-3">
+                  <button type="button" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                     <svg class="-ml-1 mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                       <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                      </svg>
+                      Send to Admin
+                  </button>
+                </span>
+
+          </div>
+        </div>
+        <div class="preview-content" v-html="article.content"></div>
       </div>
 
     </div>
@@ -84,10 +144,12 @@
   import SuccessAlert from "../../../components/alerts/SuccessAlert";
   import ErrorMessage from "../../../components/ErrorMessage";
   import SendToReviewModel from "../../../components/alerts/SendToReviewAlert";
+  import FileUpload from "../../../components/FileUpload";
 
   export default {
     layout: 'dashboard',
     components: {
+      FileUpload,
       VueEditor, SuccessAlert, ErrorMessage, SendToReviewModel
     },
   data () {
@@ -151,6 +213,26 @@
 
         }catch(e){
           // TODO: handle error
+          console.log(e);
+        }
+      },
+      async sendToAdmin(){
+        try{
+          await this.$axios.put(`cms/${this.articleId}`, {
+            status: 'ready'
+          });
+
+        }catch(e){
+          console.log(e);
+        }
+      },
+      async sendToDraft(){
+        try{
+          await this.$axios.put(`cms/${this.articleId}`, {
+            status: 'draft'
+          });
+
+        }catch(e){
           console.log(e);
         }
       },
