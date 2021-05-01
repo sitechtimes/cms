@@ -44,7 +44,7 @@
 <script>
   import ArticleRow from '../components/ArticleRow.vue' ;
   import ArticleTable from "../components/ArticleTable";
-  import TabPanel from "../components/tab/TabPanel";
+  import TabPanel from "../components/tabs/TabPanel";
 
   export default {
     layout: 'dashboard',
