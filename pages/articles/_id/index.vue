@@ -50,8 +50,11 @@
       </button>
     </span>
 
+
+
           </div>
         </div>
+        <FileUpload v-if="article.imageUrl !== undefined" :preview="preview" :image="article.imageUrl" @uploadImage="uploadImage"/>
 
         <vue-editor v-model="article.content" v-show="!preview" :editor-toolbar="customToolbar" class="py-2" />
 
@@ -104,7 +107,7 @@
                 </span>
 
               <span class="sm:ml-3">
-                  <button @click="updateArticleStatus('admin')" type="button" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                  <button @click="updateArticleStatus('ready')" type="button" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                      <svg class="-ml-1 mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
                       </svg>
@@ -114,6 +117,7 @@
 
              </div>
            </div>
+          <img :src="article.imageUrl" />
          <div class="preview-content" v-html="article.content"></div>
       </div>
 
@@ -147,6 +151,8 @@
 
           </div>
         </div>
+
+        <img :src="article.imageUrl" />
         <div class="preview-content" v-html="article.content"></div>
       </div>
   </div>
@@ -160,16 +166,16 @@
   import ErrorMessage from "../../../components/ErrorMessage";
   import FileUpload from "../../../components/FileUpload";
   import WarningAlert from "../../../components/alerts/WarningAlert";
+  import axios from 'axios';
 
   export default {
     layout: 'dashboard',
     components: {
       FileUpload,
-      VueEditor, SuccessAlert, ErrorMessage, WarningAlert
+      VueEditor, SuccessAlert, ErrorMessage, WarningAlert,
     },
   data () {
     return {
-      // TODO: user id should be passed
       articleId: this.$route.params.id,
 
       preview: false,
@@ -179,7 +185,9 @@
       success: null,
       errors: null,
 
+      articleImage: null,
       article: Object,
+
       customToolbar: [
         [{ header: [false, 1, 2, 3, 4, 5, 6] }],
         ["bold", "italic", "underline", "strike"],
@@ -191,24 +199,46 @@
     }
   },
 
-  async mounted() {
+  async beforeMount() {
     // fill editor with info
     try {
       const article = await this.$axios.get(`cms/${this.articleId}`);
       this.article = article.data;
+      console.log(article.data);
 
     }catch (e){
       // TODO: add 404 page
-      this.$router.push('/')
+      console.log(e)
+      // this.$router.push('/')
     }
   },
     methods: {
       async saveArticle() {
         try {
 
+          // TODO: refactor upload image to cloudinary
+          if (this.articleImage) {
+            const fd = new FormData()
+
+            fd.append("file", this.articleImage)
+            fd.append('upload_preset', 'rr7kbagm')
+            console.log(fd)
+
+            const req = {
+              url: "https://api.cloudinary.com/v1_1/sitechtimes/image/upload/",
+              data: fd,
+              method: 'POST',
+            }
+
+            const res = await axios(req);
+            this.article.imageUrl = res.data.url
+          }
+
+
           await this.$axios.put(`cms/${this.articleId}`, {
             ...this.article
           });
+
 
           this.errors = null
           this.success = "The Article has been successfully saved!";
@@ -240,6 +270,9 @@
         }catch(e) {
           console.log(e)
         }
+      },
+      uploadImage(image){
+        this.articleImage = image
       },
       dismissModelDelete(){
         this.deleteModel = false
