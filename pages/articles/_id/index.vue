@@ -219,6 +219,7 @@
           // TODO: refactor upload image to cloudinary
           if (this.articleImage) {
             const fd = new FormData()
+            console.log(this.articleImage);
 
             fd.append("file", this.articleImage)
             fd.append('upload_preset', 'rr7kbagm')
