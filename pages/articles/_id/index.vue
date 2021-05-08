@@ -97,7 +97,7 @@
                   v-if="['editor', 'admin'].includes(this.$auth.user.role)">
 
                 <span class="hidden sm:block ml-3">
-                  <button @click="updateArticleStatus('draft')" type="button" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                  <button @click="sendToDraftModel = !sendToDraftModel" type="button" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                     <svg class="-ml-1 mr-2 h-5 w-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                         <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
                     </svg>
@@ -106,7 +106,7 @@
                 </span>
 
               <span class="sm:ml-3">
-                  <button @click="updateArticleStatus('ready')" type="button" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                  <button @click="sendToAdminModel = !sendToAdminModel" type="button" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                      <svg class="-ml-1 mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
                       </svg>
@@ -114,14 +114,32 @@
                   </button>
                 </span>
 
+
              </div>
            </div>
           <img :src="article.imageUrl" />
          <div class="preview-content" v-html="article.content"></div>
       </div>
 
-      <div v-show="article.status === 'ready'">
-        <div class="lg:flex lg:items-center lg:justify-between py-6">
+      <WarningAlert
+        v-if="sendToDraftModel"
+        @dismissModelAlert="dismissDraftAlert" @allowAction="updateArticleStatus('draft')"
+        title="Send article back to the writer?"
+        message="Are you sure you want to send your article to review? All of your data will be permanently removed. This action cannot be undone."
+        action="Send back to writer"
+      />
+
+      <WarningAlert
+        v-if="sendToAdminModel"
+        @dismissModelAlert="sendToAdminModel = false" @allowAction="updateArticleStatus('ready')"
+        title="Send article to admin?"
+        message="Are you sure you want to delete your article? All of your data will be permanently removed. This action cannot be undone."
+        action="Send article to admin"
+      />
+    </div>
+
+    <div v-show="article.status === 'ready'">
+      <div class="lg:flex lg:items-center lg:justify-between py-6">
           <div class="flex-1 min-w-0">
             <h1 class="text-2xl font-bold leading-7 background-blue sm:text-3xl sm:truncate inline-block
                focus:outline-none focus:ring focus:border-blue-300 bg-gray-100">{{ article.title }}</h1>
@@ -131,7 +149,7 @@
                v-if="this.$auth.user.role === 'admin'">
 
                 <span class="hidden sm:block ml-3">
-                  <button @click="updateArticleStatus('draft')" type="button" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                  <button @click="sendToDraftModel = !sendToDraftModel" type="button" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                     <svg class="-ml-1 mr-2 h-5 w-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                         <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
                     </svg>
@@ -148,6 +166,22 @@
                   </button>
                 </span>
 
+            <WarningAlert
+              v-if="sendToDraftModel"
+              @dismissModelAlert="dismissDraftAlert" @allowAction="updateArticleStatus('draft')"
+              title="Send article back to the writer?"
+              message="Are you sure you want to send your article to review? All of your data will be permanently removed. This action cannot be undone."
+              action="Send back to writer"
+            />
+
+            <WarningAlert
+              v-if="publishedModel"
+              @dismissModelAlert="publishedModel = false" @allowAction="publishDraft"
+              title="Publish Article?"
+              message="Are you sure you want to publish this article? All of your data will be permanently removed. This action cannot be undone."
+              action="Publish Article"
+            />
+
           </div>
         </div>
 
@@ -155,7 +189,6 @@
         <div class="preview-content" v-html="article.content"></div>
       </div>
     </div>
-  </div>
   </div>
 
 </template>
@@ -182,6 +215,9 @@
       preview: false,
       reviewModel: false,
       deleteModel: false,
+      sendToDraftModel: false,
+      sendToAdminModel: false,
+      publishedModel: false,
 
       success: null,
       errors: null,
@@ -292,6 +328,9 @@
       dismissAlert(){
         this.success = null
       },
+      dismissDraftAlert(){
+        this.sendToDraftModel = false;
+      }
     }
 }
 </script>
