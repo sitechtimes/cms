@@ -85,7 +85,6 @@
           action="Delete Article"
         />
       </div>
-    </div>
 
       <div v-show="article.status === 'review'">
            <div class="lg:flex lg:items-center lg:justify-between py-6">
@@ -141,7 +140,7 @@
                 </span>
 
             <span class="sm:ml-3">
-                  <button type="button" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                  <button @click="publishDraft" type="button" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                      <svg class="-ml-1 mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
                       </svg>
@@ -155,6 +154,7 @@
         <img :src="article.imageUrl" />
         <div class="preview-content" v-html="article.content"></div>
       </div>
+    </div>
   </div>
   </div>
 
@@ -170,6 +170,7 @@
 
   export default {
     layout: 'dashboard',
+    // middleware
     components: {
       FileUpload,
       VueEditor, SuccessAlert, ErrorMessage, WarningAlert,
@@ -204,12 +205,11 @@
     try {
       const article = await this.$axios.get(`cms/${this.articleId}`);
       this.article = article.data;
-      console.log(article.data);
-
+      // console.log(article.data);
     }catch (e){
       // TODO: add 404 page
-      console.log(e)
-      // this.$router.push('/')
+      // console.log(e)
+      this.$router.push('/')
     }
   },
     methods: {
@@ -266,10 +266,18 @@
 
       async deleteDraft(){
         try {
-          await this.$axios.delete(`cms/${this.article.id}`);
+          await this.$axios.delete(`cms/${this.articleId}`);
           this.$router.push('/')
         }catch(e) {
           console.log(e)
+        }
+      },
+      async publishDraft(){
+        try {
+          const res = await this.$axios.get(`cms/${this.articleId}/publish`);
+          console.log(res);
+        }catch(e){
+          console.log(e);
         }
       },
       uploadImage(image){

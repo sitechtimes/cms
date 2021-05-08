@@ -24,17 +24,49 @@
 
       <!--   table  -->
       <div class="pt-6" v-if="tabId === 1">
-        <ArticleTable title="Draft" :articles="sortArticles('draft')"/>
-        <ArticleTable title="In Review" :articles="sortArticles('review')"/>
-        <ArticleTable title="Ready for Publication" :articles="sortArticles('ready')"/>
+        <Table title="Draft">
+          <ArticleRow
+            v-for="article in sortArticles('draft')"
+            :article="article"
+            :key="article.id"
+          />
+        </Table>
+
+        <Table title="In Review">
+          <ArticleRow
+            v-for="article in sortArticles('review')"
+            :article="article"
+            :key="article.id"
+          />
+        </Table>
+
+        <Table title="In Review">
+          <ArticleRow
+            v-for="article in sortArticles('ready')"
+            :article="article"
+            :key="article.id"
+          />
+        </Table>
       </div>
 
       <div class="pt-2" v-if="tabId === 2">
-        <ArticleTable title="" :articles="reviewArticles" />
+        <Table title="">
+          <ArticleRow
+            v-for="article in reviewArticles"
+            :article="article"
+            :key="article.id"
+          />
+        </Table>
       </div>
 
       <div class="pt-2" v-if="tabId === 3">
-        <ArticleTable title="" :articles="readyArticles" />
+        <Table title="">
+          <ArticleRow
+            v-for="article in readyArticles"
+            :article="article"
+            :key="article.id"
+          />
+        </Table>
       </div>
 
     </main>
@@ -42,14 +74,14 @@
 </template>
 
 <script>
-  import ArticleRow from '../components/ArticleRow.vue' ;
-  import ArticleTable from "../components/ArticleTable";
+  import ArticleRow from '../components/rows/ArticleRow.vue' ;
   import TabPanel from "../components/tabs/TabPanel";
+  import Table from "../components/Table";
 
   export default {
     layout: 'dashboard',
     middleware: ['auth'],
-    components: { ArticleTable,  ArticleRow, TabPanel },
+    components: { ArticleRow, TabPanel, Table },
     data() {
       return {
         tabId: 1,

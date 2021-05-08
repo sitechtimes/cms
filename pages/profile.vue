@@ -73,6 +73,7 @@
   </template>
 <script>
  import axios from "axios";
+ import imageCompression from 'browser-image-compression';
 
  export default {
    layout: 'dashboard',
@@ -88,7 +89,6 @@
    async mounted() {
      const user = await this.$axios.get(`/users/${this.$auth.user.id}`);
      this.user = user.data;
-     console.log(user.data)
    },
    methods: {
      uploadFile(file){
@@ -103,8 +103,11 @@
        try {
          if (this.image) {
 
+           // TODO: update image compression
+           const imageFile = await imageCompression(this.image, {});
+
            const fd = new FormData();
-           fd.append("file", this.image);
+           fd.append("file", imageFile);
            fd.append('upload_preset', 'nuk0splv');
 
            const req = {
@@ -114,15 +117,10 @@
            }
 
            const res = await axios(req);
-           console.log(res);
 
-
-           const res1 = await this.$axios.put(`users/${this.$auth.user.id}`, {
+           await this.$axios.put(`users/${this.$auth.user.id}`, {
              imageUrl: res.data.url
            });
-
-           console.log(res1);
-
          }
        }catch(e) {
          console.log(e);

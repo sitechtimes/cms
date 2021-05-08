@@ -51,7 +51,8 @@
             <div class="z-10 origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu"
                  v-show="isOpen">
               <nuxt-link to="/profile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Your Profile</nuxt-link>
-              <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" @click="signOut">Sign out</a>
+              <nuxt-link to="/users" v-if="this.$auth.user.role === 'admin'" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Users</nuxt-link>
+              <a class="cursor-pointer block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" @click="signOut">Sign out</a>
             </div>
 
           </div>

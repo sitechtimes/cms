@@ -1,5 +1,5 @@
 <template>
-  <div class="py-4 max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
+  <div class="py-4 max-w-7xl mx-auto py-4px-4 sm:px-6 lg:px-8">
     <h1 class="text-l px-2 font-bold">{{ title }}</h1>
     <div class="max-w-7xl mx-auto py-6">
       <div class="flex flex-col">
@@ -9,12 +9,7 @@
               <table class="min-w-full divide-y divide-gray-200">
                 <tbody class="bg-white divide-y divide-gray-200">
 
-                <ArticleRow
-                  v-for="article in articles"
-                  :article="article"
-                  :key="article.id"
-                >
-                </ArticleRow>
+                <slot></slot>
 
                 </tbody>
               </table>
@@ -27,14 +22,10 @@
 </template>
 
 <script>
-  import ArticleRow from "./ArticleRow";
   export default {
-    name: 'ArticleTable',
-    components: { ArticleRow },
+    name: 'Table',
     props: {
       title: String,
-      articles: Array,
-    },
-
+    }
   }
 </script>
