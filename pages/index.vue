@@ -79,8 +79,8 @@
   import Table from "../components/Table";
 
   export default {
+    middleware: 'globalAuth',
     layout: 'dashboard',
-    middleware: ['auth'],
     components: { ArticleRow, TabPanel, Table },
     data() {
       return {

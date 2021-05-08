@@ -22,6 +22,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    { src: '~/plugins/vuex-persist', ssr: false }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -55,9 +56,11 @@ export default {
   auth: {
     strategies: {
       local: {
+        autoFetchUser: false,
         endpoints: {
           login: { url: '/auth/signin', method: 'post', propertyName: 'token' },
-          user: { url: '/auth/current-user', method: 'get', propertyName: false },
+          user: false,
+          // user: { url: '/auth/current-user', method: 'get', propertyName: false },
           logout: false,
         },
 
@@ -65,9 +68,9 @@ export default {
       },
     },
     redirect: {
-      login: '/auth/signin',
-      logout: '/auth/signin',
-      home: '/',
+      login: false,
+      logout: false,
+      home: false,
     }
   }
 }

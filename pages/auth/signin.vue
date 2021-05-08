@@ -77,12 +77,14 @@ export default{
   methods: {
     async signIn () {
       try {
-        await this.$auth.loginWith('local', {
+        const user = await this.$auth.loginWith('local', {
           data: {
             email: this.email,
             password: this.password
           }
         });
+
+        this.$auth.setUser(user.data);
       }catch (err) {
         this.errors = err.response.data.errors;
       }

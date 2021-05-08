@@ -70,14 +70,15 @@
             password: this.password
           })
 
-          await this.$auth.loginWith('local', {
+          const user = await this.$auth.loginWith('local', {
             data: {
               email: this.email,
               password: this.password
             }
           });
 
-          this.$router.push('/')
+          this.$auth.setUser(user.data);
+          this.$router.push('/auth/verify')
 
         } catch (err) {
             this.errors = err.response.data.errors
