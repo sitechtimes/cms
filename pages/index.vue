@@ -40,7 +40,7 @@
           />
         </Table>
 
-        <Table title="In Review">
+        <Table title="Ready">
           <ArticleRow
             v-for="article in sortArticles('ready')"
             :article="article"

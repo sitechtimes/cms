@@ -9,7 +9,9 @@
       this.$auth.setUser(resp.data);
 
       if (this.$auth.user.verified){
-        await this.$router.push('/')
+        await this.$router.push('/');
+      }else{
+        await this.$router.push('/auth/signup');
       }
     }
   }

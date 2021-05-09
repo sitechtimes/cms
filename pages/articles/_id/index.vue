@@ -54,6 +54,9 @@
 
           </div>
         </div>
+
+        <CategoryPicker v-if="article.category !== undefined && !preview" @changeCategory="changeCategory" :selectedCategory="article.category" />
+
         <FileUpload v-if="article.imageUrl !== undefined" :preview="preview" :image="article.imageUrl" @uploadImage="uploadImage"/>
 
         <vue-editor v-model="article.content" v-show="!preview" :editor-toolbar="customToolbar" class="py-2" />
@@ -117,7 +120,13 @@
 
              </div>
            </div>
+
           <img :src="article.imageUrl" />
+
+        <h2 class="text-lg mb-4">
+          <span class="font-bold">Category:</span>
+          <span>{{ article.category }}</span>
+        </h2>
          <div class="preview-content" v-html="article.content"></div>
       </div>
 
@@ -158,7 +167,7 @@
                 </span>
 
             <span class="sm:ml-3">
-                  <button @click="publishDraft" type="button" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                  <button @click="publishedModel = !publishedModel" type="button" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                      <svg class="-ml-1 mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
                       </svg>
@@ -186,7 +195,13 @@
         </div>
 
         <img :src="article.imageUrl" />
-        <div class="preview-content" v-html="article.content"></div>
+
+      <h2 class="text-lg mb-4">
+        <span class="font-bold">Category:</span>
+        <span>{{ article.category }}</span>
+      </h2>
+
+      <div class="preview-content" v-html="article.content"></div>
       </div>
     </div>
   </div>
@@ -230,7 +245,7 @@
         ["bold", "italic", "underline", "strike"],
         [{ list: "ordered" }, { list: "bullet" }],
         [{ script: "sub" }, { script: "super" }],
-        [{ indent: "-1" }, { indent: "+1" }],
+        // [{ indent: "-1" }, { indent: "+1" }],
         ["clean"]
       ]
     }
@@ -241,8 +256,9 @@
     try {
       const article = await this.$axios.get(`cms/${this.articleId}`);
       this.article = article.data;
-      // console.log(article.data);
+      console.log(article.data);
     }catch (e){
+
       // TODO: add 404 page
       // console.log(e)
       this.$router.push('/')
@@ -271,6 +287,7 @@
             this.article.imageUrl = res.data.url
           }
 
+          console.log(this.selectedCategory);
 
           await this.$axios.put(`cms/${this.articleId}`, {
             ...this.article
@@ -310,11 +327,14 @@
       },
       async publishDraft(){
         try {
-          const res = await this.$axios.get(`cms/${this.articleId}/publish`);
-          console.log(res);
+          await this.$axios.post(`cms/${this.articleId}/publish`);
+          this.$router.push('/');
         }catch(e){
           console.log(e);
         }
+      },
+      changeCategory(category){
+        this.article.category = category;
       },
       uploadImage(image){
         this.articleImage = image

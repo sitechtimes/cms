@@ -1,5 +1,4 @@
 export default function (context) {
-  console.log(context.$auth.user)
   if (!context.$auth.loggedIn){
     context.redirect('/auth/signup')
   }

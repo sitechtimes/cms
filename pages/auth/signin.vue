@@ -85,6 +85,7 @@ export default{
         });
 
         this.$auth.setUser(user.data);
+        this.$router.push('/');
       }catch (err) {
         this.errors = err.response.data.errors;
       }
