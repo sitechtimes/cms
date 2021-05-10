@@ -218,7 +218,7 @@
 
   export default {
     layout: 'dashboard',
-    // middleware
+    middleware: ['mainAuth'],
     components: {
       FileUpload,
       VueEditor, SuccessAlert, ErrorMessage, WarningAlert,

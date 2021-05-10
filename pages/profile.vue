@@ -77,7 +77,7 @@
 
  export default {
    layout: 'dashboard',
-   middleware: ['auth'],
+   middleware: ['mainAuth'],
    // TODO: password update
    data () {
      return {

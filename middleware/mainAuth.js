@@ -1,8 +1,9 @@
+// TODO: handle mainAuth middleware
 export default function (context) {
-  if (!context.$auth.loggedIn){
+  if (!context.$auth.user){
     context.redirect('/auth/signup')
   }
-  else if(context.$auth.user.verified !== true){
+  else if(!context.$auth.user.verified){
     context.redirect('/auth/verify')
   }
 }

@@ -33,7 +33,7 @@
   export default {
     components: { UserRow, Table },
     layout: 'dashboard',
-    middleware: ['admin'],
+    middleware: ['mainAuth', 'admin'],
     data() {
       return {
         users: []
