@@ -27,7 +27,7 @@
      return {
        // TODO: update list of categories
        categories: [
-         'Tech', 'US', 'World', 'Sports'
+         'Technology', 'US', 'World', 'Sports'
        ],
        selected: this.selectedCategory
      }

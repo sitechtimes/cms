@@ -41,9 +41,15 @@
     methods: {
       // TODO: reload page after successfully changing role
       async changeRole(role){
-        await this.$axios.put(`/users/${this.user.id}`, {
-          role: role
-        });
+        try {
+          await this.$axios.put(`/users/${this.user.id}`, {
+            role: role
+          });
+
+          this.user.role = role;
+        }catch(e){
+         console.log(e);
+        }
       },
     },
     computed: {

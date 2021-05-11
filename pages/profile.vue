@@ -1,7 +1,10 @@
 <template>
   <div class="container mx-auto">
       <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
-      <div class="flex-1 min-w-0">
+
+        <SuccessAlert class="mb-6" v-if="success !== null" :message="success" @dismissAlert="dismissAlert"/>
+
+        <div class="flex-1 min-w-0">
         <h1 class="text-3xl font-bold text-gray-900">Profile</h1>
       </div>
 
@@ -74,16 +77,19 @@
 <script>
  import axios from "axios";
  import imageCompression from 'browser-image-compression';
+ import SuccessAlert from "../components/alerts/SuccessAlert";
 
  export default {
    layout: 'dashboard',
    middleware: ['mainAuth'],
+   components: { SuccessAlert },
    // TODO: password update
    data () {
      return {
        user: null,
        image: null,
-       viewImage: null
+       viewImage: null,
+       success: null,
      };
    },
    async mounted() {
@@ -125,10 +131,15 @@
            const user = { ...this.$auth.user };
            user.imageUrl = res.data.url;
            this.$auth.setUser(user);
+
+           this.success = "Your profile has been successfully saved!"
          }
        }catch(e) {
          console.log(e);
        }
+     },
+     dismissAlert(){
+       this.success = null
      }
    }
  }
