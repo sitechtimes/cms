@@ -121,6 +121,10 @@
            await this.$axios.put(`users/${this.$auth.user.id}`, {
              imageUrl: res.data.url
            });
+
+           const user = { ...this.$auth.user };
+           user.imageUrl = res.data.url;
+           this.$auth.setUser(user);
          }
        }catch(e) {
          console.log(e);
