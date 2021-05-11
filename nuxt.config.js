@@ -1,5 +1,6 @@
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
+  ssr: false,
   head: {
     title: 'Tech Times CMS',
     htmlAttrs: {
@@ -21,6 +22,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    { src: '~/plugins/vuex-persist', ssr: false }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -34,6 +36,8 @@ export default {
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
+    '@nuxtjs/axios',
+    '@nuxtjs/auth'
   ],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
@@ -43,5 +47,29 @@ export default {
   // change default port to 8000
   server: {
     port: 8000
+  },
+
+  axios: {
+    baseURL: 'https://sitechtimes.dev/api'
+  },
+
+  auth: {
+    strategies: {
+      local: {
+        autoFetchUser: false,
+        endpoints: {
+          login: { url: '/auth/signin', method: 'post', propertyName: 'token' },
+          user: false,
+          logout: false,
+        },
+
+        tokenType: '',
+      },
+    },
+    redirect: {
+      login: false,
+      logout: '/auth/signin',
+      home: false,
+    }
   }
 }
