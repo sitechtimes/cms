@@ -29,15 +29,22 @@
 </template>
 
 <script>
+// This component is for the rows on the table and containsn the title, date, status, and actions the user can take on the articles
   export default {
     name: 'ArticleRow',
-    props: ['article'],
+    props: 
+    // the name of the article
+    ['article'],
     computed: {
+
+      // @vuese
       capitalizeStatus() {
+        // 
         return this.article.status.charAt(0).toUpperCase() + this.article.status.slice(1);
       },
 
       formatDate() {
+        // shows the date the article was last updated
         const date  = new Date(this.article.updatedAt);
 
         const formattedDate = date.toLocaleString('en',
@@ -47,6 +54,7 @@
       },
 
       articleActionText() {
+        // shows whether article can be edited or reviewed
         if (this.article.status === 'draft') return "Edit";
         if (this.article.status === 'review' || 'ready') return "View";
       }
