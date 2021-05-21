@@ -73,5 +73,9 @@ export default {
       logout: '/auth/signin',
       home: false,
     }
+  },
+
+  generate: {
+    fallback: true
   }
 }
