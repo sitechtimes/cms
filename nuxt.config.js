@@ -1,8 +1,6 @@
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
-  // ssr: false,
-  target: 'static',
-  mode: 'universal',
+  ssr: false,
   head: {
     title: 'Tech Times CMS',
     htmlAttrs: {
