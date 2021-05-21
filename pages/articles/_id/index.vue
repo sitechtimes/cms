@@ -160,7 +160,6 @@
           message="Are you sure you want to delete your article? All of your data will be permanently removed. This action cannot be undone."
           action="Send article to admin"
         />
-      </div>
 
       <div v-show="article.status === 'ready'">
         <div class="lg:flex lg:items-center lg:justify-between py-6">
@@ -227,6 +226,7 @@
 
         <div class="preview-content" v-html="article.content"></div>
       </div>
+      </div>
     </div>
   </div>
 
@@ -285,7 +285,6 @@
       } catch (e) {
 
         // TODO: add 404 page
-        // console.log(e)
         this.$router.push('/')
       }
     },

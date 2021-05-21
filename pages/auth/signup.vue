@@ -77,6 +77,8 @@
             }
           });
 
+          console.log(user.data);
+
           this.$auth.setUser(user.data);
           this.$router.push('/auth/verify')
 
