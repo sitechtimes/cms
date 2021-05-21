@@ -14,6 +14,8 @@
         } else {
           await this.$router.push('/auth/signup');
         }
+      } catch(e){
+        
       }
     }
   }
