@@ -1,6 +1,8 @@
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
-  ssr: false,
+  // ssr: false,
+  target: 'static',
+  mode: 'universal',
   head: {
     title: 'Tech Times CMS',
     htmlAttrs: {
@@ -50,7 +52,8 @@ export default {
   },
 
   axios: {
-    baseURL: 'https://api.sitechtimes.com/'
+   baseURL: 'https://api.sitechtimes.com/'
+   //  baseURL: 'http://localhost:3000/dev/'
   },
 
   auth: {
