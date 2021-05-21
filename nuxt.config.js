@@ -50,7 +50,7 @@ export default {
   },
 
   axios: {
-    baseURL: 'https://sitechtimes.dev/api'
+    baseURL: 'https://api.sitechtimes.com/'
   },
 
   auth: {
