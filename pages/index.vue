@@ -91,17 +91,21 @@
       }
     },
     async mounted() {
-      const articles = await this.$axios.get(`cms/`);
-      this.articles = articles.data;
+      try {
+        const articles = await this.$axios.get(`cms/`);
+        this.articles = articles.data;
 
-      if (['editor', 'admin'].includes(this.$auth.user.role)) {
-        const reviewArticles = await this.$axios.get('cms/review');
-        this.reviewArticles = reviewArticles.data;
-      }
+        if (['editor', 'admin'].includes(this.$auth.user.role)) {
+          const reviewArticles = await this.$axios.get('cms/review');
+          this.reviewArticles = reviewArticles.data;
+        }
 
-      if (this.$auth.user.role === 'admin') {
-        const readyArticles = await this.$axios.get('cms/ready');
-        this.readyArticles = readyArticles.data;
+        if (this.$auth.user.role === 'admin') {
+          const readyArticles = await this.$axios.get('cms/ready');
+          this.readyArticles = readyArticles.data;
+        }
+      }catch(e){
+        console.log(e);
       }
     },
     methods: {
