@@ -3,7 +3,7 @@ export default function (context) {
     context.redirect('/auth/signup')
   }
   else if(!context.$auth.user.verified){
-    context.redirect('/auth/verify')
+    context.redirect('/auth/signup')
   }
 }
 

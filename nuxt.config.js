@@ -52,7 +52,7 @@ export default {
 
   axios: {
    baseURL: 'https://api.sitechtimes.com/'
-   //  baseURL: 'http://localhost:3000/dev/'
+    // baseURL: 'http://localhost:3000/dev/'
   },
 
   auth: {

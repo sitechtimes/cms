@@ -58,12 +58,16 @@
     components: { ErrorMessage },
     middleware: ['guest'],
     data () {
-      return { name: 'example', email: 'example@sitechhs.com', password: 'password' , errors: null }
+      return {
+        name: '',
+        email: '',
+        password: '' ,
+        errors: null
+      }
     },
     methods: {
       async signUp() {
         try {
-
           await this.$axios.post('/auth/signup', {
             name: this.name,
             email: this.email,
@@ -76,8 +80,6 @@
               password: this.password
             }
           });
-
-          console.log(user.data);
 
           this.$auth.setUser(user.data);
           this.$router.push('/auth/verify')
