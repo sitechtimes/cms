@@ -28,6 +28,7 @@
 
               <div class="mt-4">
                 <PlacementPicker @changePlacement="changePlacement"/>
+                <CurrentArticle :position="selectedPlace" :category="articleCategory"/>
               </div>
             </div>
           </div>
@@ -45,15 +46,17 @@
   </div>
 </template>
 <script>
-import PlacementPicker from "@/components/PlacementPicker";
+import PlacementPicker from "@/components/position/PositionPicker";
+import CurrentArticle from "@/components/position/CurrentArticle";
 
 export default {
-  components: {PlacementPicker},
+  components: {PlacementPicker, CurrentArticle},
   props: {
     title: String,
     message: String,
     action: String,
-    articleId: String
+    articleId: String,
+    articleCategory: String
   },
   data() {
     return {

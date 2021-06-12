@@ -206,13 +206,14 @@
               action="Send back to writer"
             />
 
-            <PlacementAlert
+            <PositionAlert
               v-if="publishedModel"
               @dismissModelAlert="publishedModel = false"
               title="Publish Article?"
               message="Are you sure you want to publish this article? All of your data will be permanently removed. This action cannot be undone."
               action="Publish Article"
               :articleId=articleId
+              :articleCategory="article.category"
             />
 
           </div>
@@ -239,7 +240,7 @@
   import ErrorMessage from "../../../components/ErrorMessage";
   import FileUpload from "../../../components/FileUpload";
   import WarningAlert from "../../../components/alerts/WarningAlert";
-  import PlacementAlert from "@/components/alerts/PlacementAlert";
+  import PositionAlert from "@/components/position/PositionAlert";
   import axios from 'axios';
 
   export default {
@@ -247,7 +248,7 @@
     middleware: ['mainAuth'],
     components: {
       FileUpload,
-      VueEditor, SuccessAlert, ErrorMessage, WarningAlert, PlacementAlert
+      VueEditor, SuccessAlert, ErrorMessage, WarningAlert, PositionAlert
     },
     data() {
       return {

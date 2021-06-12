@@ -15,9 +15,8 @@
 export default {
   data(){
     return {
-      // TODO: update list of categories
-      placements: ["main", "sub", "detail", "none"],
-      selected:  null
+      placements: ["none", "main", "sub", "detail"],
+      selected:  'none'
     }
   },
   methods: {
