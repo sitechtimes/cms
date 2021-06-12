@@ -20,15 +20,19 @@
 
 <script>
   export default {
+     async mounted () {
+      try {
+        const categories = await this.$axios.get(`cms/categories`);
+        this.categories = categories.data;
+      } catch(e) { }
+    },
     props: {
       selectedCategory: String
     },
     data(){
      return {
        // TODO: update list of categories
-       categories: [
-         'Technology', 'US', 'World', 'Sports'
-       ],
+       categories: [],
        selected: this.selectedCategory
      }
     },
