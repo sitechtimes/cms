@@ -206,12 +206,14 @@
               action="Send back to writer"
             />
 
-            <WarningAlert
+            <PositionAlert
               v-if="publishedModel"
-              @dismissModelAlert="publishedModel = false" @allowAction="publishDraft"
+              @dismissModelAlert="publishedModel = false"
               title="Publish Article?"
               message="Are you sure you want to publish this article? All of your data will be permanently removed. This action cannot be undone."
               action="Publish Article"
+              :articleId=articleId
+              :articleCategory="article.category"
             />
 
           </div>
@@ -238,6 +240,7 @@
   import ErrorMessage from "../../../components/ErrorMessage";
   import FileUpload from "../../../components/FileUpload";
   import WarningAlert from "../../../components/alerts/WarningAlert";
+  import PositionAlert from "@/components/position/PositionAlert";
   import axios from 'axios';
 
   export default {
@@ -245,7 +248,7 @@
     middleware: ['mainAuth'],
     components: {
       FileUpload,
-      VueEditor, SuccessAlert, ErrorMessage, WarningAlert,
+      VueEditor, SuccessAlert, ErrorMessage, WarningAlert, PositionAlert
     },
     data() {
       return {
@@ -270,7 +273,6 @@
           ["bold", "italic", "underline", "strike"],
           [{list: "ordered"}, {list: "bullet"}],
           [{script: "sub"}, {script: "super"}],
-          // [{ indent: "-1" }, { indent: "+1" }],
           ["clean"]
         ]
       }
@@ -349,14 +351,7 @@
           console.log(e)
         }
       },
-      async publishDraft() {
-        try {
-          await this.$axios.post(`cms/${this.articleId}/publish`);
-          this.$router.push('/');
-        } catch (e) {
-          console.log(e);
-        }
-      },
+
       changeCategory(category) {
         this.article.category = category;
       },
@@ -374,7 +369,8 @@
       },
       dismissDraftAlert() {
         this.sendToDraftModel = false;
-      }
+      },
+
     }
   }
 </script>

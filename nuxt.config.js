@@ -51,8 +51,7 @@ export default {
   },
 
   axios: {
-   baseURL: 'https://api.sitechtimes.com/'
-    // baseURL: 'http://localhost:3000/dev/'
+   baseURL: process.env.ENV === "DEV" ? 'http://localhost:3000/' : 'https://api.sitechtimes.com/'
   },
 
   auth: {
