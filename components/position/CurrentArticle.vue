@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p :class="textColor" class="block text-m font-medium">{{ currentArticleMessage }}</p>
+    <p :class="textColor" class="block text-sm font-medium">{{ currentArticleMessage }}</p>
   </div>
 </template>
 
@@ -45,7 +45,7 @@ export default {
       return "No conflicting article"
     },
     textColor() {
-      return this.currentArticleTitle ? 'text-red-600' : 'text-green-500'
+      return this.currentArticleTitle ? 'text-red-600' : 'text-green-600'
     }
   }
 }
