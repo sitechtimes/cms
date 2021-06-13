@@ -1,3 +1,4 @@
+import { ENV_VALUES } from './config';
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   ssr: false,
@@ -51,7 +52,7 @@ export default {
   },
 
   axios: {
-   baseURL: process.env.ENV === "DEV" ? 'http://localhost:3000/' : 'https://api.sitechtimes.com/'
+    baseURL: ENV_VALUES[process.env.ENV].api
   },
 
   auth: {
