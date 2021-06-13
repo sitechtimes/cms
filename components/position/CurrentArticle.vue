@@ -1,5 +1,7 @@
 <template>
-  <p>Current Article: {{ this.category }} && {{ this.position }}</p>
+  <div>
+    <p :class="textColor" class="block text-m font-medium">{{ currentArticleMessage }}</p>
+  </div>
 </template>
 
 <script>
@@ -8,14 +10,42 @@ export default {
     position: String,
     category: String,
   },
-  mounted() { this.currentHomepage() },
-  beforeUpdate() { this.currentHomepage() },
+  data(){
+    return {
+      currentArticleTitle: ''
+    }
+  },
+  watch: {
+    position: function () {
+      this.currentHomepage();
+    }
+  },
   methods: {
     async currentHomepage() {
-      // TODO: fetch current homepage article for category and position
-      if (this.position !== null) {
-        console.log(this.category, this.position)
+      try {
+        if (this.position !== null || this.position === 'none') {
+          const categories = await this.$axios.get(`cms/homepage?category=${this.category}&position=${this.position}`);
+
+          if(categories.data.length > 0) {
+            this.currentArticleTitle = categories.data[0].title;
+          }else{
+            this.currentArticleTitle = null;
+          }
+
+        }
+      }catch(e) { }
+    }
+  },
+  computed: {
+    currentArticleMessage() {
+      if (this.currentArticleTitle) {
+        return `Conflicting Article: ${this.currentArticleTitle}`;
       }
+
+      return "No conflicting article"
+    },
+    textColor() {
+      return this.currentArticleTitle ? 'text-red-600' : 'text-green-500'
     }
   }
 }
