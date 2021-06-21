@@ -74,6 +74,12 @@
           <FileUpload v-if="article.imageUrl !== undefined" :preview="preview" :image="article.imageUrl"
                       @uploadImage="uploadImage"/>
 
+          <div v-show="!preview" class="py-3">
+            <label for="image-alt" class="block text-sm font-medium text-gray-700">Image Description</label>
+              <input v-model="article.imageAlt" type="text" name="image-alt" id="image-alt"
+                     class="mt-1 block py-2 px-3 md:w-2/5 w-full border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+          </div>
+
           <vue-editor v-model="article.content" v-show="!preview" :editor-toolbar="customToolbar" class="py-2"/>
 
           <div class="preview-content" v-show="preview" v-html="article.content"></div>
@@ -136,12 +142,19 @@
             </div>
           </div>
 
-          <img :src="article.imageUrl"/>
-
           <h2 class="text-lg mb-4">
             <span class="font-bold">Category:</span>
             <span>{{ article.category }}</span>
           </h2>
+
+          <img v-if="article.imageAlt" :src="article.imageUrl" class="py-4"/>
+
+          <h2 v-if="article.imageAlt" class="text-lg mb-4">
+            <span class="font-bold">Image Alt:</span>
+            <span>{{ article.imageAlt }}</span>
+          </h2>
+
+
           <div class="preview-content" v-html="article.content"></div>
         </div>
 
@@ -219,14 +232,22 @@
           </div>
         </div>
 
-        <img :src="article.imageUrl"/>
 
         <h2 class="text-lg mb-4">
           <span class="font-bold">Category:</span>
           <span>{{ article.category }}</span>
         </h2>
 
+        <img v-if="article.imageAlt" :src="article.imageUrl" class="py-4"/>
+
+        <h2 v-if="article.imageAlt" class="text-lg mb-4">
+          <span class="font-bold">Image Alt:</span>
+          <span>{{ article.imageAlt }}</span>
+        </h2>
+
+
         <div class="preview-content" v-html="article.content"></div>
+
       </div>
       </div>
     </div>
@@ -314,6 +335,7 @@
           }
 
           console.log(this.selectedCategory);
+          console.log(this.article.imageAlt)
 
           await this.$axios.put(`cms/${this.articleId}`, {
             ...this.article

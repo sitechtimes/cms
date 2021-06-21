@@ -24,7 +24,7 @@ export default {
     async currentHomepage() {
       try {
         if (this.position !== null || this.position === 'none') {
-          const categories = await this.$axios.get(`cms/homepage?category=${this.category}&position=${this.position}`);
+          const categories = await this.$axios.get(`articles/homepage?category=${this.category}&position=${this.position}`);
 
           if(categories.data.length > 0) {
             this.currentArticleTitle = categories.data[0].title;
