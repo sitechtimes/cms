@@ -398,6 +398,13 @@
 </script>
 
 <style>
+ol {
+  list-style: decimal !important;
+}
+ul {
+  list-style: disk !important;
+}
+
   .preview-content > * {
     font-size: revert !important;
     font-weight: normal !important;
