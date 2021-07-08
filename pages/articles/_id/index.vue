@@ -318,11 +318,9 @@
           // TODO: refactor upload image to cloudinary
           if (this.articleImage) {
             const fd = new FormData()
-            console.log(this.articleImage);
 
             fd.append("file", this.articleImage)
             fd.append('upload_preset', 'rr7kbagm')
-            console.log(fd)
 
             const req = {
               url: "https://api.cloudinary.com/v1_1/sitechtimes/image/upload/",
@@ -333,9 +331,6 @@
             const res = await axios(req);
             this.article.imageUrl = res.data.url
           }
-
-          console.log(this.selectedCategory);
-          console.log(this.article.imageAlt)
 
           await this.$axios.put(`cms/${this.articleId}`, {
             ...this.article
@@ -398,6 +393,18 @@
 </script>
 
 <style>
+  ul {
+    list-style: disc !important;
+  }
+
+  ol {
+   list-style: decimal !important;
+  }
+
+  ul, ol {
+    margin-left: 3rem;
+  }
+
   .preview-content > * {
     font-size: revert !important;
     font-weight: normal !important;
