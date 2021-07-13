@@ -5,7 +5,7 @@
 
         <div class="ml-4">
           <div class="text-sm font-medium text-gray-900">
-            {{ article.title }}
+            {{ article.title.substring(0, 50) }}
           </div>
 
         </div>
