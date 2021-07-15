@@ -13,13 +13,13 @@
             <div class="flex-1 min-w-0">
               <input type="text"
                      v-model="article.title"
-                     class="text-2xl font-bold leading-7 background-blue sm:text-3xl sm:truncate inline-block
+                     class="text-3xl font-bold leading-7 background-blue sm:text-3xl sm:truncate inline-block
                focus:outline-none focus:ring focus:border-blue-300 bg-gray-100"/>
             </div>
 
             <div class="mt-5 flex lg:mt-0 lg:ml-4 items-center inline-flex justify-center" id="view-options-bar">
-
         <span class="hidden sm:block ml-3">
+        <span class="mr-3 md:mr-0">
     </span>
 
               <div class="relative inline-block text-left sm:ml-3">
@@ -101,16 +101,16 @@
         </div>
 
         <div v-show="article.status === 'review'">
-          <div class="lg:flex lg:items-center lg:justify-between py-6">
-            <div class="flex-1 min-w-0">
-              <h1 class="text-2xl font-bold leading-7 background-blue sm:text-3xl sm:truncate inline-block
+           <div>
+             <div class="flex-1 min-w-0">
+               <h1 class="text-3xl font-bold leading-9 background-blue
                focus:outline-none focus:ring focus:border-blue-300 bg-gray-100">{{ article.title }}</h1>
             </div>
 
-            <div class="mt-5 flex lg:mt-0 lg:ml-4"
+            <div class="py-6 flex"
                  v-if="['editor', 'admin'].includes(this.$auth.user.role)">
 
-                <span class="hidden sm:block ml-3">
+                <span class="mr-3">
                   <button @click="sendToDraftModel = !sendToDraftModel" type="button"
                           class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                     <svg class="-ml-1 mr-2 h-5 w-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
@@ -173,16 +173,16 @@
         />
 
       <div v-show="article.status === 'ready'">
-        <div class="lg:flex lg:items-center lg:justify-between py-6">
+        <div>
           <div class="flex-1 min-w-0">
-            <h1 class="text-2xl font-bold leading-7 background-blue sm:text-3xl sm:truncate inline-block
+            <h1 class="text-3xl font-bold leading-9 background-blue
                focus:outline-none focus:ring focus:border-blue-300 bg-gray-100">{{ article.title }}</h1>
           </div>
 
-          <div class="mt-5 flex lg:mt-0 lg:ml-4"
+          <div class="py-6 flex"
                v-if="this.$auth.user.role === 'admin'">
 
-                <span class="hidden sm:block ml-3">
+                <span class="mr-3">
 
                   <button @click="sendToDraftModel = !sendToDraftModel" type="button"
                           class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
@@ -316,11 +316,9 @@
           // TODO: refactor upload image to cloudinary
           if (this.articleImage) {
             const fd = new FormData()
-            console.log(this.articleImage);
 
             fd.append("file", this.articleImage)
             fd.append('upload_preset', 'rr7kbagm')
-            console.log(fd)
 
             const req = {
               url: "https://api.cloudinary.com/v1_1/sitechtimes/image/upload/",
@@ -331,9 +329,6 @@
             const res = await axios(req);
             this.article.imageUrl = res.data.url
           }
-
-          console.log(this.selectedCategory);
-          console.log(this.article.imageAlt)
 
           await this.$axios.put(`cms/${this.articleId}`, {
             ...this.article
@@ -396,12 +391,18 @@
 </script>
 
 <style>
-ol {
-  list-style: decimal !important;
-}
-ul {
-  list-style: disk !important;
-}
+
+  ul {
+    list-style: disc !important;
+  }
+
+  ol {
+   list-style: decimal !important;
+  }
+
+  ul, ol {
+    margin-left: 3rem;
+  }
   .preview-content > * {
     font-size: revert !important;
     font-weight: normal !important;
