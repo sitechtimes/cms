@@ -17,7 +17,7 @@
                focus:outline-none focus:ring focus:border-blue-300 bg-gray-100"/>
             </div>
 
-            <div class="mt-5 flex lg:mt-0 lg:ml-4 items-center inline-flex justify-center" id="view-options-bar">
+            <div class="mt-5 flex lg:mt-0 lg:ml-4">
         <span class="mr-3 md:mr-0">
     </span>
 
