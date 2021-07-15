@@ -18,7 +18,6 @@
             </div>
 
             <div class="mt-5 flex lg:mt-0 lg:ml-4 items-center inline-flex justify-center" id="view-options-bar">
-        <span class="hidden sm:block ml-3">
         <span class="mr-3 md:mr-0">
     </span>
 
