@@ -34,9 +34,9 @@
                   {{ preview ? 'Edit': 'View' }}
               </button>
 
-              <div class="relative inline-block text-left sm:ml-3">
+              <div class="relative inline-block text-left sm:ml-3 " @mouseover="open = true" @mouseleave="open = false">
                 <div>
-                  <button type="button" @click="open = !open"
+                  <button type="button"
                           class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500"
                           id="menu-button" aria-expanded="true" aria-haspopup="true">
                     Options
@@ -48,9 +48,8 @@
                     </svg>
                   </button>
                 </div>
-
                 <div v-if="open"
-                     class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-100 focus:outline-none py-1"
+                     class="origin-top-right absolute right-0 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-100 focus:outline-none py-1"
                      role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
                   <a @click="saveArticle"
                      class="cursor-pointer text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:bg-indigo-600 hover:text-white"
@@ -63,6 +62,7 @@
                      tabindex="-1" id="menu-item-2">Delete</a>
                 </div>
               </div>
+              
             </div>
           </div>
 
