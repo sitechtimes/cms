@@ -13,7 +13,7 @@
             <div class="flex-1 min-w-0">
               <input type="text"
                      v-model="article.title"
-                     class="text-3xl font-bold leading-7 background-blue sm:text-3xl sm:truncate inline-block
+                     class="text-3xl font-bold leading-7 background-blue sm:text-3xl sm:truncate inline-block w-full text-wrap
                focus:outline-none focus:ring focus:border-blue-300 bg-gray-100"/>
             </div>
 
