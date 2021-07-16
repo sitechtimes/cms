@@ -23,7 +23,7 @@
       <TabPanel @tabClicked="tabClicked"/>
 
       <!--   table  -->
-      <div class="pt-6" v-if="tabId === 1">
+      <div class="pt-6 px-4" v-if="tabId === 1">
         <Table title="Draft">
           <ArticleRow
             v-for="article in sortArticles('draft')"
@@ -49,7 +49,7 @@
         </Table>
       </div>
 
-      <div class="pt-2" v-if="tabId === 2">
+      <div class="pt-2 px-4" v-if="tabId === 2">
         <Table title="">
           <ArticleRow
             v-for="article in reviewArticles"
@@ -59,7 +59,7 @@
         </Table>
       </div>
 
-      <div class="pt-2" v-if="tabId === 3">
+      <div class="pt-2 px-4" v-if="tabId === 3">
         <Table title="">
           <ArticleRow
             v-for="article in readyArticles"

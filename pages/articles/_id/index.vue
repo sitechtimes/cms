@@ -13,13 +13,13 @@
             <div class="flex-1 min-w-0">
               <input type="text"
                      v-model="article.title"
-                     class="text-2xl font-bold leading-7 background-blue sm:text-3xl sm:truncate inline-block
+                     class="text-3xl font-bold leading-7 background-blue sm:text-3xl sm:truncate inline-block
                focus:outline-none focus:ring focus:border-blue-300 bg-gray-100"/>
             </div>
 
             <div class="mt-5 flex lg:mt-0 lg:ml-4">
 
-        <span class="hidden sm:block ml-3">
+        <span class="mr-3 md:mr-0">
         <button @click="preview = !preview" type="button"
                 class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
 
@@ -74,6 +74,12 @@
           <FileUpload v-if="article.imageUrl !== undefined" :preview="preview" :image="article.imageUrl"
                       @uploadImage="uploadImage"/>
 
+          <div v-show="!preview" class="py-3">
+            <label for="image-alt" class="block text-sm font-medium text-gray-700">Image Description</label>
+              <input v-model="article.imageAlt" type="text" name="image-alt" id="image-alt"
+                     class="mt-1 block py-2 px-3 md:w-2/5 w-full border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+          </div>
+
           <vue-editor v-model="article.content" v-show="!preview" :editor-toolbar="customToolbar" class="py-2"/>
 
           <div class="preview-content" v-show="preview" v-html="article.content"></div>
@@ -97,16 +103,16 @@
         </div>
 
         <div v-show="article.status === 'review'">
-          <div class="lg:flex lg:items-center lg:justify-between py-6">
-            <div class="flex-1 min-w-0">
-              <h1 class="text-2xl font-bold leading-7 background-blue sm:text-3xl sm:truncate inline-block
+           <div>
+             <div class="flex-1 min-w-0">
+               <h1 class="text-3xl font-bold leading-9 background-blue
                focus:outline-none focus:ring focus:border-blue-300 bg-gray-100">{{ article.title }}</h1>
             </div>
 
-            <div class="mt-5 flex lg:mt-0 lg:ml-4"
+            <div class="py-6 flex"
                  v-if="['editor', 'admin'].includes(this.$auth.user.role)">
 
-                <span class="hidden sm:block ml-3">
+                <span class="mr-3">
                   <button @click="sendToDraftModel = !sendToDraftModel" type="button"
                           class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                     <svg class="-ml-1 mr-2 h-5 w-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
@@ -136,12 +142,19 @@
             </div>
           </div>
 
-          <img :src="article.imageUrl"/>
-
           <h2 class="text-lg mb-4">
             <span class="font-bold">Category:</span>
             <span>{{ article.category }}</span>
           </h2>
+
+          <img v-if="article.imageAlt" :src="article.imageUrl" class="py-4"/>
+
+          <h2 v-if="article.imageAlt" class="text-lg mb-4">
+            <span class="font-bold">Image Alt:</span>
+            <span>{{ article.imageAlt }}</span>
+          </h2>
+
+
           <div class="preview-content" v-html="article.content"></div>
         </div>
 
@@ -162,16 +175,16 @@
         />
 
       <div v-show="article.status === 'ready'">
-        <div class="lg:flex lg:items-center lg:justify-between py-6">
+        <div>
           <div class="flex-1 min-w-0">
-            <h1 class="text-2xl font-bold leading-7 background-blue sm:text-3xl sm:truncate inline-block
+            <h1 class="text-3xl font-bold leading-9 background-blue
                focus:outline-none focus:ring focus:border-blue-300 bg-gray-100">{{ article.title }}</h1>
           </div>
 
-          <div class="mt-5 flex lg:mt-0 lg:ml-4"
+          <div class="py-6 flex"
                v-if="this.$auth.user.role === 'admin'">
 
-                <span class="hidden sm:block ml-3">
+                <span class="mr-3">
 
                   <button @click="sendToDraftModel = !sendToDraftModel" type="button"
                           class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
@@ -206,25 +219,35 @@
               action="Send back to writer"
             />
 
-            <WarningAlert
+            <PositionAlert
               v-if="publishedModel"
-              @dismissModelAlert="publishedModel = false" @allowAction="publishDraft"
+              @dismissModelAlert="publishedModel = false"
               title="Publish Article?"
               message="Are you sure you want to publish this article? All of your data will be permanently removed. This action cannot be undone."
               action="Publish Article"
+              :articleId=articleId
+              :articleCategory="article.category"
             />
 
           </div>
         </div>
 
-        <img :src="article.imageUrl"/>
 
         <h2 class="text-lg mb-4">
           <span class="font-bold">Category:</span>
           <span>{{ article.category }}</span>
         </h2>
 
+        <img v-if="article.imageAlt" :src="article.imageUrl" class="py-4"/>
+
+        <h2 v-if="article.imageAlt" class="text-lg mb-4">
+          <span class="font-bold">Image Alt:</span>
+          <span>{{ article.imageAlt }}</span>
+        </h2>
+
+
         <div class="preview-content" v-html="article.content"></div>
+
       </div>
       </div>
     </div>
@@ -238,6 +261,7 @@
   import ErrorMessage from "../../../components/ErrorMessage";
   import FileUpload from "../../../components/FileUpload";
   import WarningAlert from "../../../components/alerts/WarningAlert";
+  import PositionAlert from "@/components/position/PositionAlert";
   import axios from 'axios';
 
   export default {
@@ -245,7 +269,7 @@
     middleware: ['mainAuth'],
     components: {
       FileUpload,
-      VueEditor, SuccessAlert, ErrorMessage, WarningAlert,
+      VueEditor, SuccessAlert, ErrorMessage, WarningAlert, PositionAlert
     },
     data() {
       return {
@@ -270,7 +294,6 @@
           ["bold", "italic", "underline", "strike"],
           [{list: "ordered"}, {list: "bullet"}],
           [{script: "sub"}, {script: "super"}],
-          // [{ indent: "-1" }, { indent: "+1" }],
           ["clean"]
         ]
       }
@@ -295,11 +318,9 @@
           // TODO: refactor upload image to cloudinary
           if (this.articleImage) {
             const fd = new FormData()
-            console.log(this.articleImage);
 
             fd.append("file", this.articleImage)
             fd.append('upload_preset', 'rr7kbagm')
-            console.log(fd)
 
             const req = {
               url: "https://api.cloudinary.com/v1_1/sitechtimes/image/upload/",
@@ -310,8 +331,6 @@
             const res = await axios(req);
             this.article.imageUrl = res.data.url
           }
-
-          console.log(this.selectedCategory);
 
           await this.$axios.put(`cms/${this.articleId}`, {
             ...this.article
@@ -349,14 +368,7 @@
           console.log(e)
         }
       },
-      async publishDraft() {
-        try {
-          await this.$axios.post(`cms/${this.articleId}/publish`);
-          this.$router.push('/');
-        } catch (e) {
-          console.log(e);
-        }
-      },
+
       changeCategory(category) {
         this.article.category = category;
       },
@@ -374,12 +386,25 @@
       },
       dismissDraftAlert() {
         this.sendToDraftModel = false;
-      }
+      },
+
     }
   }
 </script>
 
 <style>
+  ul {
+    list-style: disc !important;
+  }
+
+  ol {
+   list-style: decimal !important;
+  }
+
+  ul, ol {
+    margin-left: 3rem;
+  }
+
   .preview-content > * {
     font-size: revert !important;
     font-weight: normal !important;
