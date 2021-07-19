@@ -25,6 +25,7 @@
           <div class="hidden sm:block sm:ml-6">
             <div class="flex space-x-4">
               <nuxt-link to="/" class="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium" aria-current="page">Home</nuxt-link>
+              <nuxt-link to="/" class="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium sm:hidden" aria-current="page">Home</nuxt-link>
 
 <!--              <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Team</a>-->
 
@@ -36,7 +37,7 @@
           <div class="ml-3 relative z-1j">
             <div>
               <button type="button" class="bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white" id="user-menu" aria-expanded="false" aria-haspopup="true"
-                @click="isOpen = !isOpen">
+                @mouseover="isOpen=true" @mouseleave="isOpen=false" >
                 <span class="sr-only">Open user menu</span>
 
                 <div class="inline-block h-8 w-8 rounded-full overflow-hidden">
@@ -45,8 +46,8 @@
               </button>
             </div>
 
-            <div class="z-10 origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu"
-                 v-show="isOpen">
+            <div class="z-10 origin-top-right absolute right-0 pd-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu"
+                 v-show="isOpen" @mouseover="isOpen=true" @mouseleave="isOpen=false">
               <nuxt-link to="/profile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Your Profile</nuxt-link>
               <nuxt-link to="/users" v-if="this.$auth.user.role === 'admin'" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Users</nuxt-link>
               <a class="cursor-pointer block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" @click="signOut">Sign out</a>
