@@ -391,7 +391,6 @@
 </script>
 
 <style>
-
   ul {
     list-style: disc !important;
   }
@@ -403,6 +402,7 @@
   ul, ol {
     margin-left: 3rem;
   }
+
   .preview-content > * {
     font-size: revert !important;
     font-weight: normal !important;
