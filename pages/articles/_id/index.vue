@@ -62,7 +62,7 @@
                      tabindex="-1" id="menu-item-2">Delete</a>
                 </div>
               </div>
-              
+
             </div>
           </div>
 
@@ -103,7 +103,7 @@
         <div v-show="article.status === 'review'">
            <div>
              <div class="flex-1 min-w-0">
-               <h1 class="text-3xl font-bold leading-9 background-blue
+               <h1 class="text-3xl font-bold leading-9 background-blue pt-6
                focus:outline-none focus:ring focus:border-blue-300 bg-gray-100">{{ article.title }}</h1>
             </div>
 
@@ -175,7 +175,7 @@
       <div v-show="article.status === 'ready'">
         <div>
           <div class="flex-1 min-w-0">
-            <h1 class="text-3xl font-bold leading-9 background-blue
+            <h1 class="text-3xl font-bold leading-9 background-blue pt-6
                focus:outline-none focus:ring focus:border-blue-300 bg-gray-100">{{ article.title }}</h1>
           </div>
 
