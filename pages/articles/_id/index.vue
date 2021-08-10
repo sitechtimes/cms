@@ -406,5 +406,6 @@
   .preview-content > * {
     font-size: revert !important;
     font-weight: normal !important;
+    word-wrap: break-word;
   }
 </style>
