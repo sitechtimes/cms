@@ -87,7 +87,7 @@
             v-if="reviewModel"
             @dismissModelAlert="dismissModelAlert" @allowAction="updateArticleStatus('review')"
             title="Send Article to Review?"
-            message="Are you sure you want to send your article to review? All of your data will be permanently removed. This action cannot be undone."
+            message="Are you sure you want to send your article to review? This action cannot be undone."
             action="Send to Review"
           />
 
@@ -95,7 +95,7 @@
             v-if="deleteModel"
             @dismissModelAlert="dismissModelDelete" @allowAction="deleteDraft"
             title="Delete Article?"
-            message="Are you sure you want to delete your article? All of your data will be permanently removed. This action cannot be undone."
+            message="Are you sure you want to delete your article? This action cannot be undone."
             action="Delete Article"
           />
         </div>
@@ -160,7 +160,7 @@
           v-if="sendToDraftModel"
           @dismissModelAlert="dismissDraftAlert" @allowAction="updateArticleStatus('draft')"
           title="Send article back to the writer?"
-          message="Are you sure you want to send your article to review? All of your data will be permanently removed. This action cannot be undone."
+          message="Are you sure you want to send your article to review? "
           action="Send back to writer"
         />
 
@@ -168,7 +168,7 @@
           v-if="sendToAdminModel"
           @dismissModelAlert="sendToAdminModel = false" @allowAction="updateArticleStatus('ready')"
           title="Send article to admin?"
-          message="Are you sure you want to delete your article? All of your data will be permanently removed. This action cannot be undone."
+          message="Are you sure you want to send this article to the admins? "
           action="Send article to admin"
         />
 
@@ -213,7 +213,7 @@
               v-if="sendToDraftModel"
               @dismissModelAlert="dismissDraftAlert" @allowAction="updateArticleStatus('draft')"
               title="Send article back to the writer?"
-              message="Are you sure you want to send your article to review? All of your data will be permanently removed. This action cannot be undone."
+              message="Are you sure you want to send your article to review?"
               action="Send back to writer"
             />
 
@@ -221,7 +221,7 @@
               v-if="publishedModel"
               @dismissModelAlert="publishedModel = false"
               title="Publish Article?"
-              message="Are you sure you want to publish this article? All of your data will be permanently removed. This action cannot be undone."
+              message="Are you sure you want to publish this article? This action cannot be undone."
               action="Publish Article"
               :articleId=articleId
               :articleCategory="article.category"
