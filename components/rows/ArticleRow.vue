@@ -22,12 +22,18 @@
         </span>
     </td>
 
+
+    <td v-if="article.status !== 'draft'"  class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+      <div class="text-sm text-gray-900">{{ article.userName }}</div>
+    </td>
+
     <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
       <nuxt-link class="text-indigo-600 hover:text-indigo-900"
                  :to="`/articles/${article.id}`">
         {{ articleActionText }}
       </nuxt-link>
     </td>
+
   </tr>
 </template>
 
