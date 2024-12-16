@@ -39,12 +39,14 @@ export default {
 
   // change default port to 8000
   server: {
-    port: 8000
+    port: 8000,
+    host: 0
   },
 
   axios: {
     // baseURL: ENV_VALUES[process.env.ENV].api
-    baseURL: "http://localhost:3000/"
+    // baseURL: "http://localhost:3000/"
+    baseURL: process.env.URL
   },
 
   auth: {

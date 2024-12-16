@@ -459,6 +459,9 @@ export default {
       }
     },
     async updateArticleStatus(status) {
+      await this.saveArticle();
+      if (this.errors) return;
+
       try {
         await this.$axios.put(`cms/${this.articleId}`, {
           ...this.article,
