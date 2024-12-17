@@ -243,7 +243,7 @@
             <span>{{ article.category }}</span>
           </h2>
 
-          <img v-if="article.imageAlt" :src="article.imageUrl" class="py-4" />
+          <img v-if="article.imageUrl" :src="article.imageUrl" class="py-4" />
 
           <h2 v-if="article.imageAlt" class="text-lg mb-4">
             <span class="font-bold">Image Alt:</span>
