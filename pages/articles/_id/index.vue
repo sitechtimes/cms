@@ -4,7 +4,7 @@
 
     <div class="container mx-auto">
       <div class="max-w-7xl mx-auto px-2 py-4 sm:px-6 lg:px-8">
-        <div v-show="article.status === 'draft'">
+        <div v-if="article.status === 'draft'">
           <SuccessAlert
             v-if="success !== null"
             :message="success"
@@ -13,12 +13,31 @@
           <ErrorMessage v-if="errors !== null" :errors="errors" />
 
           <div class="lg:flex lg:items-center lg:justify-between py-6">
-            <div class="flex-1 min-w-0">
+            <div class="flex-1 flex-col min-w-0 lg:mr-5">
               <input
                 type="text"
                 v-model="article.title"
-                class="text-3xl font-bold leading-7 background-blue sm:text-3xl sm:truncate inline-block w-full text-wrap focus:outline-none focus:ring focus:border-blue-300 bg-gray-100"
+                class="text-3xl font-bold rounded-md px-2 py-1 sm:text-3xl sm:truncate inline-block w-full text-wrap focus:outline-none focus:ring focus:border-blue-300"
+                aria-label="Article title"
               />
+            </div>
+
+            <div
+              v-if="['review', 'ready'].includes(article.status)"
+              class="flex-1 min-w-0"
+            >
+              <div v-if="article.customAuthor">
+                <span>by</span>
+                <span
+                  class="border-b-2 border-dotted border-gray-300 cursor-help"
+                  :title="`This article has a custom author set. The real author is &quot;${author}&quot;`"
+                >
+                  {{ article.customAuthor }}
+                </span>
+              </div>
+              <span v-else>
+                <span>by {{ author }}</span>
+              </span>
             </div>
 
             <div class="mt-5 flex lg:mt-0 lg:ml-4">
@@ -89,7 +108,7 @@
                 >
                   <a
                     @click="saveArticle"
-                    class="cursor-pointer text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:bg-indigo-600 hover:text-white"
+                    class="cursor-pointer text-gray-700 block px-4 py-2 text-sm hover:bg-indigo-600 hover:text-white"
                     role="menuitem"
                     tabindex="-1"
                     id="menu-item-0"
@@ -114,6 +133,21 @@
                 </div>
               </div>
             </div>
+          </div>
+
+          <div class="py-3">
+            <label
+              for="custom-author"
+              class="block text-sm font-medium text-gray-700"
+              >Custom Author</label
+            >
+            <input
+              v-model="article.customAuthor"
+              type="text"
+              name="custom-author"
+              id="custom-author"
+              class="mt-1 block py-2 px-3 md:w-2/5 w-full border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            />
           </div>
 
           <CategoryPicker
@@ -185,6 +219,19 @@
                 {{ article.title }}
               </h1>
             </div>
+
+            <div v-if="article.customAuthor">
+              <span>by</span>
+              <span
+                class="border-b-2 border-dotted border-gray-300 cursor-help"
+                :title="`This article has a custom author set. The real author is &quot;${author}&quot;`"
+              >
+                {{ article.customAuthor }}
+              </span>
+            </div>
+            <span v-else>
+              <span>by {{ author }}</span>
+            </span>
 
             <div
               class="py-6 flex"
@@ -280,6 +327,19 @@
                 {{ article.title }}
               </h1>
             </div>
+
+            <div v-if="article.customAuthor">
+              <span>by</span>
+              <span
+                class="border-b-2 border-dotted border-gray-300 cursor-help"
+                :title="`This article has a custom author set. The real author is &quot;${author}&quot;`"
+              >
+                {{ article.customAuthor }}
+              </span>
+            </div>
+            <span v-else>
+              <span>by {{ author }}</span>
+            </span>
 
             <div class="py-6 flex" v-if="this.$auth.user.role === 'admin'">
               <span class="mr-3">
@@ -406,6 +466,8 @@ export default {
       articleImage: null,
       article: Object,
 
+      author: null,
+
       customToolbar: [
         [{ header: [false, 1, 2, 3, 4, 5, 6] }],
         ["bold", "italic", "underline", "strike"],
@@ -421,7 +483,8 @@ export default {
     try {
       const article = await this.$axios.get(`cms/${this.articleId}`);
       this.article = article.data;
-      console.log(article.data);
+      const author = await this.$axios.get(`users/${this.article.userId}`);
+      this.author = author.data.name;
     } catch (e) {
       // TODO: add 404 page
       this.$router.push("/");
