@@ -7,20 +7,31 @@
         </div>
 
         <div class="mt-5 flex lg:mt-0 lg:ml-4 py-2">
-        <button type="button" @click="createArticle" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-
-          <svg class="-ml-1 mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-            <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
-          </svg>
-          Create New Article
-        </button>
-
+          <button
+            type="button"
+            @click="createArticle"
+            class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          >
+            <svg
+              class="-ml-1 mr-2 h-5 w-5"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                clip-rule="evenodd"
+              />
+            </svg>
+            Create New Article
+          </button>
         </div>
       </div>
     </div>
-    <main>
 
-      <TabPanel @tabClicked="tabClicked"/>
+    <main>
+      <TabPanel @tabClicked="tabClicked" />
 
       <!--   table  -->
       <div class="pt-6 px-4" v-if="tabId === 1">
@@ -68,65 +79,63 @@
           />
         </Table>
       </div>
-
     </main>
   </div>
 </template>
 
 <script>
-  import ArticleRow from '../components/rows/ArticleRow.vue' ;
-  import TabPanel from "../components/tabs/TabPanel";
-  import Table from "../components/Table";
+import ArticleRow from "../components/rows/ArticleRow.vue";
+import TabPanel from "../components/tabs/TabPanel";
+import Table from "../components/Table";
 
-  export default {
-    layout: 'dashboard',
-    middleware: ['mainAuth'],
-    components: { ArticleRow, TabPanel, Table },
-    data() {
-      return {
-        tabId: 1,
-        articles: [],
-        reviewArticles: [],
-        readyArticles: [],
+export default {
+  layout: "dashboard",
+  middleware: ["mainAuth"],
+  components: { ArticleRow, TabPanel, Table },
+  data() {
+    return {
+      tabId: 1,
+      articles: [],
+      reviewArticles: [],
+      readyArticles: [],
+    };
+  },
+  async mounted() {
+    try {
+      const articles = await this.$axios.get(`cms/`);
+      this.articles = articles.data;
+
+      if (["editor", "admin"].includes(this.$auth.user.role)) {
+        const reviewArticles = await this.$axios.get("cms/review");
+        this.reviewArticles = reviewArticles.data;
       }
+
+      if (this.$auth.user.role === "admin") {
+        const readyArticles = await this.$axios.get("cms/ready");
+        this.readyArticles = readyArticles.data;
+      }
+    } catch (e) {
+      if (e.response.status === 401) this.$auth.logout();
+    }
+  },
+  methods: {
+    sortArticles(status) {
+      return this.articles.filter((article) => {
+        return article.status === status;
+      });
     },
-    async mounted() {
+    async createArticle() {
       try {
-        const articles = await this.$axios.get(`cms/`);
-        this.articles = articles.data;
-
-        if (['editor', 'admin'].includes(this.$auth.user.role)) {
-          const reviewArticles = await this.$axios.get('cms/review');
-          this.reviewArticles = reviewArticles.data;
-        }
-
-        if (this.$auth.user.role === 'admin') {
-          const readyArticles = await this.$axios.get('cms/ready');
-          this.readyArticles = readyArticles.data;
-        }
-      }catch(e){
+        const article = await this.$axios.post(`/cms`);
+        this.$router.push(`/articles/${article.data.id}`);
+      } catch (e) {
         console.log(e);
       }
     },
-    methods: {
-      sortArticles (status) {
-        return this.articles.filter(article => {
-          return article.status === status;
-        });
-      },
-      async createArticle() {
-        try {
-          const article = await this.$axios.post(`/cms`);
-          this.$router.push(`/articles/${article.data.id}`)
-        }catch(e){
-          console.log(e);
-        }
-      },
 
-      tabClicked(tabId){
-        this.tabId = tabId
-      },
-
-    }
-  }
+    tabClicked(tabId) {
+      this.tabId = tabId;
+    },
+  },
+};
 </script>
