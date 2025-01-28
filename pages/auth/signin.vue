@@ -60,14 +60,14 @@
           </label>
         </div> -->
 
-          <div class="text-sm">
+          <!-- <div class="text-sm">
             <a
-              href="#"
+              href=""
               class="font-medium text-indigo-600 hover:text-indigo-500"
             >
               Forgot your password?
             </a>
-          </div>
+          </div> -->
         </div>
 
         <div>
@@ -96,7 +96,7 @@
         </div>
         <div class="flex items-center justify-center">
           <h2 class="mr-1 block text-sm text-gray-900">
-            Don't Have an Account Yet?
+            Don't have an account yet?
           </h2>
           <nuxt-link
             to="/auth/signup"
@@ -132,6 +132,7 @@ export default {
         });
 
         this.$auth.setUser(user.data);
+
         this.$router.push("/");
       } catch (err) {
         this.errors = err.response.data.errors;

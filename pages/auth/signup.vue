@@ -86,7 +86,7 @@
         </div>
         <div class="flex items-center justify-center">
           <h2 class="mr-1 block text-sm text-gray-900">
-            Already Have an Account
+            Already have an account?
           </h2>
           <nuxt-link
             to="/auth/signin"

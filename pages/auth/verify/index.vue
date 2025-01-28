@@ -81,6 +81,7 @@ export default {
     this.resend(false);
   },
   methods: {
+    // todo: get server to send a timestamp instead of time remaining
     setCooldown(cooldown) {
       this.cooldown = cooldown;
       this.interval = setInterval(() => {

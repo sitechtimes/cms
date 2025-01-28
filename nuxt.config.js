@@ -1,19 +1,18 @@
-import { ENV_VALUES } from "./config";
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   ssr: false,
-  target: "static",
+  target: "server",
   head: {
     title: "Tech Times CMS",
     htmlAttrs: {
-      lang: "en"
+      lang: "en",
     },
     meta: [
       { charset: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { hid: "description", name: "description", content: "" }
+      { hid: "description", name: "description", content: "" },
     ],
-    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }]
+    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
@@ -28,7 +27,7 @@ export default {
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
     // https://go.nuxtjs.dev/tailwindcss
-    "@nuxtjs/tailwindcss"
+    "@nuxtjs/tailwindcss",
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -40,13 +39,13 @@ export default {
   // change default port to 8000
   server: {
     port: 8000,
-    host: 0
+    host: 0,
   },
 
   axios: {
     // baseURL: ENV_VALUES[process.env.ENV].api
     // baseURL: "http://localhost:3000/"
-    baseURL: process.env.URL
+    baseURL: process.env.URL,
   },
 
   auth: {
@@ -56,20 +55,20 @@ export default {
         endpoints: {
           login: { url: "/auth/signin", method: "post", propertyName: "token" },
           user: false,
-          logout: false
+          logout: false,
         },
 
-        tokenType: ""
-      }
+        tokenType: "",
+      },
     },
     redirect: {
       login: false,
       logout: "/auth/signin",
-      home: false
-    }
+      home: false,
+    },
   },
 
   generate: {
-    fallback: true
-  }
+    fallback: true,
+  },
 };
