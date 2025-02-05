@@ -13,31 +13,39 @@
           <ErrorMessage v-if="errors !== null" :errors="errors" />
 
           <div class="lg:flex lg:items-center lg:justify-between py-6">
-            <div class="flex-1 flex-col min-w-0 lg:mr-5">
-              <input
-                type="text"
-                v-model="article.title"
-                class="text-3xl font-bold rounded-md px-2 py-1 sm:text-3xl sm:truncate inline-block w-full text-wrap focus:outline-none focus:ring focus:border-blue-300"
-                aria-label="Article title"
-              />
-            </div>
+            <div class="flex flex-col">
+              <div class="flex-1 flex-col min-w-0 lg:mr-5" v-if="!preview">
+                <input
+                  type="text"
+                  v-model="article.title"
+                  class="text-2xl font-bold rounded-md px-2 py-1 sm:text-3xl sm:truncate inline-block w-full text-wrap focus:outline-none focus:ring focus:border-blue-300"
+                  aria-label="Article title"
+                />
+              </div>
+              <h1
+                v-else
+                class="text-3xl font-bold leading-9 background-blue pt-6 focus:outline-none focus:ring focus:border-blue-300 bg-gray-100"
+              >
+                {{ article.title }}
+              </h1>
 
-            <div
-              v-if="['review', 'ready'].includes(article.status)"
-              class="flex-1 min-w-0"
-            >
-              <div v-if="article.customAuthor">
-                <span>by</span>
-                <span
-                  class="border-b-2 border-dotted border-gray-300 cursor-help"
-                  :title="`This article has a custom author set. The real author is &quot;${author}&quot;`"
-                >
-                  {{ article.customAuthor }}
+              <div
+                v-if="['review', 'ready'].includes(article.status) || preview"
+                class="flex-1 min-w-0"
+              >
+                <div v-if="article.customAuthor">
+                  <span>by</span>
+                  <span
+                    class="border-b-2 border-dotted border-gray-300 cursor-help"
+                    :title="`This article has a custom author set. The real author is &quot;${author}&quot;`"
+                  >
+                    {{ article.customAuthor }}
+                  </span>
+                </div>
+                <span v-else>
+                  <span>by {{ author }}</span>
                 </span>
               </div>
-              <span v-else>
-                <span>by {{ author }}</span>
-              </span>
             </div>
 
             <div class="mt-5 flex lg:mt-0 lg:ml-4">
@@ -135,7 +143,7 @@
             </div>
           </div>
 
-          <div class="py-3">
+          <div class="py-3" v-if="!preview">
             <label
               for="custom-author"
               class="block text-sm font-medium text-gray-700"
@@ -157,13 +165,12 @@
           />
 
           <FileUpload
-            v-if="article.imageUrl !== undefined"
             :preview="preview"
             :image="article.imageUrl"
             @uploadImage="uploadImage"
           />
 
-          <div v-show="!preview" class="py-3">
+          <div v-show="!preview && article.imageUrl" class="py-3">
             <label
               for="image-alt"
               class="block text-sm font-medium text-gray-700"
@@ -196,6 +203,7 @@
             @dismissModelAlert="dismissModelAlert"
             @allowAction="updateArticleStatus('review')"
             title="Send Article to Review?"
+            :missingAlt="article.imageUrl && !article.imageAlt"
             message="Are you sure you want to send your article to review? This action cannot be undone."
             action="Send to Review"
           />
