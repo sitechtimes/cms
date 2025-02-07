@@ -23,8 +23,8 @@
             so we can get you into your dashboard.
           </p>
           <button
+            id="resend"
             class="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600"
-            :class="cooldown > 0 ? `cursor-not-allowed opacity-50` : ``"
             :disabled="cooldown > 0 || cooldown === -1"
             @click="resend(true)"
           >
@@ -81,19 +81,21 @@ export default {
     this.resend(false);
   },
   methods: {
-    // todo: get server to send a timestamp instead of time remaining
-    setCooldown(cooldown) {
-      this.cooldown = cooldown;
-      this.interval = setInterval(() => {
-        if (this.cooldown < 1) {
-          clearInterval(this.interval);
-          return;
-        }
-        this.cooldown--;
-      }, 1000);
+    setCooldown(timestamp) {
+      this.cooldown = Math.max(0, Math.ceil((timestamp - Date.now()) / 1000));
+      clearInterval(this.interval); // in case the user does shenanigans and undisables the button
+      if (this.cooldown > 0)
+        this.interval = setInterval(() => {
+          if (this.cooldown < 1) {
+            clearInterval(this.interval);
+            return;
+          }
+          this.cooldown--;
+        }, 1000);
     },
 
     async resend(newToken) {
+      this.cooldown = -1;
       try {
         const response = await this.$axios.post("/auth/verify", {
           newToken: newToken,
@@ -116,3 +118,8 @@ export default {
   },
 };
 </script>
+<style lang="css" scoped>
+button:disabled {
+  @apply cursor-not-allowed opacity-50;
+}
+</style>
