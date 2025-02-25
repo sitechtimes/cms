@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <h1 class="text-3xl">chat is this real 2</h1>
-  </div>
+  <header>
+    <nav class="du-navbar">navigation bar</nav>
+  </header>
 </template>
 
 <script setup lang="ts"></script>
