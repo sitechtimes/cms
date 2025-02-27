@@ -17,4 +17,8 @@ export default defineNuxtConfig({
       backend: 'http://localhost:3000/',
     },
   },
+
+  devServer: {
+    port: 8000,
+  },
 })

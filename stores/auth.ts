@@ -1,32 +1,35 @@
 import type { User } from '~/types/user'
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
 
 export const useAuthStore = defineStore('auth', () => {
-  const router = useRouter()
+  const user = ref<User | undefined>()
 
-  const user = ref<User | undefined>(JSON.parse(localStorage.user))
-
-  async function signIn(email: string, password: string) {
+  async function signIn(
+    email: string,
+    password: string
+  ): Promise<User | undefined> {
     try {
-      const res = await $fetch(BACKEND_URL + 'auth/signin', {
+      const data = await useFetch('auth/signin', {
         method: 'POST',
-        body: JSON.stringify({
-          email: email,
-          password: password,
-        }),
+        body: {
+          email,
+          password,
+        },
       })
 
-      const data = await res.json()
+      console.log(data)
+      return data.data as unknown as User
+
+      /*       const data = await res.json()
       if (!res.ok) throw new Error(JSON.stringify(data.errors))
       user.value = data
       localStorage.setItem('user', JSON.stringify(user.value))
 
       console.log(data)
-      router.push(data.verified ? '/dashboard' : '/auth/verify')
+      router.push(data.verified ? '/dashboard' : '/auth/verify') */
     } catch (error) {
       console.error(error)
       user.value = undefined
-      localStorage.removeItem('user')
+      // localStorage.removeItem('user')
     }
   }
 
@@ -57,5 +60,5 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
-  return { signIn, verify }
+  return { user, signIn, verify }
 })
