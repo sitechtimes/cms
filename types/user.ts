@@ -1,4 +1,4 @@
-interface User {
+type User = {
   role: string
   verified: boolean
   name: string

@@ -4,12 +4,6 @@
   </NuxtLayout>
 </template>
 
-<script setup lang="ts">
-const authStore = useAuthStore()
-
-onMounted(() => {
-  // authStore.user = useCookie('user')
-})
-</script>
+<script setup lang="ts"></script>
 
 <style scoped></style>

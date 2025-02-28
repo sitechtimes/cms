@@ -14,7 +14,7 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
-      backend: 'http://localhost:3000/',
+      backend: 'http://localhost:3000',
     },
   },
 

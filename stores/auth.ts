@@ -1,4 +1,7 @@
+import { defineStore } from 'pinia'
 import type { User } from '~/types/user'
+
+//
 
 export const useAuthStore = defineStore('auth', () => {
   const user = ref<User | undefined>()
@@ -8,7 +11,7 @@ export const useAuthStore = defineStore('auth', () => {
     password: string
   ): Promise<User | undefined> {
     try {
-      const data = await useFetch('auth/signin', {
+      const data = await useAPIFetch('/auth/signin', {
         method: 'POST',
         body: {
           email,
@@ -16,8 +19,7 @@ export const useAuthStore = defineStore('auth', () => {
         },
       })
 
-      console.log(data)
-      return data.data as unknown as User
+      return data.data.value as unknown as User
 
       /*       const data = await res.json()
       if (!res.ok) throw new Error(JSON.stringify(data.errors))
@@ -34,16 +36,15 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   async function verify(token: string) {
+    return 'not particularly'
+
     try {
-      const res = await fetch(
-        import.meta.env.VITE_BACKEND_URL + 'auth/verify/' + token,
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      )
+      const res = await useFetch('/auth/verify/' + token, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
 
       const data = await res.json()
       if (!res.ok) throw new Error(JSON.stringify(data.errors))
