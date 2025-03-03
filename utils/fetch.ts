@@ -1,0 +1,43 @@
+/** Makes a request to the given endpoint with the given method and body.
+ * @param endpoint - the endpoint to request. It will be automatically appended to the base URL, **so it should NOT start with a `/`**.
+ * @param method - the HTTP method to use for the request. Defaults to `"GET"`.
+ * @param body - the body of the request as an object. It will be automatically converted to a JSON object.
+ */
+export async function requestEndpoint(
+  endpoint: string,
+  method?: string,
+  body?: object
+): Promise<void>
+/** Makes a request to the given endpoint with the given method and body.
+ * @template T - the type of the request's response
+ * @param endpoint - the endpoint to request. It will be automatically appended to the base URL, **so it should NOT start with a `/`**.
+ * @param method - the HTTP method to use for the request. Defaults to `"GET"`.
+ * @param body - the body of the request as an object. It will be automatically converted to a JSON object.
+ * @returns the JSON response from the request.
+ */
+export async function requestEndpoint<T>(
+  endpoint: string,
+  method?: string,
+  body?: object
+): Promise<T>
+export async function requestEndpoint<T>(
+  endpoint: string,
+  method?: string,
+  body?: object
+): Promise<T | void> {
+  const config = useRuntimeConfig()
+  const options: RequestInit = { credentials: 'include' }
+  if (method) {
+    options.method = method
+    options.headers = { 'Content-Type': 'application/json' }
+    options.body = JSON.stringify(body)
+  }
+
+  const res = await fetch(config.public.backend + endpoint, options)
+  if (!res.ok) throw new Error(`Failed to fetch ${endpoint}`)
+
+  const contentLength = res.headers.get('Content-Length')
+  if (contentLength === '0') return undefined as T
+
+  return res.json()
+}

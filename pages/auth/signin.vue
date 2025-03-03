@@ -71,9 +71,7 @@
         </div>
 
         <div class="flex items-center justify-center">
-          <h2 class="mr-1 block text-sm text-gray-900">
-            "Don't have an account?"
-          </h2>
+          <p class="mr-1 block text-sm text-gray-900">Don't have an account?</p>
           <RouterLink
             class="text-sm text-indigo-600 hover:text-indigo-400 cursor-pointer"
             to="/auth/signup"
