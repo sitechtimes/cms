@@ -26,7 +26,7 @@
               type="email"
               autocomplete="email"
               required
-              class="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+              class="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm rounded-t-md"
               placeholder="Email address"
             />
           </div>
@@ -70,7 +70,7 @@
           </button>
         </div>
 
-        <div class="flex items-center justify-center">
+        <!-- <div class="flex items-center justify-center">
           <p class="mr-1 block text-sm text-gray-900">Don't have an account?</p>
           <RouterLink
             class="text-sm text-indigo-600 hover:text-indigo-400 cursor-pointer"
@@ -78,15 +78,13 @@
           >
             Too bad!
           </RouterLink>
-        </div>
+        </div> -->
       </form>
     </main>
   </div>
 </template>
 
 <script setup lang="ts">
-// import type { User } from '~/types/user'
-
 const email = ref('')
 const password = ref('')
 
@@ -94,8 +92,11 @@ const router = useRouter()
 const authStore = useAuthStore()
 
 async function signIn() {
-  const data = await authStore.signIn(email.value, password.value)
-  console.log(data)
+  try {
+    await authStore.signIn(email.value, password.value)
+  } catch (e) {
+    console.log(e)
+  }
 }
 </script>
 

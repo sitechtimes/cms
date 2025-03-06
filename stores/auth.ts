@@ -1,36 +1,20 @@
 import { defineStore } from 'pinia'
 import type { User } from '~/types/user'
 
-//
-
 export const useAuthStore = defineStore('auth', () => {
-  const user = ref<User | undefined>()
+  const user = ref<User>()
 
-  async function verify(token: string) {
-    return 'not particularly'
+  async function signIn(email: string, password: string) {
+    const data = await requestEndpoint<User>('auth/signin', 'POST', {
+      email,
+      password,
+    })
 
-    /*     try {
-      const res = await useFetch('/auth/verify/' + token, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
+    const cmsTest = await requestEndpoint('cms/')
+    console.log(cmsTest)
 
-      const data = await res.json()
-      if (!res.ok) throw new Error(JSON.stringify(data.errors))
-
-      if (data.verified) {
-        user.value = data
-        return true
-      } else {
-        throw new Error('Verification failed')
-      }
-    } catch (error) {
-      console.error(error)
-      return false
-    } */
+    return (user.value = data)
   }
 
-  return { user, verify }
+  return { user, signIn }
 })

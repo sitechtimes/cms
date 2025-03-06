@@ -10,10 +10,11 @@ export async function requestEndpoint(
 ): Promise<void>
 /** Makes a request to the given endpoint with the given method and body.
  * @template T - the type of the request's response
- * @param endpoint - the endpoint to request. It will be automatically appended to the base URL, **so it should NOT start with a `/`**.
+ * @param endpoint - the endpoint to request; **should NOT start with a `/`**.
  * @param method - the HTTP method to use for the request. Defaults to `"GET"`.
  * @param body - the body of the request as an object. It will be automatically converted to a JSON object.
- * @returns the JSON response from the request.
+ * @returns the JSON response from the request
+ * @throws an error message (string)
  */
 export async function requestEndpoint<T>(
   endpoint: string,
@@ -34,10 +35,15 @@ export async function requestEndpoint<T>(
   }
 
   const res = await fetch(config.public.backend + endpoint, options)
-  if (!res.ok) throw new Error(`Failed to fetch ${endpoint}`)
+  const jason = await res.json()
+
+  if (!res.ok) {
+    console.error(new Error(jason.message))
+    throw jason.message
+  }
 
   const contentLength = res.headers.get('Content-Length')
   if (contentLength === '0') return undefined as T
 
-  return res.json()
+  return jason
 }
