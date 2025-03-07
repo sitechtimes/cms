@@ -89,11 +89,11 @@ const email = ref('')
 const password = ref('')
 
 const router = useRouter()
-const authStore = useAuthStore()
+const userStore = useUserStore()
 
 async function signIn() {
   try {
-    await authStore.signIn(email.value, password.value)
+    await userStore.signIn(email.value, password.value)
   } catch (e) {
     console.log(e)
   }

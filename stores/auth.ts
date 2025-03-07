@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import type { User } from '~/types/user'
 
-export const useAuthStore = defineStore('auth', () => {
+export const useUserStore = defineStore('user', () => {
   const user = ref<User>()
 
   async function signIn(email: string, password: string) {
@@ -9,10 +9,7 @@ export const useAuthStore = defineStore('auth', () => {
       email,
       password,
     })
-
-    const cmsTest = await requestEndpoint('cms/')
-    console.log(cmsTest)
-
+  
     return (user.value = data)
   }
 

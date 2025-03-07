@@ -1,3 +1,5 @@
+import { useUserStore } from "#imports";
+
 /** Makes a request to the given endpoint with the given method and body.
  * @param endpoint - the endpoint to request. It will be automatically appended to the base URL, **so it should NOT start with a `/`**.
  * @param method - the HTTP method to use for the request. Defaults to `"GET"`.
@@ -27,12 +29,22 @@ export async function requestEndpoint<T>(
   body?: object
 ): Promise<T | void> {
   const config = useRuntimeConfig()
-  const options: RequestInit = { credentials: 'include' }
+  const userStore = useUserStore();
+
+  // const options: RequestInit = { credentials: 'include' }
+  const headers: HeadersInit = {}
+  console.log(userStore.user)
+  if (userStore.user) headers["Authorization"] = `Bearer ${userStore.user.token}`
+  
+  const options: RequestInit = {}
+  
   if (method) {
     options.method = method
-    options.headers = { 'Content-Type': 'application/json' }
     options.body = JSON.stringify(body)
+    headers["Content-Type"] = 'application/json'
   }
+
+  options.headers = headers
 
   const res = await fetch(config.public.backend + endpoint, options)
   const jason = await res.json()
