@@ -9,7 +9,7 @@ export const useUserStore = defineStore('user', () => {
       email,
       password,
     })
-  
+
     return (user.value = data)
   }
 
