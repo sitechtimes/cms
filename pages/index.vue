@@ -4,8 +4,6 @@
   </div>
 </template>
 
-<script setup lang="ts">
-onMounted(async () => {})
-</script>
+<script setup lang="ts"></script>
 
 <style scoped></style>

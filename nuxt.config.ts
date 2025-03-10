@@ -11,7 +11,13 @@ export default defineNuxtConfig({
     plugins: [tailwindcss()],
   },
 
-  modules: ['@nuxt/eslint', '@pinia/nuxt'],
+  modules: ['@nuxt/eslint', '@pinia/nuxt', '@nuxt/icon'],
+
+  icon: {
+    clientBundle: {
+      scan: true,
+    },
+  },
 
   runtimeConfig: {
     public: {
