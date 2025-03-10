@@ -85,6 +85,10 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({
+  layout: 'default',
+})
+
 const email = ref('')
 const password = ref('')
 
