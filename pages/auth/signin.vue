@@ -92,7 +92,6 @@ definePageMeta({
 const email = ref('')
 const password = ref('')
 
-const router = useRouter()
 const userStore = useUserStore()
 
 async function signIn() {
