@@ -76,6 +76,7 @@
 <script setup lang="ts">
 definePageMeta({
   layout: 'default',
+  title: 'sign in',
 })
 
 const email = ref('')
