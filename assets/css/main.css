@@ -1,4 +1,9 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 @plugin "daisyui" {
-  prefix: "du-";
+  prefix: 'du-';
+}
+
+* {
+  transition-property: color, background-color;
+  transition: 0.4s ease;
 }
