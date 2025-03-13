@@ -13,5 +13,15 @@ export const useUserStore = defineStore('user', () => {
     return (user.value = data)
   }
 
-  return { user, signIn }
+  async function signUp(name: string, email: string, password: string) {
+    const data = await requestEndpoint<User>('auth/signup', 'POST', {
+      name,
+      email,
+      password,
+    })
+
+    return (user.value = data)
+  }
+
+  return { user, signIn, signUp }
 })
