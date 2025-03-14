@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="text-3xl">chat is this real 2</h1>
+    <h1 class="text-3xl">this is a dashboard trust</h1>
   </div>
 </template>
 

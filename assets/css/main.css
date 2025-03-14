@@ -4,8 +4,8 @@
 }
 
 * {
-  transition-property: color, background-color;
   transition: 0.4s ease;
+  transition-property: color, background-color;
 }
 
 @utility du-btn {
@@ -19,11 +19,11 @@
 }
 
 .fade-leave-active {
-  transition: all 0.4s ease-out;
+  transition: opacity 0.4s ease-out;
 }
 
 .fade-enter-active {
-  transition: all 1.6s ease-out;
+  transition: opacity 1.6s ease-out;
 }
 
 .fade-enter-from,

@@ -85,10 +85,12 @@ const email = ref('')
 const password = ref('')
 
 const userStore = useUserStore()
+const router = useRouter()
 
 async function signIn() {
   try {
     await userStore.signIn(email.value, password.value)
+    await router.push('/dashboard')
   } catch (e) {
     console.log(e)
   }

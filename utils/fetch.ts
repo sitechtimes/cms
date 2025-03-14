@@ -48,15 +48,16 @@ export async function requestEndpoint<T>(
   options.headers = headers
 
   const res = await fetch(config.public.backend + endpoint, options)
+
+  const contentLength = res.headers.get('Content-Length')
+  if (contentLength === '0') return undefined as T
+
   const jason = await res.json()
 
   if (!res.ok) {
     console.error(new Error(jason.message))
     throw jason.message
   }
-
-  const contentLength = res.headers.get('Content-Length')
-  if (contentLength === '0') return undefined as T
 
   return jason
 }
