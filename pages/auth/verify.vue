@@ -82,6 +82,7 @@ const route = useRoute()
 const status = ref('')
 const token = ref('')
 const loaded = ref(false)
+const userStore = useUserStore()
 
 onMounted(() => {
   // token param should never be an array, but whatever
