@@ -16,7 +16,7 @@ export async function requestEndpoint(
  * @param method - the HTTP method to use for the request. Defaults to `"GET"`.
  * @param body - the body of the request as an object. It will be automatically converted to a JSON object.
  * @returns the JSON response from the request
- * @throws an error message (string)
+ * @throws error object
  */
 export async function requestEndpoint<T>(
   endpoint: string,
@@ -56,7 +56,7 @@ export async function requestEndpoint<T>(
 
   if (!res.ok) {
     console.error(new Error(jason.message))
-    throw jason.message
+    throw { ...jason, status: res.status }
   }
 
   return jason

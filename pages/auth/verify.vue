@@ -85,13 +85,22 @@ const loaded = ref(false)
 const userStore = useUserStore()
 
 onMounted(() => {
-  // token param should never be an array, but whatever
   if (route.query.token instanceof Array) return alert('what have you done D:')
   token.value = route.query.token ?? ''
+  if (!token.value) requestVerification()
   loaded.value = true
+})
+
+function requestVerification() {
+  userStore.requestVerification(false)
+}
+
+/* onMounted(() => {
+  // token param should never be an array, but whatever
+  if (route.query.token instanceof Array) return alert('what have you done D:')
 
   setTimeout(() => (status.value = 'you are bad'), 2000)
-})
+}) */
 </script>
 
 <style scoped></style>
