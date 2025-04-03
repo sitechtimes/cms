@@ -43,9 +43,8 @@ export default {
   },
 
   axios: {
-    // baseURL: ENV_VALUES[process.env.ENV].api
     // baseURL: "http://localhost:3000/"
-    baseURL: process.env.URL,
+    baseURL: process.env.NUXT_PUBLIC_BACKEND || "http://localhost:3000/",
   },
 
   auth: {
