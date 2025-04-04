@@ -31,7 +31,6 @@ export async function requestEndpoint<T>(
   const config = useRuntimeConfig()
   const userStore = useUserStore()
 
-  // const options: RequestInit = { credentials: 'include' }
   const headers: HeadersInit = {}
   console.log(userStore.user)
   if (userStore.user)
