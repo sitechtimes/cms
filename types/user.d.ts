@@ -1,4 +1,4 @@
-type User = {
+declare type User = {
   role: string
   verified: boolean
   name: string
@@ -6,5 +6,3 @@ type User = {
   id: string
   token: string
 }
-
-export { type User }
