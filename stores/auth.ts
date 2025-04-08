@@ -6,6 +6,7 @@ export const useUserStore = defineStore('user', () => {
       email,
       password,
     })
+    localStorage.setItem('user', JSON.stringify(data))
 
     return (user.value = data)
   }

@@ -5,12 +5,6 @@
   </div>
 </template>
 
-<script setup lang="ts">
-onMounted(async () => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const data = await requestEndpoint<any>('articles/homepage')
-  console.log(data)
-})
-</script>
+<script setup lang="ts"></script>
 
 <style scoped></style>
