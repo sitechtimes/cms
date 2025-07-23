@@ -1,5 +1,6 @@
 export const useUserStore = defineStore('user', () => {
   const user = ref<User>()
+  const router = useRouter()
 
   async function signIn(email: string, password: string) {
     const data = await requestEndpoint<User>('auth/signin', 'POST', {
@@ -8,8 +9,13 @@ export const useUserStore = defineStore('user', () => {
     })
     localStorage.setItem('user', JSON.stringify(data))
 
+    router.push("/")
     return (user.value = data)
   }
 
-  return { user, signIn }
+  function logOut() {
+    user.value = undefined
+  }
+
+  return { user, signIn, logOut }
 })
