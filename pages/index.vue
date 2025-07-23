@@ -5,6 +5,19 @@
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+definePageMeta({
+  layout: 'navbar',
+})
+
+const userStore = useUserStore()
+
+onMounted(async () => {
+  console.log(userStore.user)
+
+  const data = await requestEndpoint('/cms')
+  console.log(data)
+})
+</script>
 
 <style scoped></style>
