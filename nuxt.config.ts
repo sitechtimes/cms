@@ -10,7 +10,12 @@ export default defineNuxtConfig({
     plugins: [tailwindcss()],
   },
 
-  modules: ['@nuxt/eslint', '@pinia/nuxt', '@nuxt/icon'],
+  modules: [
+    '@nuxt/eslint',
+    '@pinia/nuxt',
+    '@nuxt/icon',
+    'pinia-plugin-persistedstate/nuxt',
+  ],
 
   icon: {
     clientBundle: {
