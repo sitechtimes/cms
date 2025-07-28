@@ -10,14 +10,11 @@ export const useUserStore = defineStore(
         email,
         password,
       })
-      localStorage.setItem('user', JSON.stringify(data))
 
       return (user.value = data)
     }
 
     function signOut() {
-      localStorage.removeItem('user')
-
       user.value = undefined
     }
 
