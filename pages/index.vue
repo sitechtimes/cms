@@ -112,7 +112,7 @@ async function createArticle() {
   }
 }
 
-const tabClicked = (id: number) => {
+function tabClicked(id: number) {
   tabId.value = id
 }
 

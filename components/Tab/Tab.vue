@@ -23,7 +23,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{ tabClicked: [id: number] }>()
 
-const onTabClick = () => {
+function onTabClick(){
   emit('tabClicked', props.id)
 }
 </script>
