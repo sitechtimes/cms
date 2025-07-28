@@ -12,15 +12,19 @@
         >
       </div>
       <div class="flex-none">
-        <details class="du-dropdown du-dropdown-bottom">
+        <details
+          v-if="user"
+          class="du-dropdown du-dropdown-bottom du-dropdown-left"
+        >
           <summary class="du-avatar w-10 cursor-pointer">
-            <img class="rounded-full" :src="pfp" alt="" />
+            <img class="rounded-full" :src="user.imageUrl" alt="" />
           </summary>
           <ul
             class="du-menu du-dropdown-content bg-base-100 du-rounded-box z-1 w-52 p-2 shadow-sm"
           >
-            <li><a>Item 1</a></li>
-            <li><a>Item 2</a></li>
+            <li><NuxtLink to="/profile">Your Profile</NuxtLink></li>
+            <li><NuxtLink to="/users">Users</NuxtLink></li>
+            <li><a>Sign Out</a></li>
           </ul>
         </details>
       </div>
@@ -30,6 +34,5 @@
 
 <script setup lang="ts">
 const userStore = useUserStore()
-
-const pfp = userStore.user?.imageUrl
+const { user } = storeToRefs(userStore)
 </script>
