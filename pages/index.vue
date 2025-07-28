@@ -98,15 +98,13 @@ const readyArticles = ref<Article[]>([])
 const auth = useUserStore()
 const router = useRouter()
 
-const sortArticles = (status: string) => {
+function sortArticles(status: string) {
   return articles.value.filter((article) => article.status === status)
 }
 
-const createArticle = async () => {
+async function createArticle() {
   try {
-    const article: Article = await $fetch(`cms/`, {
-      method: 'POST',
-    })
+    const article = await requestEndpoint<Article>(`cms/`, 'POST')
 
     router.push(`/articles/${article._id}`)
   } catch (e) {
