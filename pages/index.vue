@@ -16,7 +16,6 @@ onMounted(async () => {
   console.log(userStore.user)
 
   const data = await requestEndpoint('/cms')
-  console.log(data)
 })
 </script>
 

@@ -92,7 +92,7 @@ async function signIn() {
     router.push('/')
   } catch (e) {
     // todo: add error handling (booooo)
-    console.log(e)
+    console.error(e)
   }
 }
 </script>

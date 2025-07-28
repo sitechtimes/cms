@@ -15,7 +15,11 @@ export const useUserStore = defineStore(
     }
 
     function signOut() {
+      const router = useRouter()
+
       user.value = undefined
+
+      router.push('/auth/signin')
     }
 
     return { user, signIn }
