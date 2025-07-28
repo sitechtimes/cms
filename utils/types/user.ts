@@ -1,0 +1,23 @@
+export type User = {
+  role: string
+  verified: boolean
+  name: string
+  email: string
+  id: string
+  token: string
+}
+
+export type Article = {
+  __v: number
+  _id: string
+  category: string
+  content: string
+  createdAt: string
+  customAuthor: string
+  imageAlt: string | null
+  imageUrl: string | null
+  status: string
+  title: string
+  updatedAt: string
+  userId: string
+}

@@ -37,46 +37,46 @@
         <!--   table  -->
         <div class="px-4 pt-6" v-if="tabId === 1">
           <Table title="Draft">
-            <ArticleRow
+            <RowsArticleRow
               v-for="article in sortArticles('draft')"
               :article="article"
-              :key="article.id"
+              :key="article._id"
             />
           </Table>
 
           <Table title="In Review">
-            <ArticleRow
+            <RowsArticleRow
               v-for="article in sortArticles('review')"
               :article="article"
-              :key="article.id"
+              :key="article._id"
             />
           </Table>
 
           <Table title="Ready">
-            <ArticleRow
+            <RowsArticleRow
               v-for="article in sortArticles('ready')"
               :article="article"
-              :key="article.id"
+              :key="article._id"
             />
           </Table>
         </div>
 
         <div class="px-4 pt-2" v-if="tabId === 2">
           <Table title="">
-            <ArticleRow
+            <RowsArticleRow
               v-for="article in reviewArticles"
               :article="article"
-              :key="article.id"
+              :key="article._id"
             />
           </Table>
         </div>
 
         <div class="px-4 pt-2" v-if="tabId === 3">
           <Table title="">
-            <ArticleRow
+            <RowsArticleRow
               v-for="article in readyArticles"
               :article="article"
-              :key="article.id"
+              :key="article._id"
             />
           </Table>
         </div>
@@ -92,22 +92,23 @@ definePageMeta({
 })
 
 const tabId = ref(1)
-const articles = ref([])
-const reviewArticles = ref([])
-const readyArticles = ref([])
+const articles = ref<Article[]>([])
+const reviewArticles = ref<Article[]>([])
+const readyArticles = ref<Article[]>([])
 const auth = useUserStore()
 const router = useRouter()
 
-const sortArticles = (status: any) => {
+const sortArticles = (status: string) => {
   return articles.value.filter((article) => article.status === status)
 }
 
 const createArticle = async () => {
   try {
-    const article = await $fetch(`/cms`, {
+    const article: Article = await $fetch(`cms/`, {
       method: 'POST',
     })
-    router.push(`/articles/${article.data.id}`)
+
+    router.push(`/articles/${article._id}`)
   } catch (e) {
     console.log(e)
   }
@@ -119,24 +120,24 @@ const tabClicked = (id: number) => {
 
 onMounted(async () => {
   try {
-    const articlesData = await requestEndpoint(`http://localhost:3000/cms/`)
-    console.log(articlesData)
-    // articles.value = articlesData.data
+    const articlesData = await requestEndpoint<Article[]>(`cms/`)
 
-    // if (auth.user === undefined) {
-    //   throw new Error('undefines am i right?')
-    // }
+    articles.value = articlesData
 
-    // if (['editor', 'admin'].includes(auth.user.role)) {
-    //   const reviewData = await useFetch('cms/review')
-    //   reviewArticles.value = reviewData.data
-    // }
+    if (auth.user === undefined) {
+      throw new Error('undefines am i right?')
+    }
 
-    // if (auth.user.role === 'admin') {
-    //   const readyData = await useFetch('cms/ready')
-    //   readyArticles.value = readyData.data
-    // }
-  } catch (e) {
+    if (['editor', 'admin'].includes(auth.user.role)) {
+      const reviewData = await requestEndpoint<Article[]>('cms/review')
+      reviewArticles.value = reviewData
+    }
+
+    if (auth.user.role === 'admin') {
+      const readyData = await requestEndpoint<Article[]>('cms/ready')
+      readyArticles.value = readyData
+    }
+  } catch (e: any) {
     console.error(e)
     if (e.response?.status === 401) auth.logOut()
   }
