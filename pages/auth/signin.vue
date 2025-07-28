@@ -79,6 +79,8 @@ definePageMeta({
   title: 'sign in',
 })
 
+const router = useRouter()
+
 const email = ref('')
 const password = ref('')
 
@@ -87,6 +89,7 @@ const userStore = useUserStore()
 async function signIn() {
   try {
     await userStore.signIn(email.value, password.value)
+    router.push('/')
   } catch (e) {
     // todo: add error handling (booooo)
     console.log(e)
