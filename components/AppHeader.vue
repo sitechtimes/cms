@@ -8,8 +8,9 @@
         <NuxtLink
           to="/"
           class="du-btn text-md border-0 bg-gray-900 text-gray-100 shadow-none"
-          >Home</NuxtLink
         >
+          Home
+        </NuxtLink>
       </div>
       <div>
         <details
@@ -20,11 +21,11 @@
             <img class="rounded-full" :src="user.imageUrl" alt="" />
           </summary>
           <ul
-            class="du-menu du-dropdown-content bg-base-100 du-rounded-box z-1 mt-1 w-52 p-2 shadow-sm"
+            class="du-menu du-dropdown-content bg-base-100 du-rounded-box z-1 mt-1 w-50 p-2 shadow-sm"
           >
             <li><NuxtLink to="/profile">Your Profile</NuxtLink></li>
             <li><NuxtLink to="/users">Users</NuxtLink></li>
-            <li><a>Sign Out</a></li>
+            <li><a @click="userStore.signOut">Sign Out</a></li>
           </ul>
         </details>
       </div>

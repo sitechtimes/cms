@@ -22,7 +22,7 @@ export const useUserStore = defineStore(
       router.push('/auth/signin')
     }
 
-    return { user, signIn }
+    return { user, signIn, signOut }
   },
   {
     persist: {
