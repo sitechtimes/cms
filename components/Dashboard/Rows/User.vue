@@ -30,8 +30,9 @@
       <a
         @click="changeRole('editor')"
         class="cursor-pointer text-indigo-600 hover:text-indigo-900"
-        >Promote</a
       >
+        Promote
+      </a>
     </td>
 
     <td
@@ -41,8 +42,9 @@
       <a
         @click="changeRole('writer')"
         class="cursor-pointer text-red-600 hover:text-red-900"
-        >Demote</a
       >
+        Demote
+      </a>
     </td>
   </tr>
 </template>

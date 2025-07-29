@@ -4,7 +4,7 @@
       <div class="flex items-center">
         <div class="ml-4">
           <div class="text-sm font-medium text-gray-900">
-            {{ article.title.substring(0, 25) }}
+            {{ article.title }}
           </div>
         </div>
       </div>
@@ -30,12 +30,12 @@
     </td>
 
     <td class="px-6 py-4 text-right text-sm font-medium whitespace-nowrap">
-      <nuxt-link
+      <NuxtLink
         class="text-indigo-600 hover:text-indigo-900"
         :to="`/articles/${article._id}`"
       >
         {{ articleActionText }}
-      </nuxt-link>
+      </NuxtLink>
     </td>
   </tr>
 </template>

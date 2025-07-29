@@ -5,9 +5,16 @@
 
 html {
   @apply w-dvw;
+  background-color: var(--bg-primary);
 }
 
 * {
   transition-property: color, background-color;
   transition: 0.4s ease;
+}
+
+:root {
+  --bg-primary: rgb(243,244,246);
+  --color-primary: var(--color-indigo-600);
+  /* -- */
 }
