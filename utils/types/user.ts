@@ -1,5 +1,5 @@
 export type User = {
-  role: string
+  role: 'writer' | 'editor' | 'admin'
   verified: boolean
   name: string
   email: string

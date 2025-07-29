@@ -1,8 +1,8 @@
 <template>
   <header class="bg-gray-800">
-    <nav class="du-navbar mx-auto w-full px-4 shadow-sm lg:w-4/5">
-      <div class="flex-none">
-        <img class="mx-auto h-8 w-auto" src="~/assets/img/logo.svg" alt="" />
+    <nav class="du-navbar mx-auto max-w-3xl px-5 shadow-sm md:max-w-7xl">
+      <div class="">
+        <img class="mx-auto h-auto w-10" src="~/assets/img/logo.svg" alt="" />
       </div>
       <div class="ml-4 flex-1">
         <NuxtLink
@@ -11,12 +11,12 @@
           >Home</NuxtLink
         >
       </div>
-      <div class="flex-none">
+      <div>
         <details
           v-if="user"
           class="du-dropdown du-dropdown-bottom du-dropdown-end"
         >
-          <summary class="du-avatar w-10 cursor-pointer">
+          <summary class="du-avatar h-auto w-10 cursor-pointer">
             <img class="rounded-full" :src="user.imageUrl" alt="" />
           </summary>
           <ul

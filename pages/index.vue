@@ -9,14 +9,6 @@
 definePageMeta({
   layout: 'navbar',
 })
-
-const userStore = useUserStore()
-
-onMounted(async () => {
-  console.log(userStore.user)
-
-  const data = await requestEndpoint('/cms')
-})
 </script>
 
 <style scoped></style>
