@@ -33,6 +33,7 @@
               <NuxtLink to="/users">Users</NuxtLink>
             </li>
             <li @click="closeDropdown">
+
               <button @click="userStore.signOut">Sign Out</button>
             </li>
           </ul>
