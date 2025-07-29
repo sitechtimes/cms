@@ -9,7 +9,7 @@
       <div class="ml-4 flex-1">
         <NuxtLink
           to="/"
-          class="du-btn text-md border-0 bg-gray-900 text-gray-100 shadow-none"
+          class="du-btn text-md rounded-lg border-0 bg-gray-900 text-gray-100 shadow-none"
         >
           Home
         </NuxtLink>
@@ -26,13 +26,14 @@
           <ul
             class="du-menu du-dropdown-content bg-base-100 du-rounded-box z-1 mt-1 w-50 p-2 shadow-sm"
           >
-            <li @click="dropdown?.removeAttribute('open')">
+            <li @click="closeDropdown">
               <NuxtLink to="/profile">Your Profile</NuxtLink>
             </li>
-            <li @click="dropdown?.removeAttribute('open')">
+            <li @click="closeDropdown">
               <NuxtLink to="/users">Users</NuxtLink>
             </li>
-            <li @click="dropdown?.removeAttribute('open')">
+            <li @click="closeDropdown">
+
               <button @click="userStore.signOut">Sign Out</button>
             </li>
           </ul>
@@ -47,4 +48,8 @@ const userStore = useUserStore()
 const { user } = storeToRefs(userStore)
 
 const dropdown = useTemplateRef('dropdown')
+
+function closeDropdown() {
+  dropdown.value?.removeAttribute('open')
+}
 </script>
