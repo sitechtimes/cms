@@ -1,6 +1,8 @@
 <template>
   <header class="bg-gray-800">
-    <nav class="du-navbar mx-auto max-w-3xl px-5 md:max-w-7xl">
+    <nav
+      class="du-navbar mx-auto max-w-3xl px-5 md:px-2 lg:max-w-4xl xl:max-w-7xl"
+    >
       <div class="">
         <img class="mx-auto h-auto w-10" src="~/assets/img/logo.svg" alt="" />
       </div>
