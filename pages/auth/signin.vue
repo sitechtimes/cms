@@ -6,7 +6,7 @@
       <div>
         <img
           class="mx-auto h-24 w-auto"
-          src="~/assets/img/logo_thicker.svg"
+          src="~/assets/img/logo.svg"
           alt="A cartoon seagull with a hat obscuring its eyes and a newspaper in its beak"
         />
         <h1 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
@@ -79,6 +79,8 @@ definePageMeta({
   title: 'sign in',
 })
 
+const router = useRouter()
+
 const email = ref('')
 const password = ref('')
 
@@ -87,9 +89,10 @@ const userStore = useUserStore()
 async function signIn() {
   try {
     await userStore.signIn(email.value, password.value)
+    router.push('/')
   } catch (e) {
     // todo: add error handling (booooo)
-    console.log(e)
+    console.error(e)
   }
 }
 </script>
