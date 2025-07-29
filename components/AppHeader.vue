@@ -1,6 +1,8 @@
 <template>
   <header class="bg-gray-800">
-    <nav class="du-navbar mx-auto max-w-3xl px-5 md:max-w-7xl">
+    <nav
+      class="du-navbar mx-auto max-w-3xl px-5 md:px-2 lg:max-w-4xl xl:max-w-7xl"
+    >
       <div class="">
         <img class="mx-auto h-auto w-10" src="~/assets/img/logo.svg" alt="" />
       </div>
@@ -16,6 +18,7 @@
         <details
           v-if="user"
           class="du-dropdown du-dropdown-bottom du-dropdown-end"
+          ref="dropdown"
         >
           <summary class="du-avatar h-auto w-10 cursor-pointer">
             <img class="rounded-full" :src="user.imageUrl" alt="" />
@@ -23,9 +26,15 @@
           <ul
             class="du-menu du-dropdown-content bg-base-100 du-rounded-box z-1 mt-1 w-50 p-2 shadow-sm"
           >
-            <li><NuxtLink to="/profile">Your Profile</NuxtLink></li>
-            <li><NuxtLink to="/users">Users</NuxtLink></li>
-            <li><a @click="userStore.signOut">Sign Out</a></li>
+            <li @click="dropdown?.removeAttribute('open')">
+              <NuxtLink to="/profile">Your Profile</NuxtLink>
+            </li>
+            <li @click="dropdown?.removeAttribute('open')">
+              <NuxtLink to="/users">Users</NuxtLink>
+            </li>
+            <li @click="dropdown?.removeAttribute('open')">
+              <button @click="userStore.signOut">Sign Out</button>
+            </li>
           </ul>
         </details>
       </div>
@@ -36,4 +45,6 @@
 <script setup lang="ts">
 const userStore = useUserStore()
 const { user } = storeToRefs(userStore)
+
+const dropdown = useTemplateRef('dropdown')
 </script>
