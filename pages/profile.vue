@@ -6,14 +6,14 @@
       </div>
       <div class="mt-5 grid md:mt-0 md:grid-cols-2">
         <div class="space-y-6 py-5">
-          <div v-for="attribute in attributes" v-if="user">
+          <div v-for="attribute in attributes" :key="attribute" v-if="user">
             <label class="block text-sm font-medium text-gray-700 capitalize">
               {{ attribute }}
             </label>
             <div class="mt-1 flex rounded-md shadow-sm">
               <input
                 type="text"
-                disabled="true"
+                disabled
                 class="block w-full flex-1 rounded border border-gray-300 px-3 py-3 sm:text-sm"
                 :value="user[attribute]"
               />
@@ -33,5 +33,5 @@ definePageMeta({
 const userStore = useUserStore()
 const { user } = storeToRefs(userStore)
 
-const attributes: (keyof User)[] = ['email', 'name', 'role']
+const attributes = ['email', 'name', 'role'] as const
 </script>
