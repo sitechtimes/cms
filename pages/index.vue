@@ -1,13 +1,11 @@
 <template>
   <div>
-    <div class="container mx-auto">
-      <div class="mx-auto max-w-3xl px-5 py-8 sm:px-6 md:max-w-7xl">
+    <div class="mx-auto max-w-7xl px-4">
+      <div class="mx-auto max-w-3xl px-5 py-8 md:max-w-7xl">
         <div
           class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between"
         >
-          <div class="min-w-0 flex-1">
-            <h1 class="text-3xl font-bold text-gray-900">Dashboard</h1>
-          </div>
+          <h1 class="text-3xl font-bold text-gray-900">Dashboard</h1>
 
           <button
             type="button"
@@ -16,9 +14,9 @@
           >
             <Icon
               name="tabler:plus"
-              style="color: white"
+              class="text-white"
               :customize="customize"
-            ></Icon>
+            />
             <span class="h-fit w-fit">Create New Article</span>
           </button>
         </div>
@@ -32,63 +30,85 @@
         />
 
         <!--   DashboardTable  -->
-        <div class="px-4 pt-6" v-if="tabId === 1">
-          <div
-            class="rounded-box border-base-content/5 bg-base-100 overflow-x-auto border"
-          >
-            <table class="du-table">
-              <thead>
-                <tr>
-                  <th>Draft</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <DashboardRowsArticleRow
-                    v-for="article in sortArticles('draft')"
-                    :article="article"
-                    :key="article._id"
-                  />
-                </tr>
-              </tbody>
-            </table>
+        <div class="px-4 pt-2" v-if="tabId === 0">
+          <div>
+            <DashboardTable title="Draft">
+              <DashboardRowsArticle
+                v-for="article in sortArticles('draft')"
+                :article="article"
+                :key="article._id"
+                v-if="sortArticles('draft').length > 0"
+              />
+            </DashboardTable>
+            <p v-if="sortArticles('draft').length === 0">
+              <img
+                src="https://i.imgflip.com/a1ql3t.jpg"
+                title="made at imgflip.com"
+              />
+            </p>
           </div>
 
-          <DashboardTable title="In Review">
-            <DashboardRowsArticleRow
-              v-for="article in sortArticles('review')"
-              :article="article"
-              :key="article._id"
-            />
-          </DashboardTable>
+          <div>
+            <DashboardTable title="In Review">
+              <DashboardRowsArticle
+                v-for="article in sortArticles('review')"
+                :article="article"
+                :key="article._id"
+                v-if="sortArticles('review').length > 0"
+              />
+            </DashboardTable>
+            <p v-if="sortArticles('review').length === 0">
+              <img
+                src="https://i.imgflip.com/a1ql3t.jpg"
+                title="made at imgflip.com"
+              />
+            </p>
+          </div>
 
-          <DashboardTable title="Ready">
-            <DashboardRowsArticleRow
-              v-for="article in sortArticles('ready')"
-              :article="article"
-              :key="article._id"
-            />
-          </DashboardTable>
+          <div>
+            <DashboardTable title="Ready">
+              <DashboardRowsArticle
+                v-for="article in sortArticles('ready')"
+                :article="article"
+                :key="article._id"
+                v-if="sortArticles('ready').length > 0"
+              />
+            </DashboardTable>
+            <p v-if="sortArticles('ready').length === 0">
+              <img
+                src="https://i.imgflip.com/a1ql3t.jpg"
+                title="made at imgflip.com"
+              />
+            </p>
+          </div>
+        </div>
+
+        <div class="px-4 pt-2" v-if="tabId === 1">
+          <div v-if="reviewArticles.length > 0">
+            <DashboardTable title="">
+              <DashboardRowsArticle
+                v-for="article in reviewArticles"
+                :article="article"
+                :key="article._id"
+              />
+            </DashboardTable>
+          </div>
+
+          <p v-if="reviewArticles.length === 0">NMO DIDDY ARTICLE</p>
         </div>
 
         <div class="px-4 pt-2" v-if="tabId === 2">
-          <DashboardTable title="">
-            <DashboardRowsArticleRow
-              v-for="article in reviewArticles"
-              :article="article"
-              :key="article._id"
-            />
-          </DashboardTable>
-        </div>
+          <div v-if="readyArticles.length > 0">
+            <DashboardTable title="">
+              <DashboardRowsArticle
+                v-for="article in readyArticles"
+                :article="article"
+                :key="article._id"
+              />
+            </DashboardTable>
+          </div>
 
-        <div class="px-4 pt-2" v-if="tabId === 3">
-          <DashboardTable title="">
-            <DashboardRowsArticleRow
-              v-for="article in readyArticles"
-              :article="article"
-              :key="article._id"
-            />
-          </DashboardTable>
+          <p v-if="readyArticles.length === 0">NMO DIDDY ARTICLE</p>
         </div>
       </main>
     </div>
@@ -100,9 +120,10 @@
 definePageMeta({
   layout: 'navbar',
 })
+type Status = 'draft' | 'review' | 'ready'
 
-const tabId = ref(1)
-const tabs: string[] = ['My Articles', 'In Review', 'Ready']
+const tabId = ref(0)
+const tabs = ['My Articles', 'In Review', 'Ready'] as const
 const articles = ref<Article[]>([])
 const reviewArticles = ref<Article[]>([])
 const readyArticles = ref<Article[]>([])
@@ -110,7 +131,7 @@ const readyArticles = ref<Article[]>([])
 const userStore = useUserStore()
 const router = useRouter()
 
-function sortArticles(status: string) {
+function sortArticles(status: Status) {
   return articles.value.filter((article) => article.status === status)
 }
 

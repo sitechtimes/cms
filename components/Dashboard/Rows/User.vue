@@ -60,7 +60,7 @@ async function changeRole(role: string) {
 
     props.user.role = role
   } catch (e) {
-    console.log(e)
+    console.error(e)
   }
 }
 </script>

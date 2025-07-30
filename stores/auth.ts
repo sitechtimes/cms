@@ -3,13 +3,13 @@ export const useUserStore = defineStore('user', () => {
   const router = useRouter()
 
   async function signIn(email: string, password: string) {
-    const data = await requestEndpoint<User>('auth/signin', 'POST', {
+    const data = await requestEndpoint<User>('/auth/signin', 'POST', {
       email,
       password,
     })
     localStorage.setItem('user', JSON.stringify(data))
 
-    router.push("/")
+    router.push('/')
     return (user.value = data)
   }
 
