@@ -29,11 +29,10 @@
             <li @click="closeDropdown">
               <NuxtLink to="/profile">Your Profile</NuxtLink>
             </li>
-            <li @click="closeDropdown">
+            <li v-if="user.role === 'admin'" @click="closeDropdown">
               <NuxtLink to="/users">Users</NuxtLink>
             </li>
             <li @click="closeDropdown">
-
               <button @click="userStore.signOut">Sign Out</button>
             </li>
           </ul>

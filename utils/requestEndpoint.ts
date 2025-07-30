@@ -49,6 +49,10 @@ export async function requestEndpoint<T>(
   const res = await fetch(config.public.backend + endpoint, options)
   const jason = await res.json()
 
+  if (jason.message === 'you are invalid') {
+    userStore.signOut()
+  }
+
   if (!res.ok) {
     console.error(new Error(jason.message))
     throw jason.message
