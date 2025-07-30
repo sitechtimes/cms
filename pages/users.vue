@@ -21,7 +21,7 @@
         <button></button>
       </form>
     </dialog>
-    <div class="container mx-auto max-w-3xl py-8 md:max-w-7xl">
+    <div class="mx-auto max-w-3xl py-8 md:max-w-7xl">
       <div class="lg:flex lg:items-center lg:justify-between">
         <h1 class="text-3xl font-bold text-gray-900">Users</h1>
       </div>
