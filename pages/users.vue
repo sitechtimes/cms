@@ -28,9 +28,10 @@
       <TabPanel :names="['Editors', 'Writers']" v-model="chosenTab" />
       <div class="" v-for="(role, i) in ['editor', 'writer']">
         <div
+          v-if="i === chosenTab"
           class="rounded-box border-base-content/5 bg-base-100 overflow-x-auto border"
         >
-          <table class="du-table" v-if="i === chosenTab">
+          <table class="du-table">
             <thead>
               <tr class="">
                 <th class="w-120">Name</th>
