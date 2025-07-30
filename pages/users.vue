@@ -17,6 +17,9 @@
           </form>
         </div>
       </div>
+      <form method="dialog" class="du-modal-backdrop">
+        <button></button>
+      </form>
     </dialog>
     <div class="container mx-auto max-w-3xl py-8 md:max-w-7xl">
       <div class="lg:flex lg:items-center lg:justify-between">
@@ -24,48 +27,49 @@
       </div>
       <TabPanel :names="['Editors', 'Writers']" v-model="chosenTab" />
       <div class="" v-for="(role, i) in ['editor', 'writer']">
-        <table
-          class="rounded-box border-base-content/5 bg-base-100 du-table overflow-x-auto border"
-          v-if="i === chosenTab"
+        <div
+          class="rounded-box border-base-content/5 bg-base-100 overflow-x-auto border"
         >
-          <thead>
-            <tr class="">
-              <th class="w-120">Name</th>
-              <th class="w-120">Email</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="user in users?.filter((user) => user.role === role)">
-              <th>{{ user.name }}</th>
-              <td>{{ user.email }}</td>
-              <td>
-                <div class="du-join du-join-horizontal">
-                  <button
-                    @click="promote(user.id)"
-                    v-if="user.role === 'writer'"
-                    class="du-btn du-join-item hover:bg-green-300/75"
-                  >
-                    Promote
-                  </button>
-                  <button
-                    @click="demote(user.id)"
-                    v-if="user.role === 'editor'"
-                    class="du-btn du-join-item hover:bg-red-300/75"
-                  >
-                    Demote
-                  </button>
-                  <button
-                    class="du-btn du-join-item hover:bg-red-500 hover:text-white"
-                    @click="confirmUserDeletion(user.id)"
-                  >
-                    Delete
-                  </button>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+          <table class="du-table" v-if="i === chosenTab">
+            <thead>
+              <tr class="">
+                <th class="w-120">Name</th>
+                <th class="w-120">Email</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="user in users?.filter((user) => user.role === role)">
+                <th>{{ user.name }}</th>
+                <td>{{ user.email }}</td>
+                <td>
+                  <div class="du-join du-join-horizontal">
+                    <button
+                      @click="promote(user.id)"
+                      v-if="user.role === 'writer'"
+                      class="du-btn du-join-item hover:bg-green-300/75"
+                    >
+                      Promote
+                    </button>
+                    <button
+                      @click="demote(user.id)"
+                      v-if="user.role === 'editor'"
+                      class="du-btn du-join-item hover:bg-red-300/75"
+                    >
+                      Demote
+                    </button>
+                    <button
+                      class="du-btn du-join-item hover:bg-red-500 hover:text-white"
+                      @click="confirmUserDeletion(user.id)"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
