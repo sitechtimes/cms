@@ -86,7 +86,7 @@ const users = ref<User[]>()
 
 const modal = useTemplateRef('modal')
 
-let currentUser = ''
+let currentUserId = ''
 
 onMounted(async () => {
   users.value = await requestEndpoint<User[]>('/users', 'GET')
@@ -102,10 +102,10 @@ function demote(userID: string) {
 
 function confirmUserDeletion(userID: string) {
   modal.value?.showModal()
-  currentUser = userID
+  currentUserId = userID
 }
 
 function deleteUser() {
-  requestEndpoint(`/users/${currentUser}`, 'DELETE', { role: 'writer' })
+  requestEndpoint(`/users/${currentUserId}`, 'DELETE', { role: 'writer' })
 }
 </script>
