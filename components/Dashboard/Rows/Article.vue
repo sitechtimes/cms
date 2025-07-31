@@ -27,7 +27,6 @@
       </NuxtLink>
     </td>
   </tr>
-
 </template>
 
 <script setup lang="ts">
@@ -48,6 +47,6 @@ const formatDate = computed(() => {
 
 const articleActionText = computed(() => {
   if (props.article.status === 'draft') return 'Edit'
-  if (props.article.status === 'review' || 'ready') return 'View'
+  else return 'View'
 })
 </script>

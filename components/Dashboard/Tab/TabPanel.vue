@@ -1,10 +1,10 @@
 <template>
   <div
-    class="mx-auto max-w-7xl px-4"
     v-if="userStore.user && ['editor', 'admin'].includes(userStore.user.role)"
+    class="mx-auto max-w-7xl px-4"
   >
     <div class="du-tabs du-tabs-border">
-      <div v-for="(title, index) in titles">
+      <div v-for="(title, index) in titles" :key="index">
         <input
           type="radio"
           name="article-status"
@@ -23,7 +23,7 @@ const userStore = useUserStore()
 const emit = defineEmits<{ tabClicked: [title: number] }>()
 
 defineProps<{
-  titles: string[]
+  titles: readonly string[]
   selectedId: number
 }>()
 </script>

@@ -5,10 +5,10 @@ export type User = {
   email: string
   id: string
   token: string
+  imageUrl: string
 }
 
 export type Article = {
-  __v: number
   _id: string
   category: string
   content: string

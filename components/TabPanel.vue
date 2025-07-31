@@ -2,12 +2,13 @@
   <div class="du-tabs du-tabs-border py-2">
     <input
       v-for="(label, i) in names"
+      :key="i"
       :name="label"
       type="radio"
       class="du-tab"
       :aria-label="label"
-      @click="changeModel(i)"
       :checked="model === i"
+      @click="changeModel(i)"
     />
   </div>
 </template>

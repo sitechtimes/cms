@@ -9,8 +9,8 @@
 
           <button
             type="button"
-            @click="createArticle"
             class="du-btn du-btn-primary w-fit gap-2 rounded-lg text-white"
+            @click="createArticle"
           >
             <Icon
               name="tabler:plus"
@@ -24,20 +24,22 @@
 
       <main>
         <DashboardTabPanel
-          @tabClicked="tabClicked"
           :titles="tabs"
-          :selectedId="tabId"
+          :selected-id="tabId"
+          @tab-clicked="tabClicked"
         />
 
         <!--   DashboardTable  -->
-        <div class="px-4 pt-2" v-if="tabId === 0">
+        <div v-if="tabId === 0" class="px-4 pt-2">
           <div>
-            <DashboardTable title="Draft">
+            <DashboardTable
+              v-if="sortArticles('draft').length > 0"
+              title="Draft"
+            >
               <DashboardRowsArticle
                 v-for="article in sortArticles('draft')"
-                :article="article"
                 :key="article._id"
-                v-if="sortArticles('draft').length > 0"
+                :article="article"
               />
             </DashboardTable>
             <p v-if="sortArticles('draft').length === 0">
@@ -49,12 +51,14 @@
           </div>
 
           <div>
-            <DashboardTable title="In Review">
+            <DashboardTable
+              v-if="sortArticles('review').length > 0"
+              title="In Review"
+            >
               <DashboardRowsArticle
                 v-for="article in sortArticles('review')"
-                :article="article"
                 :key="article._id"
-                v-if="sortArticles('review').length > 0"
+                :article="article"
               />
             </DashboardTable>
             <p v-if="sortArticles('review').length === 0">
@@ -66,12 +70,14 @@
           </div>
 
           <div>
-            <DashboardTable title="Ready">
+            <DashboardTable
+              v-if="sortArticles('ready').length > 0"
+              title="Ready"
+            >
               <DashboardRowsArticle
                 v-for="article in sortArticles('ready')"
-                :article="article"
                 :key="article._id"
-                v-if="sortArticles('ready').length > 0"
+                :article="article"
               />
             </DashboardTable>
             <p v-if="sortArticles('ready').length === 0">
@@ -83,32 +89,42 @@
           </div>
         </div>
 
-        <div class="px-4 pt-2" v-if="tabId === 1">
+        <div v-if="tabId === 1" class="px-4 pt-2">
           <div v-if="reviewArticles.length > 0">
             <DashboardTable title="">
               <DashboardRowsArticle
                 v-for="article in reviewArticles"
-                :article="article"
                 :key="article._id"
+                :article="article"
               />
             </DashboardTable>
           </div>
 
-          <p v-if="reviewArticles.length === 0">NMO DIDDY ARTICLE</p>
+          <p v-if="reviewArticles.length === 0">
+            <img
+              src="https://i.imgflip.com/a1ql3t.jpg"
+              title="made at imgflip.com"
+            />
+          </p>
         </div>
 
-        <div class="px-4 pt-2" v-if="tabId === 2">
+        <div v-if="tabId === 2" class="px-4 pt-2">
           <div v-if="readyArticles.length > 0">
             <DashboardTable title="">
               <DashboardRowsArticle
                 v-for="article in readyArticles"
-                :article="article"
                 :key="article._id"
+                :article="article"
               />
             </DashboardTable>
           </div>
 
-          <p v-if="readyArticles.length === 0">NMO DIDDY ARTICLE</p>
+          <p v-if="readyArticles.length === 0">
+            <img
+              src="https://i.imgflip.com/a1ql3t.jpg"
+              title="made at imgflip.com"
+            />
+          </p>
         </div>
       </main>
     </div>
@@ -168,9 +184,8 @@ onMounted(async () => {
       const readyData = await requestEndpoint<Article[]>('/cms/ready')
       readyArticles.value = readyData
     }
-  } catch (e: any) {
+  } catch (e) {
     console.error(e)
-    if (e.response?.status === 401) userStore.logOut()
   }
 })
 </script>
