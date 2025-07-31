@@ -1,6 +1,7 @@
 @import 'tailwindcss';
 @plugin "daisyui" {
   prefix: 'du-';
+  exclude: rootscrollgutter;
 }
 
 html {

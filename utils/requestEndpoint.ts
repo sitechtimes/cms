@@ -32,6 +32,7 @@ export async function requestEndpoint<T>(
   const userStore = useUserStore()
 
   const headers: HeadersInit = {}
+
   if (userStore.user)
     headers['Authorization'] = `Bearer ${userStore.user.token}`
 
@@ -47,6 +48,8 @@ export async function requestEndpoint<T>(
 
   const res = await fetch(config.public.backend + endpoint, options)
   const jason = await res.json()
+
+  if (jason.message === 'you are invalid') return userStore.signOut()
 
   if (!res.ok) {
     console.error(new Error(jason.message))
