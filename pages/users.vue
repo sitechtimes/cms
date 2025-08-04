@@ -29,8 +29,9 @@
       <div class="" v-for="(role, i) in ['editor', 'writer']">
         <div
           class="rounded-box border-base-content/5 bg-base-100 overflow-x-auto border"
+          v-if="i === chosenTab"
         >
-          <table class="du-table" v-if="i === chosenTab">
+          <table class="du-table">
             <thead>
               <tr class="">
                 <th class="w-120">Name</th>
