@@ -21,3 +21,5 @@ export type Article = {
   updatedAt: string
   userId: string
 }
+
+export type Status = 'draft' | 'review' | 'ready'

@@ -1,11 +1,11 @@
 <template>
-  <div class="du-tabs du-tabs-border py-2">
+  <div class="du-tabs du-tabs-border mx-auto max-w-7xl px-4">
     <input
       v-for="(label, i) in names"
       :key="i"
       :name="label"
       type="radio"
-      class="du-tab"
+      class="du-tab hover:text-primary du-tabs-border text-md font-semibold"
       :aria-label="label"
       :checked="model === i"
       @click="changeModel(i)"
