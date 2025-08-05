@@ -1,3 +1,5 @@
+import { defineStore } from 'pinia'
+
 export const useArticleStore = defineStore('articles', () => {
   const articles = ref<Article[]>([])
   const reviewArticles = ref<Article[]>([])
