@@ -1,24 +1,27 @@
 <template>
   <div class="px-4 pt-2">
-    <div v-if="reviewArticles.length > 0">
+    <div v-if="articleList.length > 0">
       <DashboardTable title="">
         <DashboardArticleRows
-          v-for="article in reviewArticles"
+          v-for="article in articleList"
           :key="article._id"
           :article="article"
         />
       </DashboardTable>
     </div>
 
-    <p
-      v-if="reviewArticles.length === 0"
+    <div
+      v-if="articleList.length === 0"
       class="mx-auto flex max-w-7xl flex-col gap-4 p-4"
     >
-      There are no articles in review.
-    </p>
+      There are no {{ status }} articles.
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-const { reviewArticles } = useDashboardArticles()
+defineProps<{
+  status: Status
+  articleList: Article[]
+}>()
 </script>

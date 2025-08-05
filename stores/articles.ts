@@ -1,4 +1,4 @@
-export function useDashboardArticles() {
+export const useArticleStore = defineStore('articles', () => {
   const articles = ref<Article[]>([])
   const reviewArticles = ref<Article[]>([])
   const readyArticles = ref<Article[]>([])
@@ -34,10 +34,10 @@ export function useDashboardArticles() {
   }
 
   return {
-    articles,
-    reviewArticles,
-    readyArticles,
     fetchArticles,
     sortArticles,
+    articles,
+    readyArticles,
+    reviewArticles,
   }
-}
+})
