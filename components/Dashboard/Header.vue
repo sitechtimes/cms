@@ -26,7 +26,7 @@ async function createArticle() {
   try {
     const article = await requestEndpoint<Article>(`/cms`, 'POST')
 
-    router.push(`/articles/${article._id}`)
+    router.push(`/articles/edit/${article._id}`)
   } catch (e) {
     console.error(e)
   }
