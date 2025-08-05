@@ -1,12 +1,12 @@
 <template>
   <div
-    class="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-12 sm:px-6 lg:px-8"
+    class="flex min-h-screen items-center justify-center bg-gray-50 px-6 py-12 lg:px-8"
   >
     <main class="flex w-full max-w-md flex-col gap-8">
       <div>
         <img
           class="mx-auto h-24 w-auto"
-          src="~/assets/img/logo_thicker.svg"
+          src="~/assets/img/logo.svg"
           alt="A cartoon seagull with a hat obscuring its eyes and a newspaper in its beak"
         />
         <h1 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
@@ -90,9 +90,10 @@ const router = useRouter()
 async function signIn() {
   try {
     await userStore.signIn(email.value, password.value)
-    await router.push('/dashboard')
+    router.push('/')
   } catch (e) {
-    console.log(e)
+    // todo: add error handling (booooo)
+    console.error(e)
   }
 }
 </script>

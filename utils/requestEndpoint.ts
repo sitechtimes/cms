@@ -31,9 +31,8 @@ export async function requestEndpoint<T>(
   const config = useRuntimeConfig()
   const userStore = useUserStore()
 
-  // const options: RequestInit = { credentials: 'include' }
   const headers: HeadersInit = {}
-  console.log(userStore.user)
+
   if (userStore.user)
     headers['Authorization'] = `Bearer ${userStore.user.token}`
 
@@ -53,6 +52,13 @@ export async function requestEndpoint<T>(
   if (contentLength === '0') return undefined as T
 
   const jason = await res.json()
+
+  if (jason.message === 'you are invalid') return userStore.signOut()
+
+  if (!res.ok) {
+    console.error(new Error(jason.message))
+    throw jason.message
+  }
 
   if (!res.ok) {
     console.error(new Error(jason.message))

@@ -1,32 +1,22 @@
 @import 'tailwindcss';
 @plugin "daisyui" {
   prefix: 'du-';
+  exclude: rootscrollgutter;
+}
+
+html {
+  @apply w-dvw;
+  background-color: var(--bg-primary);
 }
 
 * {
-  transition: 0.4s ease;
   transition-property: color, background-color;
+  transition-duration: 0.4s;
+  transition-timing-function: ease;
 }
 
-@utility du-btn {
-  @apply border-none;
-}
-
-/* transitions */
-.fade-leave-active,
-.fade-enter-active {
-  position: absolute;
-}
-
-.fade-leave-active {
-  transition: opacity 0.4s ease-out;
-}
-
-.fade-enter-active {
-  transition: opacity 1.6s ease-out;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
+:root {
+  --bg-primary: rgb(243,244,246);
+  --color-primary: var(--color-indigo-600);
+  /* -- */
 }

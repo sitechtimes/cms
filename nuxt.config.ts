@@ -1,4 +1,3 @@
-import { defineNuxtConfig } from 'nuxt/config'
 import tailwindcss from '@tailwindcss/vite'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
@@ -11,7 +10,12 @@ export default defineNuxtConfig({
     plugins: [tailwindcss()],
   },
 
-  modules: ['@nuxt/eslint', '@pinia/nuxt', '@nuxt/icon'],
+  modules: [
+    '@nuxt/eslint',
+    '@pinia/nuxt',
+    '@nuxt/icon',
+    'pinia-plugin-persistedstate/nuxt',
+  ],
 
   icon: {
     clientBundle: {
@@ -21,7 +25,7 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
-      backend: 'http://localhost:3000/',
+      backend: 'http://localhost:3000',
     },
   },
 
