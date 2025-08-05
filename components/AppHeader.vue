@@ -17,8 +17,8 @@
       <div>
         <details
           v-if="user"
-          class="du-dropdown du-dropdown-bottom du-dropdown-end"
           ref="dropdown"
+          class="du-dropdown du-dropdown-bottom du-dropdown-end"
         >
           <summary class="du-avatar h-auto w-10 cursor-pointer">
             <img class="rounded-full" :src="user.imageUrl" alt="" />

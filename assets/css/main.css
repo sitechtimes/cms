@@ -4,7 +4,19 @@
   exclude: rootscrollgutter;
 }
 
+html {
+  @apply w-dvw;
+  background-color: var(--bg-primary);
+}
+
 * {
   transition-property: color, background-color;
-  transition: 0.4s ease;
+  transition-duration: 0.4s;
+  transition-timing-function: ease;
+}
+
+:root {
+  --bg-primary: rgb(243,244,246);
+  --color-primary: var(--color-indigo-600);
+  /* -- */
 }
