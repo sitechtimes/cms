@@ -1,6 +1,7 @@
 <template>
   <div>
-    <h1 class="text-3xl">dashboard goes here</h1>
+    <main><Dashboard /></main>
+
     <RouterLink to="/auth/signin">link to the signin page</RouterLink>
   </div>
 </template>
@@ -10,5 +11,3 @@ definePageMeta({
   layout: 'navbar',
 })
 </script>
-
-<style scoped></style>
