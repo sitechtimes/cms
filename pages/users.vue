@@ -30,7 +30,6 @@
         <div
           v-if="i === chosenTab"
           class="rounded-box border-base-content/5 bg-base-100 overflow-x-auto border"
-          v-if="i === chosenTab"
         >
           <table class="du-table">
             <thead>
