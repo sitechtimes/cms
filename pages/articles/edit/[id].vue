@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-auto max-w-3xl py-8 md:max-w-7xl">
+  <div v-if="article" class="mx-auto max-w-3xl py-8 md:max-w-7xl">
     <dialog class="du-modal" ref="modal">
       <div class="du-modal-box w-full max-w-lg">
         <h3 class="text-lg font-bold">
@@ -24,16 +24,20 @@
     <div class="flex justify-between">
       <h1 class="text-3xl font-bold text-gray-900">Edit Article</h1>
       <div>
-        <button class="du-btn text-md">
+        <NuxtLink :to="`/articles/${route.params.id}`" class="du-btn text-md">
           <Icon class="" name="heroicons:link-16-solid" />View
-        </button>
+        </NuxtLink>
         <details class="du-dropdown du-dropdown-end" ref="dropdown">
           <summary class="du-btn m-1">Options</summary>
           <ul
             class="du-menu du-dropdown-content bg-base-100 du-rounded-box z-1 w-52 p-2 shadow-sm"
           >
-            <li @click="closeDropdown"><button>Save Article</button></li>
-            <li @click="closeDropdown"><button>Send to Review</button></li>
+            <li @click="(closeDropdown, saveArticle)">
+              <button>Save Article</button>
+            </li>
+            <li @click="(closeDropdown, sendToReview)">
+              <button>Send to Review</button>
+            </li>
             <li @click="(closeDropdown, confirmArticleDeletion)">
               <button>Delete Article</button>
             </li>
@@ -46,6 +50,7 @@
       <div class="mt-1 flex w-80 rounded-md shadow-sm md:w-100 lg:w-120">
         <input
           type="text"
+          v-model="article.title"
           class="du-input text-md block flex-1 rounded border border-gray-300 px-3 py-3"
         />
       </div>
@@ -57,32 +62,30 @@
       <div class="mt-1 flex w-80 rounded-md shadow-sm md:w-100 lg:w-120">
         <input
           type="text"
+          v-model="article.customAuthor"
           class="du-input text-md block flex-1 rounded border border-gray-300 px-3 py-3"
         />
       </div>
     </div>
     <div class="max-w-7xl py-4">
       <label class="text-md block font-medium text-gray-700"> Category </label>
-      <select class="du-select mt-1 capitalize shadow">
+      <select
+        v-model="article.category"
+        class="du-select mt-1 capitalize shadow"
+      >
         <option v-for="topic in topics">
           {{ topic }}
         </option>
       </select>
     </div>
-    <div class="max-w-7xl py-4">
-      <label class="text-md block font-medium text-gray-700"> Category </label>
-      <div class="mt-1 rounded border border-gray-300 shadow">
-        <MilkdownProvider>
-          <MilkdownEditor />
-        </MilkdownProvider>
-      </div>
+
+    <div class="mt-5 max-w-7xl rounded border border-gray-300 shadow">
+      <QuillEditor />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { MilkdownProvider } from '@milkdown/vue'
-
 const route = useRoute()
 
 definePageMeta({
@@ -149,7 +152,7 @@ function closeDropdown() {
   }, */
 
 async function saveArticle() {
-  requestEndpoint(`/cms/${route.params.id}`, 'PUT', {})
+  requestEndpoint(`/cms/${route.params.id}`, 'PUT', article.value)
 }
 
 function sendToReview() {}
