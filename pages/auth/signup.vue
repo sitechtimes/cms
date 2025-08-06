@@ -6,7 +6,7 @@
       <div>
         <img
           class="mx-auto h-24 w-auto"
-          src="~/assets/img/logo_thicker.svg"
+          src="~/assets/img/logo.svg"
           alt="A cartoon seagull with a hat obscuring its eyes and a newspaper in its beak"
         />
         <h1 class="mt-6 text-center text-3xl font-extrabold text-gray-900">

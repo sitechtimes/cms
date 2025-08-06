@@ -7,8 +7,13 @@
         class="align-center flex h-full flex-col justify-center"
       >
         <main
-          class="flex flex-auto items-center justify-center px-4 py-16 text-center sm:px-6 lg:px-8"
+          class="flex flex-auto flex-col items-center justify-center gap-4 px-4 py-16 text-center sm:px-6 lg:px-8"
         >
+          <img
+            class="mx-auto h-32 w-auto"
+            src="~/assets/img/logo.svg"
+            alt="A cartoon seagull with a hat obscuring its eyes and a newspaper in its beak"
+          />
           <div>
             <h1 class="sm:text-4.5xl mb-4 text-3xl font-bold text-white">
               Please verify your email
@@ -20,9 +25,19 @@
               >
               so we can get you into your dashboard.
             </p>
+            <button
+              id="resend"
+              class="flex w-full cursor-pointer justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white"
+              :disabled="cooldown > 0 || cooldown === -1"
+              @click="resend(true)"
+            >
+              Resend confirmation email
+              {{ cooldown > 0 ? `(wait ${cooldown}s)` : '' }}
+            </button>
           </div>
         </main>
         <footer class="fixed bottom-10 mx-auto flex w-full justify-center">
+          <button @click="userStore.signOut">SIGN OUT</button>
           <div
             class="mx-4 flex max-w-lg flex-row items-center gap-4 rounded-md bg-gray-800 px-4 py-2 text-sm md:mx-0"
           >
@@ -57,7 +72,7 @@
             </h1>
             <p class="text-gray-400">
               You can close this tab now, or
-              <RouterLink to="/dashboard" class="text-gray-200 underline"
+              <RouterLink to="/" class="text-gray-200 underline"
                 >head to your dashboard</RouterLink
               >
             </p>
@@ -79,20 +94,22 @@
 
 <script setup lang="ts">
 const route = useRoute()
+const router = useRouter()
 const status = ref('')
 const token = ref('')
 const loaded = ref(false)
 const userStore = useUserStore()
+const interval = ref<NodeJS.Timeout>()
+const cooldown = ref(-1)
 
-onMounted(() => {
-  if (route.query.token instanceof Array) return alert('what have you done D:')
-  token.value = route.query.token ?? ''
-  if (!token.value) requestVerification()
-  loaded.value = true
-})
+type Response = {
+  message: string
+  time: number
+  verified?: boolean
+}
 
 function requestVerification() {
-  userStore.requestVerification(false)
+  userStore.requestVerification(true)
 }
 
 /* onMounted(() => {
@@ -101,6 +118,60 @@ function requestVerification() {
 
   setTimeout(() => (status.value = 'you are bad'), 2000)
 }) */
+
+function setCooldown(timestamp: number) {
+  cooldown.value = Math.max(0, Math.ceil((timestamp - Date.now()) / 1000))
+  clearInterval(interval.value) // in case the user does shenanigans and undisables the button
+  if (cooldown.value > 0)
+    interval.value = setInterval(() => {
+      if (cooldown.value < 1) {
+        clearInterval(interval.value)
+        return
+      }
+      cooldown.value--
+    }, 1000)
+}
+
+async function resend(newToken: boolean) {
+  cooldown.value = -1
+  try {
+    const response = await requestEndpoint<Response>('/auth/verify', 'POST', {
+      newToken: newToken,
+    })
+
+    if (response.verified && userStore.user?.role !== undefined) {
+      const userToUpdate = { ...userStore.user }
+      userToUpdate.verified = true
+      userStore.user = userToUpdate
+    }
+    setCooldown(response.time)
+    console.log(response.time)
+  } catch (error) {
+    console.error(error)
+
+    const status = error.response?.status ?? 'unknown'
+    const time = error.response?.data?.time ?? 0
+
+    if (status === 401) {
+      userStore.signOut()
+      router.push('/')
+      return
+    }
+    setCooldown(time)
+  }
+}
+
+onMounted(() => {
+  resend(false)
+  if (route.query.token instanceof Array) return alert('what have you done D:')
+  token.value = route.query.token ?? ''
+  if (!token.value) requestVerification()
+  loaded.value = true
+})
 </script>
 
-<style scoped></style>
+<style scoped>
+button:disabled {
+  @apply cursor-not-allowed opacity-50;
+}
+</style>

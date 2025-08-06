@@ -9,7 +9,7 @@ export const useUserStore = defineStore(
     async function signIn(email: string, password: string) {
       signOut()
 
-      const data = await requestEndpoint<User>('auth/signin', 'POST', {
+      const data = await requestEndpoint<User>('/auth/signin', 'POST', {
         email,
         password,
       })
@@ -18,7 +18,7 @@ export const useUserStore = defineStore(
     }
 
     async function signUp(name: string, email: string, password: string) {
-      const data = await requestEndpoint<User>('auth/signup', 'POST', {
+      const data = await requestEndpoint<User>('/auth/signup', 'POST', {
         name,
         email,
         password,
@@ -30,7 +30,7 @@ export const useUserStore = defineStore(
     async function requestVerification(newToken: boolean) {
       try {
         const data = await requestEndpoint<{ message: string; time: number }>(
-          'auth/verify',
+          '/auth/verify',
           'POST',
           {
             newToken,

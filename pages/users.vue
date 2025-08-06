@@ -1,6 +1,6 @@
 <template>
   <div>
-    <dialog class="du-modal" ref="modal">
+    <dialog ref="modal" class="du-modal">
       <div class="du-modal-box w-full max-w-lg">
         <h3 class="text-lg font-bold">
           ARE YOU SURE YOU WANT TO DELETE THIS USER
@@ -9,8 +9,8 @@
         <div class="du-modal-action">
           <form method="dialog">
             <button
-              @click="deleteUser"
               class="du-btn bg-red-500 text-white hover:bg-red-600"
+              @click="deleteUser"
             >
               DELETE
             </button>
@@ -25,8 +25,8 @@
       <div class="lg:flex lg:items-center lg:justify-between">
         <h1 class="text-3xl font-bold text-gray-900">Users</h1>
       </div>
-      <TabPanel :names="['Editors', 'Writers']" v-model="chosenTab" />
-      <div class="" v-for="(role, i) in ['editor', 'writer']">
+      <TabPanel v-model="chosenTab" :names="['Editors', 'Writers']" />
+      <div v-for="(role, i) in ['editor', 'writer']" :key="i" class="">
         <div
           v-if="i === chosenTab"
           class="rounded-box border-base-content/5 bg-base-100 overflow-x-auto border"
@@ -40,22 +40,25 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="user in users?.filter((user) => user.role === role)">
+              <tr
+                v-for="user in users?.filter((user) => user.role === role)"
+                :key="user.id"
+              >
                 <th>{{ user.name }}</th>
                 <td>{{ user.email }}</td>
                 <td>
                   <div class="du-join du-join-horizontal">
                     <button
-                      @click="promote(user.id)"
                       v-if="user.role === 'writer'"
                       class="du-btn du-join-item hover:bg-green-300/75"
+                      @click="promote(user.id)"
                     >
                       Promote
                     </button>
                     <button
-                      @click="demote(user.id)"
                       v-if="user.role === 'editor'"
                       class="du-btn du-join-item hover:bg-red-300/75"
+                      @click="demote(user.id)"
                     >
                       Demote
                     </button>
