@@ -94,7 +94,6 @@
 
 <script setup lang="ts">
 const route = useRoute()
-const router = useRouter()
 const status = ref('')
 const token = ref('')
 const loaded = ref(false)
@@ -102,16 +101,7 @@ const userStore = useUserStore()
 const interval = ref<NodeJS.Timeout>()
 const cooldown = ref(-1)
 
-type Response = {
-  message: string
-  time: number
-  verified?: boolean
-}
-
-function requestVerification() {
-  userStore.requestVerification(true)
-}
-
+// FOR TESTING ERROR SCREEN
 /* onMounted(() => {
   // token param should never be an array, but whatever
   if (route.query.token instanceof Array) return alert('what have you done D:')
@@ -135,37 +125,25 @@ function setCooldown(timestamp: number) {
 async function resend(newToken: boolean) {
   cooldown.value = -1
   try {
-    const response = await requestEndpoint<Response>('/auth/verify', 'POST', {
-      newToken: newToken,
-    })
+    const response = await userStore.requestVerification(newToken)
 
-    if (response.verified && userStore.user?.role !== undefined) {
-      const userToUpdate = { ...userStore.user }
-      userToUpdate.verified = true
-      userStore.user = userToUpdate
-    }
+    if (response.verified && userStore.user?.role !== undefined)
+      userStore.user.verified = true
+
     setCooldown(response.time)
-    console.log(response.time)
   } catch (error) {
     console.error(error)
-
-    const status = error.response?.status ?? 'unknown'
-    const time = error.response?.data?.time ?? 0
-
-    if (status === 401) {
-      userStore.signOut()
-      router.push('/')
-      return
-    }
-    setCooldown(time)
   }
 }
 
-onMounted(() => {
+onMounted(async () => {
   resend(false)
+
   if (route.query.token instanceof Array) return alert('what have you done D:')
   token.value = route.query.token ?? ''
-  if (!token.value) requestVerification()
+
+  if (token.value) await userStore.verifyToken(token.value)
+
   loaded.value = true
 })
 </script>
