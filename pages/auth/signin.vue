@@ -67,7 +67,7 @@
             class="cursor-pointer text-sm text-indigo-600 hover:underline"
             to="/auth/signup"
           >
-            Too bad!
+            Sign Up
           </RouterLink>
         </p>
       </div>
