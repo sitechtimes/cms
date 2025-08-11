@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-auto max-w-7xl px-4">
+  <div class="mx-auto max-w-3xl md:max-w-7xl">
     <div class="mx-auto max-w-3xl px-5 py-8 md:max-w-7xl">
       <div
         class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between"

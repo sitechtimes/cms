@@ -26,10 +26,10 @@
         <h1 class="text-3xl font-bold text-gray-900">Users</h1>
       </div>
       <TabPanel v-model="chosenTab" :names="['Editors', 'Writers']" />
-      <div v-for="(role, i) in ['editor', 'writer']" :key="i" class="">
+      <div v-for="(role, i) in ['editor', 'writer']" :key="i" class="py-5">
         <div
           v-if="i === chosenTab"
-          class="rounded-box border-base-content/5 bg-base-100 overflow-x-auto border"
+          class="rounded-box border-base-content/5 bg-base-100 overflow-x-auto border shadow-sm"
         >
           <table class="du-table">
             <thead>
