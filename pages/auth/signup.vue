@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex min-h-screen items-center justify-center bg-gray-50 px-6 py-12 lg:px-8"
+    class="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-12 sm:px-6 lg:px-8"
   >
     <main class="flex w-full max-w-md flex-col gap-8">
       <div>
@@ -10,12 +10,25 @@
           alt="A cartoon seagull with a hat obscuring its eyes and a newspaper in its beak"
         />
         <h1 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
-          Sign In
+          Sign Up
         </h1>
       </div>
 
-      <form class="space-y-6" @submit.prevent="signIn">
+      <form class="space-y-6" @submit.prevent="signUp">
         <div class="du-join du-join-vertical w-full -space-y-px">
+          <div key="name">
+            <label for="name" class="sr-only">Name</label>
+            <input
+              id="name"
+              v-model="name"
+              name="name"
+              type="text"
+              autocomplete="name"
+              required
+              class="du-input du-join-item w-full border-gray-300 text-gray-900 placeholder-gray-500 focus:border-indigo-500 focus:ring-indigo-500 focus:outline-none"
+              placeholder="Name"
+            />
+          </div>
           <div key="email">
             <label for="email-address" class="sr-only">Email address</label>
             <input
@@ -55,19 +68,19 @@
                 class="h-5 w-5 text-indigo-400 group-hover:text-indigo-300"
               />
             </div>
-            Sign in
+            Sign up
           </button>
         </div>
       </form>
 
       <div class="flex items-center justify-center">
         <p class="mr-1 block text-sm text-gray-900">
-          Don't have an account?
+          Already have an account?
           <RouterLink
             class="cursor-pointer text-sm text-indigo-600 hover:underline"
-            to="/auth/signup"
+            to="/auth/signin"
           >
-            Too bad!
+            Too good!
           </RouterLink>
         </p>
       </div>
@@ -78,22 +91,23 @@
 <script setup lang="ts">
 definePageMeta({
   layout: 'default',
-  title: 'sign in',
+  title: 'sign up',
 })
 
+const name = ref('')
 const email = ref('')
 const password = ref('')
 
 const userStore = useUserStore()
 const router = useRouter()
 
-async function signIn() {
+async function signUp() {
   try {
+    await userStore.signUp(name.value, email.value, password.value)
     await userStore.signIn(email.value, password.value)
-    router.push('/')
+    await router.push('/auth/verify')
   } catch (e) {
-    // todo: add error handling (booooo)
-    console.error(e)
+    console.log(e)
   }
 }
 </script>
