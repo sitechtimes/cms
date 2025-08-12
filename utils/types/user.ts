@@ -1,3 +1,5 @@
+import type { Delta } from 'quill'
+
 export type User = {
   role: 'writer' | 'editor' | 'admin'
   verified: boolean
@@ -12,6 +14,7 @@ export type Article = {
   _id: string
   category: string
   content: string
+  deltaContent?: Delta
   createdAt: string
   customAuthor: string
   imageAlt: string | null

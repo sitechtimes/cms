@@ -32,13 +32,13 @@
           <ul
             class="du-menu du-dropdown-content bg-base-100 du-rounded-box z-1 w-52 p-2 shadow-sm"
           >
-            <li @click="(closeDropdown, saveArticle)">
+            <li @click="saveArticle">
               <button>Save Article</button>
             </li>
-            <li @click="(closeDropdown, sendToReview)">
+            <li @click="sendToReview">
               <button>Send to Review</button>
             </li>
-            <li @click="(closeDropdown, confirmArticleDeletion)">
+            <li @click="confirmArticleDeletion">
               <button>Delete Article</button>
             </li>
           </ul>
@@ -80,17 +80,25 @@
     </div>
 
     <div class="mt-5 max-w-7xl rounded border border-gray-300 shadow">
-      <QuillEditor />
+      <QuillEditor
+        @update-delta="updateDelta"
+        v-model:html="article.content"
+        v-model:delta="article.deltaContent"
+      />
     </div>
+    <div>{{ article.content }}</div>
+    <div>{{ article.deltaContent }}</div>
   </div>
 </template>
 
 <script setup lang="ts">
-const route = useRoute()
+import type { Delta } from 'quill'
 
 definePageMeta({
   layout: 'navbar',
 })
+
+const route = useRoute()
 
 const dropdown = useTemplateRef('dropdown')
 const modal = useTemplateRef('modal')
@@ -102,7 +110,12 @@ onBeforeMount(async () => {
     `/cms/${route.params.id}`,
     'GET'
   )
+  console.log(article.value)
 })
+
+function updateDelta(delta: Delta) {
+  if (article.value) article.value.deltaContent = delta
+}
 
 function closeDropdown() {
   dropdown.value?.removeAttribute('open')
@@ -152,16 +165,21 @@ function closeDropdown() {
   }, */
 
 async function saveArticle() {
+  closeDropdown()
   requestEndpoint(`/cms/${route.params.id}`, 'PUT', article.value)
 }
 
-function sendToReview() {}
+function sendToReview() {
+  closeDropdown()
+}
 
 function confirmArticleDeletion() {
   modal.value?.showModal()
 }
 
-function deleteArticle() {}
+function deleteArticle() {
+  closeDropdown()
+}
 
 const topics = [
   'feature',
