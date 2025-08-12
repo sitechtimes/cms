@@ -25,11 +25,15 @@
       <div class="lg:flex lg:items-center lg:justify-between">
         <h1 class="text-3xl font-bold text-gray-900">Users</h1>
       </div>
-      <TabPanel v-model="chosenTab" :names="['Editors', 'Writers']" />
-      <div v-for="(role, i) in ['editor', 'writer']" :key="i" class="py-5">
+      <TabPanel
+        v-if="users"
+        v-model="chosenTab"
+        :names="['Editors', 'Writers']"
+      />
+      <div v-for="(role, i) in ['editor', 'writer']" :key="i" class="m-auto">
         <div
           v-if="i === chosenTab"
-          class="rounded-box border-base-content/5 bg-base-100 overflow-x-auto border shadow-sm"
+          class="rounded-box border-base-content/5 bg-base-100 my-5 overflow-x-auto border shadow-sm"
         >
           <table class="du-table">
             <thead>
@@ -51,14 +55,14 @@
                     <button
                       v-if="user.role === 'writer'"
                       class="du-btn du-join-item hover:bg-green-300/75"
-                      @click="promote(user.id)"
+                      @click="changeRole(user.id, 'editor')"
                     >
                       Promote
                     </button>
                     <button
                       v-if="user.role === 'editor'"
                       class="du-btn du-join-item hover:bg-red-300/75"
-                      @click="demote(user.id)"
+                      @click="changeRole(user.id, 'writer')"
                     >
                       Demote
                     </button>
@@ -92,12 +96,18 @@ const modal = useTemplateRef('modal')
 
 let currentUserId = ''
 
-function promote(userID: string) {
-  requestEndpoint(`/users/${userID}`, 'PUT', { role: 'editor' })
+function changeRole(userID: string, newRole: 'writer' | 'editor' | 'admin') {
+  requestEndpoint(`/users/${userID}`, 'PUT', { role: newRole })
+
+  const specialUser = users.value?.filter((user) => user.id === userID)
+  if (specialUser) specialUser[0].role = newRole
 }
 
-function demote(userID: string) {
-  requestEndpoint(`/users/${userID}`, 'PUT', { role: 'writer' })
+function deleteUser() {
+  requestEndpoint(`/users/${currentUserId}`, 'DELETE')
+  const index = users.value?.findIndex((user) => user.id === currentUserId)
+  if (!index || index === -1) return
+  users.value?.splice(index, 1)
 }
 
 function confirmUserDeletion(userID: string) {
@@ -105,12 +115,7 @@ function confirmUserDeletion(userID: string) {
   currentUserId = userID
 }
 
-function deleteUser() {
-  requestEndpoint(`/users/${currentUserId}`, 'DELETE', { role: 'writer' })
-}
-
 onMounted(async () => {
   users.value = await requestEndpoint<User[]>('/users', 'GET')
-  chosenTab.value = 0
 })
 </script>
