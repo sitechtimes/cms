@@ -10,7 +10,10 @@
           <form method="dialog">
             <button
               class="du-btn bg-red-500 text-white hover:bg-red-600"
-              @click="deleteUser"
+              @click="
+                deleteUser
+                refreshPage
+              "
             >
               DELETE
             </button>
@@ -51,14 +54,20 @@
                     <button
                       v-if="user.role === 'writer'"
                       class="du-btn du-join-item hover:bg-green-300/75"
-                      @click="promote(user.id)"
+                      @click="
+                        promote(user.id)
+                        refreshPage
+                      "
                     >
                       Promote
                     </button>
                     <button
                       v-if="user.role === 'editor'"
                       class="du-btn du-join-item hover:bg-red-300/75"
-                      @click="demote(user.id)"
+                      @click="
+                        demote(user.id)
+                        refreshPage
+                      "
                     >
                       Demote
                     </button>
@@ -95,6 +104,10 @@ let currentUserId = ''
 onMounted(async () => {
   users.value = await requestEndpoint<User[]>('/users', 'GET')
 })
+
+function refreshPage() {
+  window.location.reload()
+}
 
 function promote(userID: string) {
   requestEndpoint(`/users/${userID}`, 'PUT', { role: 'editor' })
