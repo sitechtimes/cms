@@ -22,7 +22,7 @@ const toolbarOptions = [
   ['clean'],
 ]
 
-const html = defineModel<string>('html')
+const html = defineModel<string>()
 
 onMounted(async () => {
   const Quill = (await import('quill')).default

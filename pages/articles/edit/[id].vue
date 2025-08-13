@@ -1,6 +1,6 @@
 <template>
   <div v-if="article" class="mx-auto max-w-3xl py-8 md:max-w-7xl">
-    <dialog class="du-modal" ref="modal">
+    <dialog class="du-modal" ref="modal1">
       <div class="du-modal-box w-full max-w-lg">
         <h3 class="text-lg font-bold">
           ARE YOU SURE YOU WANT TO DELETE THIS ARTICLE
@@ -13,6 +13,27 @@
               class="du-btn bg-red-500 text-white hover:bg-red-600"
             >
               DELETE
+            </button>
+          </form>
+        </div>
+      </div>
+      <form method="dialog" class="du-modal-backdrop">
+        <button></button>
+      </form>
+    </dialog>
+    <dialog class="du-modal" ref="modal2">
+      <div class="du-modal-box w-full max-w-lg">
+        <h3 class="text-lg font-bold">
+          ARE YOU SURE YOU WANT TO SEND THIS TO REVIEW
+        </h3>
+        <p class="py-4">THEY MIGHT SEE THIS</p>
+        <div class="du-modal-action">
+          <form method="dialog">
+            <button
+              @click="sendToReview"
+              class="du-btn bg-orange-500 text-white hover:bg-orange-600"
+            >
+              SEND
             </button>
           </form>
         </div>
@@ -35,7 +56,7 @@
             <li @click="saveArticle">
               <button>Save Article</button>
             </li>
-            <li @click="sendToReview">
+            <li @click="confirmSend">
               <button>Send to Review</button>
             </li>
             <li @click="confirmArticleDeletion">
@@ -78,11 +99,30 @@
         </option>
       </select>
     </div>
-
-    <div class="mt-5 max-w-7xl rounded border border-gray-300 shadow">
-      <QuillEditor v-model:html="article.content" />
+    <div class="max-w-7xl py-4">
+      <label class="text-md block font-medium text-gray-700">
+        Upload Image
+      </label>
+      <fieldset class="du-fieldset mt-1">
+        <input type="file" class="du-file-input" ref="file" />
+        <label class="du-label">Max size 2MB</label>
+      </fieldset>
     </div>
-    <div>{{ article.content }}</div>
+    <div class="max-w-7xl">
+      <label class="text-md block font-medium text-gray-700">
+        Image Description
+      </label>
+      <div class="mt-1 flex w-80 rounded-md shadow-sm md:w-100 lg:w-120">
+        <input
+          type="text"
+          v-model="article.imageAlt"
+          class="du-input text-md block flex-1 rounded border border-gray-300 px-3 py-3"
+        />
+      </div>
+    </div>
+    <div class="mt-10 max-w-7xl rounded border border-gray-300 shadow">
+      <QuillEditor v-model="article.content" />
+    </div>
   </div>
 </template>
 
@@ -92,9 +132,13 @@ definePageMeta({
 })
 
 const route = useRoute()
+const router = useRouter()
 
 const dropdown = useTemplateRef('dropdown')
-const modal = useTemplateRef('modal')
+const modal1 = useTemplateRef('modal1')
+const modal2 = useTemplateRef('modal2')
+
+const fileSelection = useTemplateRef('file')
 
 const article = ref<Article>()
 
@@ -103,71 +147,38 @@ onBeforeMount(async () => {
     `/cms/${route.params.id}`,
     'GET'
   )
-  console.log(article.value)
 })
 
 function closeDropdown() {
+  console.log(fileSelection.value)
   dropdown.value?.removeAttribute('open')
 }
-
-/* {
-  title: {
-    type: String,
-    required: true,
-    trim: true,
-  },
-  content: {
-    type: String,
-    required: true,
-  },
-  customAuthor: {
-    type: String,
-    required: false,
-    trim: true,
-  },
-  user: {
-    id: {
-      type: String,
-      required: true,
-    },
-    name: {
-      type: String,
-      required: true,
-    },
-    imageUrl: {
-      type: String,
-      required: false,
-    },
-  },
-  imageUrl: {
-    type: String,
-    required: false,
-  },
-  imageAlt: {
-    type: String,
-    required: false,
-  },
-  category: {
-    type: String,
-    enum: Object.values(Category),
-    required: true,
-  }, */
 
 async function saveArticle() {
   closeDropdown()
   requestEndpoint(`/cms/${route.params.id}`, 'PUT', article.value)
 }
 
-function sendToReview() {
+function confirmSend() {
   closeDropdown()
+  modal2.value?.showModal()
+}
+
+function sendToReview() {
+  if (article.value) {
+    article.value.status = 'review'
+    requestEndpoint(`/cms/${route.params.id}`, 'PUT', article.value)
+  }
 }
 
 function confirmArticleDeletion() {
-  modal.value?.showModal()
+  closeDropdown()
+  modal1.value?.showModal()
 }
 
 function deleteArticle() {
-  closeDropdown()
+  requestEndpoint(`/cms/${route.params.id}`, 'DELETE')
+  router.push('/')
 }
 
 const topics = [
