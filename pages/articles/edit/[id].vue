@@ -80,20 +80,13 @@
     </div>
 
     <div class="mt-5 max-w-7xl rounded border border-gray-300 shadow">
-      <QuillEditor
-        @update-delta="updateDelta"
-        v-model:html="article.content"
-        v-model:delta="article.deltaContent"
-      />
+      <QuillEditor v-model:html="article.content" />
     </div>
     <div>{{ article.content }}</div>
-    <div>{{ article.deltaContent }}</div>
   </div>
 </template>
 
 <script setup lang="ts">
-import type { Delta } from 'quill'
-
 definePageMeta({
   layout: 'navbar',
 })
@@ -112,10 +105,6 @@ onBeforeMount(async () => {
   )
   console.log(article.value)
 })
-
-function updateDelta(delta: Delta) {
-  if (article.value) article.value.deltaContent = delta
-}
 
 function closeDropdown() {
   dropdown.value?.removeAttribute('open')
