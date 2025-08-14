@@ -1,5 +1,10 @@
 <template>
   <div v-if="article" class="mx-auto max-w-3xl py-8 md:max-w-7xl">
+    <ConfirmationMessage
+      icon="heroicons:exclamation-triangle-20-solid"
+      message="This is a message"
+      color="red"
+    />
     <dialog class="du-modal" ref="modal1">
       <div class="du-modal-box w-full max-w-lg">
         <h3 class="text-lg font-bold">
@@ -104,11 +109,23 @@
         Upload Image
       </label>
       <fieldset class="du-fieldset mt-1">
-        <input type="file" class="du-file-input" ref="file" />
+        <input
+          type="file"
+          class="du-file-input"
+          ref="file"
+          @change="changeImage"
+          multiple
+        />
         <label class="du-label">Max size 2MB</label>
       </fieldset>
     </div>
-    <div class="max-w-7xl">
+    <img
+      v-if="article.imageUrl"
+      class="mb-4 w-100 rounded-lg"
+      :src="article.imageUrl"
+      :alt="article.imageAlt ?? 'Article Image'"
+    />
+    <div class="mb-6 max-w-7xl" v-if="article.imageUrl">
       <label class="text-md block font-medium text-gray-700">
         Image Description
       </label>
@@ -120,7 +137,7 @@
         />
       </div>
     </div>
-    <div class="mt-10 max-w-7xl rounded border border-gray-300 shadow">
+    <div class="max-w-7xl rounded border border-gray-300 shadow">
       <QuillEditor v-model="article.content" />
     </div>
   </div>
@@ -149,8 +166,18 @@ onBeforeMount(async () => {
   )
 })
 
+function changeImage() {
+  const file = fileSelection.value?.files?.[0]
+  if (file) {
+    const reader = new FileReader()
+    reader.onload = () => {
+      article.value!.imageUrl = reader.result as string
+    }
+    reader.readAsDataURL(file)
+  }
+}
+
 function closeDropdown() {
-  console.log(fileSelection.value)
   dropdown.value?.removeAttribute('open')
 }
 
