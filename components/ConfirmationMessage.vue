@@ -1,45 +1,42 @@
 <template>
   <div
     v-if="message"
-    :class="['z-99', 'fixed', 'w-7xl', 'rounded-lg', bgColorClass]"
+    class="fixed inset-x-0 z-99 mx-3 w-auto rounded-lg xl:mx-auto xl:max-w-7xl"
+    :style="{
+      opacity: progress < 0.6 ? 1 : (1 - progress) * 2.5,
+      transition: 'opacity 0.1s linear',
+    }"
   >
-    <div class="justify-content p-4">
-      <p><Icon :name="icon" /> {{ message }}</p>
-      <button @click="startMessage">fre</button>
+    <div class="flex items-center justify-between p-4">
+      <p class="flex items-center">
+        <Icon class="m-2" :name="icon" /> {{ message }}
+      </p>
+      <div
+        class="order-none flex aspect-square w-10 items-center justify-center rounded-full align-middle hover:bg-gray-100/50"
+      >
+        <Icon
+          @click="emit('close')"
+          class="m-auto"
+          name="heroicons:x-mark-16-solid"
+        />
+      </div>
     </div>
     <progress
-      class="du-progress w-full"
-      :value="progress * 20"
+      class="du-progress block w-full rounded-t-none rounded-b-lg"
+      :value="progress * 100"
       max="100"
     ></progress>
   </div>
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{
-  icon: string
-  message: string
-  color: 'red' | 'green'
+const emit = defineEmits<{
+  (e: 'close'): void
 }>()
 
-const progress = ref(0)
-
-const bgColorClass = computed(() => `bg-${props.color}-300`)
-
-function startMessage() {
-  progress.value = 0
-
-  const duration = 5000
-  const startTime = performance.now()
-
-  const update = (now: DOMHighResTimeStamp) => {
-    const elapsed = now - startTime
-    progress.value = Math.min((elapsed / duration) * 5, 5)
-    if (elapsed < duration) {
-      requestAnimationFrame(update)
-    }
-  }
-
-  requestAnimationFrame(update)
-}
+defineProps<{
+  icon: string
+  message: string
+  progress: number
+}>()
 </script>
