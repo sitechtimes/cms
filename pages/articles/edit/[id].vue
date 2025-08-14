@@ -222,7 +222,7 @@ function startMessage(message: string) {
   const duration = 3000
   const startTime = performance.now()
 
-  const update = (now: DOMHighResTimeStamp) => {
+  function update(now: DOMHighResTimeStamp) {
     const elapsed = now - startTime
     progress.value = Math.min(elapsed / duration, 1)
     if (elapsed < duration) {

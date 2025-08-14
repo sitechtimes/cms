@@ -1,10 +1,9 @@
 <template>
   <div
     v-if="message"
-    class="fixed inset-x-0 z-99 mx-3 w-auto rounded-lg xl:mx-auto xl:max-w-7xl"
+    class="fixed inset-x-0 z-99 mx-3 w-auto rounded-lg transition-opacity xl:mx-auto xl:max-w-7xl"
     :style="{
       opacity: progress < 0.6 ? 1 : (1 - progress) * 2.5,
-      transition: 'opacity 0.1s linear',
     }"
   >
     <div class="flex items-center justify-between p-4">
@@ -31,7 +30,7 @@
 
 <script setup lang="ts">
 const emit = defineEmits<{
-  (e: 'close'): void
+  close: []
 }>()
 
 defineProps<{
