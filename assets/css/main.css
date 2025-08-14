@@ -9,14 +9,33 @@ html {
   background-color: var(--bg-primary);
 }
 
+:root {
+  --bg-primary: rgb(243,244,246);
+  --color-primary: var(--color-indigo-600);
+  /* -- */
+}
+
 * {
   transition-property: color, background-color;
   transition-duration: 0.4s;
   transition-timing-function: ease;
 }
 
-:root {
-  --bg-primary: rgb(243,244,246);
-  --color-primary: var(--color-indigo-600);
-  /* -- */
+/* transitions */
+.fade-leave-active,
+.fade-enter-active {
+  position: absolute;
+}
+
+.fade-leave-active {
+  transition: opacity 0.2s ease-out;
+}
+
+.fade-enter-active {
+  transition: opacity 0.5s ease-out;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }

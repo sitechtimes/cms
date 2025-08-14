@@ -1,6 +1,6 @@
 <template>
   <div>
-    <dialog class="du-modal" ref="modal">
+    <dialog ref="modal" class="du-modal">
       <div class="du-modal-box w-full max-w-lg">
         <h3 class="text-lg font-bold">
           ARE YOU SURE YOU WANT TO DELETE THIS USER
@@ -9,8 +9,8 @@
         <div class="du-modal-action">
           <form method="dialog">
             <button
-              @click="deleteUser"
               class="du-btn bg-red-500 text-white hover:bg-red-600"
+              @click="deleteUser"
             >
               DELETE
             </button>
@@ -25,11 +25,15 @@
       <div class="lg:flex lg:items-center lg:justify-between">
         <h1 class="text-3xl font-bold text-gray-900">Users</h1>
       </div>
-      <TabPanel :names="['Editors', 'Writers']" v-model="chosenTab" />
-      <div class="" v-for="(role, i) in ['editor', 'writer']">
+      <TabPanel
+        v-if="users"
+        v-model="chosenTab"
+        :names="['Editors', 'Writers']"
+      />
+      <div v-for="(role, i) in ['editor', 'writer']" :key="i" class="m-auto">
         <div
           v-if="i === chosenTab"
-          class="rounded-box border-base-content/5 bg-base-100 overflow-x-auto border"
+          class="rounded-box border-base-content/5 bg-base-100 my-5 overflow-x-auto border shadow-sm"
         >
           <table class="du-table">
             <thead>
@@ -40,22 +44,25 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="user in users?.filter((user) => user.role === role)">
+              <tr
+                v-for="user in users?.filter((user) => user.role === role)"
+                :key="user.id"
+              >
                 <th>{{ user.name }}</th>
                 <td>{{ user.email }}</td>
                 <td>
                   <div class="du-join du-join-horizontal">
                     <button
-                      @click="promote(user.id)"
                       v-if="user.role === 'writer'"
                       class="du-btn du-join-item hover:bg-green-300/75"
+                      @click="changeRole(user.id, 'editor')"
                     >
                       Promote
                     </button>
                     <button
-                      @click="demote(user.id)"
                       v-if="user.role === 'editor'"
                       class="du-btn du-join-item hover:bg-red-300/75"
+                      @click="changeRole(user.id, 'writer')"
                     >
                       Demote
                     </button>
@@ -89,16 +96,18 @@ const modal = useTemplateRef('modal')
 
 let currentUserId = ''
 
-onMounted(async () => {
-  users.value = await requestEndpoint<User[]>('/users', 'GET')
-})
+function changeRole(userID: string, newRole: 'writer' | 'editor' | 'admin') {
+  requestEndpoint(`/users/${userID}`, 'PUT', { role: newRole })
 
-function promote(userID: string) {
-  requestEndpoint(`/users/${userID}`, 'PUT', { role: 'editor' })
+  const specialUser = users.value?.filter((user) => user.id === userID)
+  if (specialUser) specialUser[0].role = newRole
 }
 
-function demote(userID: string) {
-  requestEndpoint(`/users/${userID}`, 'PUT', { role: 'writer' })
+function deleteUser() {
+  requestEndpoint(`/users/${currentUserId}`, 'DELETE')
+  const index = users.value?.findIndex((user) => user.id === currentUserId)
+  if (!index || index === -1) return
+  users.value?.splice(index, 1)
 }
 
 function confirmUserDeletion(userID: string) {
@@ -106,7 +115,7 @@ function confirmUserDeletion(userID: string) {
   currentUserId = userID
 }
 
-function deleteUser() {
-  requestEndpoint(`/users/${currentUserId}`, 'DELETE', { role: 'writer' })
-}
+onMounted(async () => {
+  users.value = await requestEndpoint<User[]>('/users', 'GET')
+})
 </script>

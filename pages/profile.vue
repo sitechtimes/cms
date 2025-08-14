@@ -5,8 +5,8 @@
         <h1 class="text-3xl font-bold text-gray-900">Profile</h1>
       </div>
       <div class="mt-5 grid md:mt-0 md:grid-cols-2">
-        <div class="space-y-6 py-5">
-          <div v-for="attribute in attributes" :key="attribute" v-if="user">
+        <div v-if="user" class="space-y-6 py-5">
+          <div v-for="attribute in attributes" :key="attribute">
             <label class="block text-sm font-medium text-gray-700 capitalize">
               {{ attribute }}
             </label>

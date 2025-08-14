@@ -1,7 +1,10 @@
+import { defineStore } from 'pinia'
+
 export const useUserStore = defineStore(
   'user',
   () => {
     const user = ref<User>()
+    const router = useRouter()
 
     async function signIn(email: string, password: string) {
       signOut()
@@ -14,14 +17,47 @@ export const useUserStore = defineStore(
       return (user.value = data)
     }
 
+    async function signUp(name: string, email: string, password: string) {
+      await requestEndpoint('/auth/signup', 'POST', {
+        name,
+        email,
+        password,
+      })
+    }
+
+    async function requestVerification(newToken: boolean): Promise<{
+      message: string
+      time: number
+      verified?: boolean
+    }> {
+      try {
+        const data = await requestEndpoint<{ message: string; time: number }>(
+          '/auth/verify',
+          'POST',
+          {
+            newToken,
+          }
+        )
+
+        return data
+      } catch (error) {
+        // unauthorized. get out
+        if (error.status === 401) signOut()
+        throw error
+      }
+    }
+
+    async function verifyToken(token: string) {
+      user.value = await requestEndpoint<User>(`/auth/verify?token=${token}`)
+      router.push('/')
+    }
+
     function signOut() {
       user.value = undefined
-
-      const router = useRouter()
       router.push('/auth/signin')
     }
 
-    return { user, signIn, signOut }
+    return { user, signIn, signUp, requestVerification, signOut, verifyToken }
   },
   {
     persist: {
