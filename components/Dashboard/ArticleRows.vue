@@ -21,7 +21,7 @@
     <td class="w-40 min-w-20 text-right text-sm font-medium whitespace-nowrap">
       <NuxtLink
         class="text-indigo-600 hover:text-indigo-900"
-        :to="`/articles/${article._id}`"
+        :to="`/articles/edit/${article._id}`"
       >
         {{ articleActionText }}
       </NuxtLink>
