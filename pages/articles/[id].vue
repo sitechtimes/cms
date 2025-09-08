@@ -1,7 +1,12 @@
 <template>
   <div class="mx-auto max-w-3xl py-8 md:max-w-7xl">
     <div v-if="article">
-      <img v-if="article.imageUrl" :src="article.imageUrl" alt="" />
+      <img
+        v-if="article.imageUrl"
+        :src="article.imageUrl"
+        alt=""
+        class="rounded-2xl"
+      />
       <div>
         <Icon name="heroicons:user-16-solid" class="relative top-0.5 h-5 w-5" />
         {{ article.customAuthor }}
