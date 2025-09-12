@@ -1,5 +1,6 @@
 <template>
   <div class="mx-auto max-w-3xl py-8 md:max-w-7xl">
+    <div class="du-badge">{{ article?.category }}</div>
     <div ref="titleRef" class="m-auto mb-3.5 text-5xl font-semibold"></div>
     <div v-if="article">
       <img
