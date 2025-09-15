@@ -13,6 +13,16 @@ html {
   --bg-primary: rgb(243,244,246);
   --color-primary: var(--color-indigo-600);
   /* -- */
+
+  
+  --feature: var(#5b21b6);
+  --entertainment: var(#dc2626);
+  --news: var(#312e81);
+  --lifestyle: var(#da1678);
+  --opinion: var(#a316a3);
+  --science: var(#12804d);
+  --technology: var(#2b6dd8);
+  --school: var(#b45309);
 }
 
 * {
