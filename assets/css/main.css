@@ -14,15 +14,17 @@ html {
   --color-primary: var(--color-indigo-600);
   /* -- */
 
+  --feature: #5b21b6;
+  --entertainment: #dc2626;
+  --news: #312e81;
+  --lifestyle: #da1678;
+  --opinion: #a316a3;
+  --science: #12804d;
+  --technology: #2b6dd8;
+  --school: #b45309;
+
   
-  --feature: var(#5b21b6);
-  --entertainment: var(#dc2626);
-  --news: var(#312e81);
-  --lifestyle: var(#da1678);
-  --opinion: var(#a316a3);
-  --science: var(#12804d);
-  --technology: var(#2b6dd8);
-  --school: var(#b45309);
+
 }
 
 * {

@@ -1,6 +1,15 @@
 <template>
-  <div :style="" class="mx-auto max-w-3xl py-8 md:max-w-7xl">
-    <div class="du-badge">{{ article?.category }}</div>
+  <div class="mx-auto max-w-3xl py-8 md:max-w-7xl">
+    <div
+      :class="[
+        'du-badge du-badge-lg cursor-default text-white capitalize transition-transform duration-300 hover:-translate-y-2',
+        article?.category
+          ? categoryMap[article.category as keyof typeof categoryMap]
+          : '',
+      ]"
+    >
+      {{ article?.category }}
+    </div>
     <div ref="titleRef" class="m-auto mb-3.5 text-5xl font-semibold"></div>
     <div v-if="article">
       <img
@@ -29,9 +38,21 @@ const route = useRoute()
 const titleRef = useTemplateRef('titleRef')
 const contentRef = useTemplateRef('contentRef')
 
-computed(() => {
-  return 'background-color: var(--' + article.value?.category + ')'
-})
+const categoryMap = {
+  news: 'bg-[var(--news)]',
+  feature: 'bg-[var(--feature)]',
+  entertainment: 'bg-[var(--entertainment)]',
+  lifestyle: 'bg-[var(--lifestyle)]',
+  opinion: 'bg-[var(--opinion)]',
+  science: 'bg-[var(--science)]',
+  technology: 'bg-[var(--technology)]',
+  school: 'bg-[var(--school)]',
+} as const
+
+// const backgroundColor = computed(() => {
+//   console.log('bg-[--' + article.value?.category + ')]')
+//   return 'bg-[--' + article.value?.category + ')]'
+// })
 
 onBeforeMount(async () => {
   article.value = await requestEndpoint<Article>(

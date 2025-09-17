@@ -14,9 +14,9 @@
         class="order-none flex aspect-square w-10 items-center justify-center rounded-full align-middle hover:bg-gray-100/50"
       >
         <Icon
-          @click="emit('close')"
           class="m-auto"
           name="heroicons:x-mark-16-solid"
+          @click="emit('close')"
         />
       </div>
     </div>
