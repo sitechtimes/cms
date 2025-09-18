@@ -1,8 +1,8 @@
 <template>
   <div class="mx-auto max-w-3xl py-8 md:max-w-7xl">
     <div
+      class="du-badge du-badge-lg cursor-default text-white capitalize transition duration-200 ease-in-out hover:-translate-y-2"
       :class="[
-        'du-badge du-badge-lg cursor-default text-white capitalize transition-transform duration-300 hover:-translate-y-2',
         article?.category
           ? categoryMap[article.category as keyof typeof categoryMap]
           : '',
