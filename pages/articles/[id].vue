@@ -11,7 +11,7 @@
       {{ article?.category }}
     </div>
     <div ref="titleRef" class="m-auto mb-3.5 text-5xl font-semibold"></div>
-    <div v-if="article">
+    <div v-if="article" class="my-8">
       <img
         v-if="article.imageUrl"
         :src="article.imageUrl"
@@ -19,8 +19,20 @@
         class="w-3xl rounded-2xl"
       />
       <div>
-        <Icon name="heroicons:user-16-solid" class="relative top-0.5 h-5 w-5" />
-        {{ article.customAuthor }}
+        <span class="mr-6">
+          <Icon
+            name="heroicons:user-16-solid"
+            class="relative top-0.5 h-5 w-5"
+          />
+          {{ article.customAuthor }}
+        </span>
+        <span>
+          <Icon
+            name="heroicons:clock-16-solid"
+            class="relative top-0.5 h-5 w-5"
+          />
+          {{ formattedDate }}
+        </span>
       </div>
     </div>
     <div ref="contentRef"></div>
@@ -48,6 +60,15 @@ const categoryMap = {
   technology: 'bg-[var(--technology)]',
   school: 'bg-[var(--school)]',
 } as const
+
+const options: Intl.DateTimeFormatOptions = {
+  weekday: 'short',
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
+}
+const today = new Date()
+const formattedDate = today.toLocaleDateString('en-US', options)
 
 // const backgroundColor = computed(() => {
 //   console.log('bg-[--' + article.value?.category + ')]')
