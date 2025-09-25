@@ -10,32 +10,35 @@
     >
       {{ article?.category }}
     </div>
-    <div ref="titleRef" class="m-auto mb-3.5 text-5xl font-semibold"></div>
-    <div v-if="article" class="my-8">
-      <img
-        v-if="article.imageUrl"
-        :src="article.imageUrl"
-        alt=""
-        class="w-3xl rounded-2xl"
-      />
-      <div>
-        <span class="mr-6">
-          <Icon
-            name="heroicons:user-16-solid"
-            class="relative top-0.5 h-5 w-5"
-          />
-          {{ article.customAuthor }}
-        </span>
-        <span>
-          <Icon
-            name="heroicons:clock-16-solid"
-            class="relative top-0.5 h-5 w-5"
-          />
-          {{ formattedDate }}
-        </span>
+    <article class="prose max-w-[56%]">
+      <div ref="titleRef" class="m-auto mb-3.5 text-5xl font-semibold"></div>
+      <div v-if="article" class="my-8">
+        <img
+          v-if="article.imageUrl"
+          :src="article.imageUrl"
+          alt=""
+          class="w-3xl rounded-2xl"
+        />
+        <div>
+          <span class="mr-6">
+            <Icon
+              name="heroicons:user-16-solid"
+              class="relative top-0.5 h-5 w-5"
+            />
+            {{ article.customAuthor }}
+          </span>
+          <span>
+            <Icon
+              name="heroicons:clock-16-solid"
+              class="relative top-0.5 h-5 w-5"
+            />
+            {{ formattedDate }}
+          </span>
+        </div>
       </div>
-    </div>
-    <div ref="contentRef"></div>
+
+      <div ref="contentRef"></div>
+    </article>
   </div>
 </template>
 
