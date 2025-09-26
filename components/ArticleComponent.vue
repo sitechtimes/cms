@@ -70,7 +70,7 @@ const options: Intl.DateTimeFormatOptions = {
 const today = new Date()
 const formattedDate = today.toLocaleDateString('en-US', options)
 
-onBeforeMount(async () => {
+onMounted(async () => {
   if (contentRef.value) {
     contentRef.value.innerHTML = props.article.content
   }
