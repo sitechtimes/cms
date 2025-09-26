@@ -7,7 +7,7 @@
       :progress="progress"
       @close="confirmationMessage = ''"
     />
-    <dialog class="du-modal" ref="modal1">
+    <dialog ref="modal1" class="du-modal">
       <div class="du-modal-box w-full max-w-lg">
         <h3 class="text-lg font-bold">
           ARE YOU SURE YOU WANT TO DELETE THIS ARTICLE
@@ -16,8 +16,8 @@
         <div class="du-modal-action">
           <form method="dialog">
             <button
-              @click="deleteArticle"
               class="du-btn bg-red-500 text-white hover:bg-red-600"
+              @click="deleteArticle"
             >
               DELETE
             </button>
@@ -28,7 +28,7 @@
         <button></button>
       </form>
     </dialog>
-    <dialog class="du-modal" ref="modal2">
+    <dialog ref="modal2" class="du-modal">
       <div class="du-modal-box w-full max-w-lg">
         <h3 class="text-lg font-bold">
           ARE YOU SURE YOU WANT TO SEND THIS TO REVIEW
@@ -37,8 +37,8 @@
         <div class="du-modal-action">
           <form method="dialog">
             <button
-              @click="sendToReview"
               class="du-btn bg-orange-500 text-white hover:bg-orange-600"
+              @click="sendToReview"
             >
               SEND
             </button>
@@ -55,7 +55,7 @@
         <NuxtLink :to="`/articles/${route.params.id}`" class="du-btn text-md">
           <Icon class="align-middle" name="heroicons:link-16-solid" />View
         </NuxtLink>
-        <details class="du-dropdown du-dropdown-end" ref="dropdown">
+        <details ref="dropdown" class="du-dropdown du-dropdown-end">
           <summary class="du-btn m-1">Options</summary>
           <ul
             class="du-menu du-dropdown-content bg-base-100 du-rounded-box z-1 w-52 p-2 shadow-sm"
@@ -77,8 +77,8 @@
       <label class="text-md block font-medium text-gray-700"> Title </label>
       <div class="mt-1 flex w-80 rounded-md shadow-sm md:w-100 lg:w-120">
         <input
-          type="text"
           v-model="article.title"
+          type="text"
           class="du-input text-md block flex-1 rounded border border-gray-300 px-3 py-3"
         />
       </div>
@@ -89,8 +89,8 @@
       </label>
       <div class="mt-1 flex w-80 rounded-md shadow-sm md:w-100 lg:w-120">
         <input
-          type="text"
           v-model="article.customAuthor"
+          type="text"
           class="du-input text-md block flex-1 rounded border border-gray-300 px-3 py-3"
         />
       </div>
@@ -112,11 +112,11 @@
       </label>
       <fieldset class="du-fieldset mt-1">
         <input
+          ref="file"
           type="file"
           class="du-file-input"
-          ref="file"
-          @change="changeImage"
           multiple
+          @change="changeImage"
         />
         <label class="du-label">Max size 2MB</label>
       </fieldset>
@@ -127,14 +127,14 @@
       :src="article.imageUrl"
       :alt="article.imageAlt ?? 'Article Image'"
     />
-    <div class="mb-6 max-w-7xl" v-if="article.imageUrl">
+    <div v-if="article.imageUrl" class="mb-6 max-w-7xl">
       <label class="text-md block font-medium text-gray-700">
         Image Description
       </label>
       <div class="mt-1 flex w-80 rounded-md shadow-sm md:w-100 lg:w-120">
         <input
-          type="text"
           v-model="article.imageAlt"
+          type="text"
           class="du-input text-md block flex-1 rounded border border-gray-300 px-3 py-3"
         />
       </div>
