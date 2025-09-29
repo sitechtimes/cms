@@ -49,6 +49,27 @@
         <button></button>
       </form>
     </dialog>
+    <dialog ref="modal3" class="du-modal">
+      <div class="du-modal-box w-full max-w-lg">
+        <h3 class="text-lg font-bold">
+          ARE YOU SURE YOU WANT TO PUBLISH THIS ARTICLE????
+        </h3>
+        <p class="py-4">EVERYONE MIGHT SEE THIS</p>
+        <div class="du-modal-action">
+          <form method="dialog">
+            <button
+              class="du-btn bg-green-500 text-white hover:bg-green-600"
+              @click="publishArticle"
+            >
+              SEND
+            </button>
+          </form>
+        </div>
+      </div>
+      <form method="dialog" class="du-modal-backdrop">
+        <button></button>
+      </form>
+    </dialog>
     <div class="flex justify-between">
       <h1 class="text-3xl font-bold text-gray-900">Edit Article</h1>
       <div>
@@ -60,6 +81,9 @@
           <ul
             class="du-menu du-dropdown-content bg-base-100 du-rounded-box z-1 w-52 p-2 shadow-sm"
           >
+            <li v-if="article.status === 'ready'" @click="confirmPublish">
+              <button>Publish Article</button>
+            </li>
             <li @click="saveArticle">
               <button>Save Article</button>
             </li>
@@ -156,6 +180,7 @@ const router = useRouter()
 const dropdown = useTemplateRef('dropdown')
 const modal1 = useTemplateRef('modal1')
 const modal2 = useTemplateRef('modal2')
+const modal3 = useTemplateRef('modal3')
 
 const progress = ref(0)
 const confirmationMessage = ref('')
@@ -195,6 +220,17 @@ async function saveArticle() {
 function confirmSend() {
   closeDropdown()
   modal2.value?.showModal()
+}
+
+async function publishArticle() {
+  closeDropdown()
+  requestEndpoint(`/cms/${route.params.id}/publish`, 'POST')
+  startMessage('Article published!')
+}
+
+function confirmPublish() {
+  closeDropdown()
+  modal3.value?.showModal()
 }
 
 function sendToReview() {
