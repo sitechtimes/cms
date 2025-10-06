@@ -57,23 +57,27 @@ export async function requestEndpoint<T>(
   if (contentLength === '0') return undefined as T
   console.log(res)
 
-  const jason = await res.json()
+  const text = await res.text()
 
-  console.log(69)
+  try {
+    const jason = JSON.parse(text)
+    console.log(69)
 
-  if (jason.message === 'you are invalid') return userStore.signOut()
+    if (jason.message === 'you are invalid') return userStore.signOut()
 
-  if (!res.ok) {
-    console.error(new Error(jason.message))
-    throw jason.message
+    if (!res.ok) {
+      console.error(new Error(jason.message))
+      throw jason.message
+    }
+
+    if (!res.ok) {
+      console.error(new Error(jason.message))
+      throw { ...jason, status: res.status }
+    }
+
+    console.log(41)
+    return jason
+  } catch (error) {
+    console.error(error)
   }
-
-  if (!res.ok) {
-    console.error(new Error(jason.message))
-    throw { ...jason, status: res.status }
-  }
-
-  console.log(41)
-
-  return jason
 }
