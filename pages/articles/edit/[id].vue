@@ -70,6 +70,27 @@
         <button></button>
       </form>
     </dialog>
+    <dialog ref="modal4" class="du-modal">
+      <div class="du-modal-box w-full max-w-lg">
+        <h3 class="text-lg font-bold">
+          ARE YOU SURE THIS ARTICLE IS READY????
+        </h3>
+        <p class="py-4">SOMEONE WILL PROBABLY SEE THIS</p>
+        <div class="du-modal-action">
+          <form method="dialog">
+            <button
+              class="du-btn bg-fuchsia-500 text-white hover:bg-fuchsia-600"
+              @click="publishArticle"
+            >
+              SEND
+            </button>
+          </form>
+        </div>
+      </div>
+      <form method="dialog" class="du-modal-backdrop">
+        <button></button>
+      </form>
+    </dialog>
     <div class="flex justify-between">
       <h1 class="text-3xl font-bold text-gray-900">Edit Article</h1>
       <div>
@@ -89,6 +110,12 @@
             </li>
             <li v-if="article.status === 'draft'" @click="confirmSend">
               <button>Send to Review</button>
+            </li>
+            <li
+              v-if="article.status === 'review' && user?.role === 'admin'"
+              @click="confirmReady"
+            >
+              <button>Send to Ready</button>
             </li>
             <li @click="confirmArticleDeletion">
               <button>Delete Article</button>
@@ -181,6 +208,7 @@ const dropdown = useTemplateRef('dropdown')
 const modal1 = useTemplateRef('modal1')
 const modal2 = useTemplateRef('modal2')
 const modal3 = useTemplateRef('modal3')
+const modal4 = useTemplateRef('modal4')
 
 const progress = ref(0)
 const confirmationMessage = ref('')
@@ -188,6 +216,8 @@ const confirmationMessage = ref('')
 const fileSelection = useTemplateRef('file')
 
 const article = ref<Article>()
+const userStore = useUserStore()
+const { user } = storeToRefs(userStore)
 
 onBeforeMount(async () => {
   article.value = await requestEndpoint<Article>(
@@ -220,6 +250,12 @@ async function saveArticle() {
 function confirmSend() {
   closeDropdown()
   modal2.value?.showModal()
+}
+
+async function readyArticle() {
+  closeDropdown()
+  requestEndpoint(`/cms/${route.params.id}/ready`, 'POST')
+  startMessage('Article published!')
 }
 
 async function publishArticle() {

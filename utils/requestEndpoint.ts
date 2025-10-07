@@ -31,8 +31,6 @@ export async function requestEndpoint<T>(
   const config = useRuntimeConfig()
   const userStore = useUserStore()
 
-  console.log(67)
-
   const headers: HeadersInit = {}
 
   if (userStore.user)
@@ -46,22 +44,18 @@ export async function requestEndpoint<T>(
     headers['Content-Type'] = 'application/json'
   }
 
-  console.log(68)
-
   options.headers = headers
-  console.log(68.1)
+
   const res = await fetch(config.public.backend + endpoint, options)
-  console.log(68.2)
+
   const contentLength = res.headers.get('Content-Length')
-  console.log(68.3)
+
   if (contentLength === '0') return undefined as T
-  console.log(res)
 
   const text = await res.text()
 
   try {
     const jason = JSON.parse(text)
-    console.log(69)
 
     if (jason.message === 'you are invalid') return userStore.signOut()
 
@@ -75,7 +69,6 @@ export async function requestEndpoint<T>(
       throw { ...jason, status: res.status }
     }
 
-    console.log(41)
     return jason
   } catch (error) {
     console.error(error)

@@ -103,13 +103,11 @@ const router = useRouter()
 
 async function signUp() {
   try {
-    console.log(1)
     await userStore.signUp(name.value, email.value, password.value)
-    console.log(2)
+
     await userStore.signIn(email.value, password.value)
-    console.log(3)
+
     await router.push('/auth/verify')
-    console.log(4)
   } catch (e) {
     console.log(e)
   }
