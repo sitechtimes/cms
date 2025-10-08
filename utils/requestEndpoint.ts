@@ -49,8 +49,9 @@ export async function requestEndpoint<T>(
   const res = await fetch(config.public.backend + endpoint, options)
 
   const contentLength = res.headers.get('Content-Length')
-  if (contentLength === '0') return undefined as T
-
+  const contentType = res.headers.get('Content-Type')
+  if (!contentLength || contentType === "text/plain; charset=utf-8") return undefined as T
+  
   const jason = await res.json()
 
   if (jason.message === 'you are invalid') return userStore.signOut()
