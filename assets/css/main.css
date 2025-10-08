@@ -1,4 +1,5 @@
 @import 'tailwindcss';
+@plugin "@tailwindcss/typography";
 @plugin "daisyui" {
   prefix: 'du-';
   exclude: rootscrollgutter;
@@ -13,6 +14,18 @@ html {
   --bg-primary: rgb(243,244,246);
   --color-primary: var(--color-indigo-600);
   /* -- */
+
+  --feature: #5b21b6;
+  --entertainment: #dc2626;
+  --news: #312e81;
+  --lifestyle: #da1678;
+  --opinion: #a316a3;
+  --science: #12804d;
+  --technology: #2b6dd8;
+  --school: #b45309;
+
+  
+
 }
 
 * {
