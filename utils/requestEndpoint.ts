@@ -1,5 +1,4 @@
 import { useUserStore } from '#imports'
-
 /** Makes a request to the given endpoint with the given method and body.
  * @param endpoint - the endpoint to request. It will be automatically appended to the base URL, **so it should NOT start with a `/`**.
  * @param method - the HTTP method to use for the request. Defaults to `"GET"`.
@@ -49,7 +48,9 @@ export async function requestEndpoint<T>(
   const res = await fetch(config.public.backend + endpoint, options)
 
   const contentLength = res.headers.get('Content-Length')
-  if (contentLength === '0') return undefined as T
+  const contentType = res.headers.get('Content-Type')
+  if (!contentLength || contentType === 'text/plain; charset=utf-8')
+    return undefined as T
 
   const jason = await res.json()
 

@@ -49,6 +49,48 @@
         <button></button>
       </form>
     </dialog>
+    <dialog ref="modal3" class="du-modal">
+      <div class="du-modal-box w-full max-w-lg">
+        <h3 class="text-lg font-bold">
+          ARE YOU SURE YOU WANT TO PUBLISH THIS ARTICLE????
+        </h3>
+        <p class="py-4">EVERYONE MIGHT SEE THIS</p>
+        <div class="du-modal-action">
+          <form method="dialog">
+            <button
+              class="du-btn bg-green-500 text-white hover:bg-green-600"
+              @click="publishArticle"
+            >
+              SEND
+            </button>
+          </form>
+        </div>
+      </div>
+      <form method="dialog" class="du-modal-backdrop">
+        <button></button>
+      </form>
+    </dialog>
+    <dialog ref="modal4" class="du-modal">
+      <div class="du-modal-box w-full max-w-lg">
+        <h3 class="text-lg font-bold">
+          ARE YOU SURE THIS ARTICLE IS READY????
+        </h3>
+        <p class="py-4">SOMEONE WILL PROBABLY SEE THIS</p>
+        <div class="du-modal-action">
+          <form method="dialog">
+            <button
+              class="du-btn bg-fuchsia-500 text-white hover:bg-fuchsia-600"
+              @click="readyArticle"
+            >
+              SEND
+            </button>
+          </form>
+        </div>
+      </div>
+      <form method="dialog" class="du-modal-backdrop">
+        <button></button>
+      </form>
+    </dialog>
     <div class="flex justify-between">
       <h1 class="text-3xl font-bold text-gray-900">Edit Article</h1>
       <div>
@@ -60,11 +102,20 @@
           <ul
             class="du-menu du-dropdown-content bg-base-100 du-rounded-box z-1 w-52 p-2 shadow-sm"
           >
+            <li v-if="article.status === 'ready'" @click="confirmPublish">
+              <button>Publish Article</button>
+            </li>
             <li @click="saveArticle">
               <button>Save Article</button>
             </li>
             <li v-if="article.status === 'draft'" @click="confirmSend">
               <button>Send to Review</button>
+            </li>
+            <li
+              v-if="article.status === 'review' && user?.role === 'admin'"
+              @click="confirmReady"
+            >
+              <button>Send to Ready</button>
             </li>
             <li @click="confirmArticleDeletion">
               <button>Delete Article</button>
@@ -101,7 +152,7 @@
         v-model="article.category"
         class="du-select mt-1 capitalize shadow"
       >
-        <option v-for="topic in topics">
+        <option v-for="topic in topics" :key="topic">
           {{ topic }}
         </option>
       </select>
@@ -156,6 +207,8 @@ const router = useRouter()
 const dropdown = useTemplateRef('dropdown')
 const modal1 = useTemplateRef('modal1')
 const modal2 = useTemplateRef('modal2')
+const modal3 = useTemplateRef('modal3')
+const modal4 = useTemplateRef('modal4')
 
 const progress = ref(0)
 const confirmationMessage = ref('')
@@ -163,6 +216,8 @@ const confirmationMessage = ref('')
 const fileSelection = useTemplateRef('file')
 
 const article = ref<Article>()
+const userStore = useUserStore()
+const { user } = storeToRefs(userStore)
 
 onBeforeMount(async () => {
   article.value = await requestEndpoint<Article>(
@@ -189,7 +244,7 @@ function closeDropdown() {
 async function saveArticle() {
   closeDropdown()
   requestEndpoint(`/cms/${route.params.id}`, 'PUT', article.value)
-  startMessage('Article saved.')
+  startMessage('Article saved!')
 }
 
 function confirmSend() {
@@ -197,12 +252,36 @@ function confirmSend() {
   modal2.value?.showModal()
 }
 
+async function readyArticle() {
+  if (article.value) {
+    article.value.status = 'ready'
+    requestEndpoint(`/cms/${route.params.id}`, 'PUT', article.value)
+  }
+  startMessage('Article sent to ready!')
+}
+
+function confirmReady() {
+  closeDropdown()
+  modal4.value?.showModal()
+}
+
+async function publishArticle() {
+  closeDropdown()
+  requestEndpoint(`/cms/${route.params.id}/publish`, 'POST')
+  startMessage('Article published!')
+}
+
+function confirmPublish() {
+  closeDropdown()
+  modal3.value?.showModal()
+}
+
 function sendToReview() {
   if (article.value) {
     article.value.status = 'review'
     requestEndpoint(`/cms/${route.params.id}`, 'PUT', article.value)
   }
-  startMessage('Article sent for review.')
+  startMessage('Article sent for review!')
 }
 
 function confirmArticleDeletion() {
