@@ -80,7 +80,7 @@
           <form method="dialog">
             <button
               class="du-btn bg-fuchsia-500 text-white hover:bg-fuchsia-600"
-              @click="publishArticle"
+              @click="readyArticle"
             >
               SEND
             </button>
@@ -152,7 +152,7 @@
         v-model="article.category"
         class="du-select mt-1 capitalize shadow"
       >
-        <option v-for="topic in topics">
+        <option v-for="topic in topics" :key="topic">
           {{ topic }}
         </option>
       </select>
@@ -244,7 +244,7 @@ function closeDropdown() {
 async function saveArticle() {
   closeDropdown()
   requestEndpoint(`/cms/${route.params.id}`, 'PUT', article.value)
-  startMessage('Article saved.')
+  startMessage('Article saved!')
 }
 
 function confirmSend() {
@@ -253,9 +253,16 @@ function confirmSend() {
 }
 
 async function readyArticle() {
+  if (article.value) {
+    article.value.status = 'ready'
+    requestEndpoint(`/cms/${route.params.id}`, 'PUT', article.value)
+  }
+  startMessage('Article sent to ready!')
+}
+
+function confirmReady() {
   closeDropdown()
-  requestEndpoint(`/cms/${route.params.id}/ready`, 'POST')
-  startMessage('Article published!')
+  modal4.value?.showModal()
 }
 
 async function publishArticle() {
@@ -274,7 +281,7 @@ function sendToReview() {
     article.value.status = 'review'
     requestEndpoint(`/cms/${route.params.id}`, 'PUT', article.value)
   }
-  startMessage('Article sent for review.')
+  startMessage('Article sent for review!')
 }
 
 function confirmArticleDeletion() {
