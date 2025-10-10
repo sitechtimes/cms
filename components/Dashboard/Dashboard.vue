@@ -32,7 +32,7 @@ const names = ref(['My Articles', 'In Review'])
 
 onMounted(() => {
   if (userStore.user && userStore.user.role === 'admin') {
-    names.value.push('Ready')
+    names.value.push('Ready', 'Published')
   }
 })
 </script>
