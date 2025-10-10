@@ -7,7 +7,6 @@ import 'quill/dist/quill.snow.css'
 
 const toolbarOptions = [
   [{ header: [1, 2, 3, 4, 5, 6, false] }],
-  [{ font: [] }],
 
   ['bold', 'italic', 'underline', 'strike'],
   ['blockquote', 'code-block'],
@@ -37,6 +36,7 @@ onMounted(async () => {
 
   quill.on('text-change', () => {
     html.value = quill.getSemanticHTML()
+    console.log(quill.getSemanticHTML())
   })
 })
 </script>
