@@ -1,139 +1,117 @@
 <template>
   <div
-    class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8"
+    class="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-12 sm:px-6 lg:px-8"
   >
-    <div class="max-w-md w-full space-y-8">
+    <main class="flex w-full max-w-md flex-col gap-8">
       <div>
         <img
           class="mx-auto h-24 w-auto"
-          src="../../assets/logo_thicker.svg"
-          alt="Workflow"
+          src="~/assets/img/logo.svg"
+          alt="A cartoon seagull with a hat obscuring its eyes and a newspaper in its beak"
         />
-        <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+        <h1 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
           Sign Up
-        </h2>
+        </h1>
       </div>
 
-      <ErrorMessage :errors="errors" />
-
-      <form class="mt-8 space-y-6" action="#" @submit.prevent="signUp">
-        <input type="hidden" name="remember" value="true" />
-        <div class="rounded-md shadow-sm -space-y-px">
-          <div>
-            <label for="full-name" class="sr-only">Full Name </label>
+      <form class="space-y-6" @submit.prevent="signUp">
+        <div class="du-join du-join-vertical w-full -space-y-px">
+          <div key="name">
+            <label for="name" class="sr-only">Name</label>
             <input
-              id="full-name"
-              name="name"
-              type="name"
-              required
-              class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-              placeholder="Full Name"
+              id="name"
               v-model="name"
+              name="name"
+              type="text"
+              autocomplete="name"
+              required
+              class="du-input du-join-item w-full border-gray-300 text-gray-900 placeholder-gray-500 focus:border-indigo-500 focus:ring-indigo-500 focus:outline-none"
+              placeholder="Name"
             />
           </div>
-          <div>
+          <div key="email">
             <label for="email-address" class="sr-only">Email address</label>
             <input
               id="email-address"
+              v-model="email"
               name="email"
               type="email"
               autocomplete="email"
               required
-              class="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+              class="du-input du-join-item w-full border-gray-300 text-gray-900 placeholder-gray-500 focus:border-indigo-500 focus:ring-indigo-500 focus:outline-none"
               placeholder="Email address"
-              v-model="email"
             />
           </div>
-          <div>
+          <div key="password">
             <label for="password" class="sr-only">Password</label>
             <input
-              minlength="8"
-              maxlength="24"
               id="password"
+              v-model="password"
               name="password"
               type="password"
               autocomplete="current-password"
               required
-              class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+              class="du-input du-join-item w-full border-gray-300 text-gray-900 placeholder-gray-500 focus:border-indigo-500 focus:ring-indigo-500 focus:outline-none"
               placeholder="Password"
-              v-model="password"
             />
           </div>
         </div>
 
         <div>
           <button
-            class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            class="du-btn group w-full bg-indigo-600 text-sm font-medium text-white contain-content hover:bg-indigo-500 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            type="submit"
           >
-            <span class="absolute left-0 inset-y-0 flex items-center pl-3">
-              <!-- Heroicon name: solid/lock-closed -->
-              <svg
-                class="h-5 w-5 text-indigo-500 group-hover:text-indigo-400"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                  clip-rule="evenodd"
-                />
-              </svg>
-            </span>
+            <div class="absolute inset-y-0 left-0 ml-3 flex items-center">
+              <Icon
+                name="heroicons:lock-closed-solid"
+                class="h-5 w-5 text-indigo-400 group-hover:text-indigo-300"
+              />
+            </div>
             Sign up
           </button>
         </div>
-        <div class="flex items-center justify-center">
-          <h2 class="mr-1 block text-sm text-gray-900">
-            Already have an account?
-          </h2>
-          <nuxt-link
-            to="/auth/signin"
-            class="text-sm text-indigo-600 hover:text-indigo-400"
-            >Sign in</nuxt-link
-          >
-        </div>
       </form>
-    </div>
+
+      <div class="flex items-center justify-center">
+        <p class="mr-1 block text-sm text-gray-900">
+          Already have an account?
+          <RouterLink
+            class="cursor-pointer text-sm text-indigo-600 hover:underline"
+            to="/auth/signin"
+          >
+            Sign In
+          </RouterLink>
+        </p>
+      </div>
+    </main>
   </div>
 </template>
-<script>
-import ErrorMessage from "../../components/ErrorMessage";
 
-export default {
-  components: { ErrorMessage },
-  middleware: ["guest"],
-  data() {
-    return {
-      name: "",
-      email: "",
-      password: "",
-      errors: null,
-    };
-  },
-  methods: {
-    async signUp() {
-      try {
-        await this.$axios.post("/auth/signup", {
-          name: this.name,
-          email: this.email,
-          password: this.password,
-        });
+<script setup lang="ts">
+definePageMeta({
+  layout: 'default',
+  title: 'sign up',
+})
 
-        const user = await this.$auth.loginWith("local", {
-          data: {
-            email: this.email,
-            password: this.password,
-          },
-        });
+const name = ref('')
+const email = ref('')
+const password = ref('')
 
-        this.$auth.setUser(user.data);
-        this.$router.push("/auth/verify");
-      } catch (err) {
-        this.errors = err.response.data.errors;
-      }
-    },
-  },
-};
+const userStore = useUserStore()
+const router = useRouter()
+
+async function signUp() {
+  try {
+    await userStore.signUp(name.value, email.value, password.value)
+
+    await userStore.signIn(email.value, password.value)
+
+    await router.push('/auth/verify')
+  } catch (e) {
+    console.log(e)
+  }
+}
 </script>
+
+<style scoped></style>

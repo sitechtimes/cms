@@ -1,54 +1,121 @@
 <template>
-  <div class="container mx-auto">
-    <div class="max-w-7xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
-      <div class="flex-1 min-w-0">
+  <div>
+    <dialog ref="modal" class="du-modal">
+      <div class="du-modal-box w-full max-w-lg">
+        <h3 class="text-lg font-bold">
+          ARE YOU SURE YOU WANT TO DELETE THIS USER
+        </h3>
+        <p class="py-4">THIS ACTION IS IRREVERSIBLE AND CANNOT BE UNDONE</p>
+        <div class="du-modal-action">
+          <form method="dialog">
+            <button
+              class="du-btn bg-red-500 text-white hover:bg-red-600"
+              @click="deleteUser"
+            >
+              DELETE
+            </button>
+          </form>
+        </div>
+      </div>
+      <form method="dialog" class="du-modal-backdrop">
+        <button></button>
+      </form>
+    </dialog>
+    <div class="mx-auto max-w-3xl py-8 md:max-w-7xl">
+      <div class="lg:flex lg:items-center lg:justify-between">
         <h1 class="text-3xl font-bold text-gray-900">Users</h1>
       </div>
-    </div>
-
-      <Table title="Writers" class="-my-6">
-        <UserRow
-          v-for="user in sortUsers('writer')"
-          :user="user"
-          :key="user.id"
-        />
-      </Table>
-
-    <Table title="Editors" class="-my-6">
-      <UserRow
-        v-for="user in sortUsers('editor')"
-        :user="user"
-        :key="user.id"
+      <TabPanel
+        v-if="users"
+        v-model="chosenTab"
+        :names="['Editors', 'Writers']"
       />
-    </Table>
-
-
+      <div v-for="(role, i) in ['editor', 'writer']" :key="i" class="m-auto">
+        <div
+          v-if="i === chosenTab"
+          class="rounded-box border-base-content/5 bg-base-100 my-5 overflow-x-auto border shadow-sm"
+        >
+          <table class="du-table">
+            <thead>
+              <tr class="">
+                <th class="w-120">Name</th>
+                <th class="w-120">Email</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                v-for="user in users?.filter((user) => user.role === role)"
+                :key="user.id"
+              >
+                <th>{{ user.name }}</th>
+                <td>{{ user.email }}</td>
+                <td>
+                  <div class="du-join du-join-horizontal">
+                    <button
+                      v-if="user.role === 'writer'"
+                      class="du-btn du-join-item hover:bg-green-300/75"
+                      @click="changeRole(user.id, 'editor')"
+                    >
+                      Promote
+                    </button>
+                    <button
+                      v-if="user.role === 'editor'"
+                      class="du-btn du-join-item hover:bg-red-300/75"
+                      @click="changeRole(user.id, 'writer')"
+                    >
+                      Demote
+                    </button>
+                    <button
+                      class="du-btn du-join-item hover:bg-red-500 hover:text-white"
+                      @click="confirmUserDeletion(user.id)"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
+  </div>
 </template>
-<script>
 
-  import Table from "../components/Table";
-  import UserRow from "../components/rows/UserRow";
+<script setup lang="ts">
+definePageMeta({
+  layout: 'navbar',
+})
 
-  export default {
-    components: { UserRow, Table },
-    layout: 'dashboard',
-    middleware: ['mainAuth', 'admin'],
-    data() {
-      return {
-        users: []
-      }
-    },
-    async mounted() {
-      const users = await this.$axios.get(`/users`);
-      this.users = users.data;
-    },
-    methods: {
-      sortUsers (role){
-        return this.users.filter(user => {
-          return user.role === role;
-        });
-      }
-    }
-  }
+const chosenTab = ref(0)
+
+const users = ref<User[]>()
+
+const modal = useTemplateRef('modal')
+
+let currentUserId = ''
+
+function changeRole(userID: string, newRole: 'writer' | 'editor' | 'admin') {
+  requestEndpoint(`/users/${userID}`, 'PUT', { role: newRole })
+
+  const specialUser = users.value?.filter((user) => user.id === userID)
+  if (specialUser) specialUser[0].role = newRole
+}
+
+function deleteUser() {
+  requestEndpoint(`/users/${currentUserId}`, 'DELETE')
+  const index = users.value?.findIndex((user) => user.id === currentUserId)
+  if (!index || index === -1) return
+  users.value?.splice(index, 1)
+}
+
+function confirmUserDeletion(userID: string) {
+  modal.value?.showModal()
+  currentUserId = userID
+}
+
+onMounted(async () => {
+  users.value = await requestEndpoint<User[]>('/users', 'GET')
+})
 </script>
