@@ -23,3 +23,8 @@ export type Article = {
 }
 
 export type Status = 'draft' | 'review' | 'ready'
+
+export type response = {
+  articles: Article[]
+  isMore: boolean
+}

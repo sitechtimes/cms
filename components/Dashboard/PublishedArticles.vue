@@ -1,9 +1,9 @@
 <template>
   <div class="px-4 pt-2">
-    <div v-if="articleList.length > 0">
+    <div v-if="response.articles.length > 0">
       <DashboardTable title="">
         <DashboardArticleRows
-          v-for="article in articleList"
+          v-for="article in response"
           :key="article._id"
           :article="article"
         />
@@ -20,7 +20,9 @@
 </template>
 
 <script setup lang="ts">
-defineProps<{
-  articleList: Article[]
+const props = defineProps<{
+  response: response
 }>()
+
+console.log(props.articleList)
 </script>

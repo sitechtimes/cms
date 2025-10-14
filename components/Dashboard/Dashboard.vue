@@ -18,6 +18,10 @@
         status="ready"
         :article-list="articleStore.readyArticles"
       />
+      <DashboardPublishedArticles
+        v-if="chosenTab === 3"
+        :article-list="articleStore.publishedArticle"
+      />
     </div>
   </div>
 </template>
