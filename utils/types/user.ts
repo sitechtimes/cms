@@ -22,9 +22,28 @@ export type Article = {
   userId: string
 }
 
+export type PublishedArticle = {
+  _id: string
+  title: string
+  content: string
+  customAuthor: string
+  user: {
+    id: string
+    name: string
+    imageUrl: string
+  }
+  imageUrl: string
+  imageAlt: string
+  category: string
+  slug_history: string[]
+  slug: string
+  createdAt: string
+  updatedAt: string
+}
+
 export type Status = 'draft' | 'review' | 'ready'
 
-export type response = {
-  articles: Article[]
+export type Response = {
+  articles: PublishedArticle[]
   isMore: boolean
 }

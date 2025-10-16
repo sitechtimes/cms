@@ -3,7 +3,7 @@
     <div v-if="response.articles.length > 0">
       <DashboardTable title="">
         <DashboardArticleRows
-          v-for="article in response"
+          v-for="article in response.articles"
           :key="article._id"
           :article="article"
         />
@@ -11,7 +11,7 @@
     </div>
 
     <div
-      v-if="articleList.length === 0"
+      v-if="response.articles.length === 0"
       class="mx-auto flex max-w-7xl flex-col gap-4 p-4"
     >
       There are no published articles.
@@ -20,9 +20,7 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{
-  response: response
+defineProps<{
+  response: Response
 }>()
-
-console.log(props.articleList)
 </script>

@@ -20,7 +20,7 @@
       />
       <DashboardPublishedArticles
         v-if="chosenTab === 3"
-        :article-list="articleStore.publishedArticle"
+        :response="articleStore.publishedArticle"
       />
     </div>
   </div>
