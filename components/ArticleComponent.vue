@@ -25,7 +25,8 @@
         </div>
       </div>
 
-      <div ref="contentRef" class="max-w-[56%]"></div>
+      <div ref="contentRef" class="whitespace-pre-wrap">
+      </div>
     </article>
   </div>
 </template>
