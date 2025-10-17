@@ -18,6 +18,10 @@
         status="ready"
         :article-list="articleStore.readyArticles"
       />
+      <DashboardPublishedArticles
+        v-if="chosenTab === 3 && articleStore.publishedArticle"
+        :response="articleStore.publishedArticle"
+      />
     </div>
   </div>
 </template>
@@ -32,7 +36,7 @@ const names = ref(['My Articles', 'In Review'])
 
 onMounted(() => {
   if (userStore.user && userStore.user.role === 'admin') {
-    names.value.push('Ready')
+    names.value.push('Ready', 'Published')
   }
 })
 </script>
