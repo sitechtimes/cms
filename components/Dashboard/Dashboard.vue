@@ -19,7 +19,7 @@
         :article-list="articleStore.readyArticles"
       />
       <DashboardPublishedArticles
-        v-if="chosenTab === 3"
+        v-if="chosenTab === 3 && articleStore.publishedArticle"
         :response="articleStore.publishedArticle"
       />
     </div>

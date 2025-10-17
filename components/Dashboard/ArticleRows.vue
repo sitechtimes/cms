@@ -20,10 +20,18 @@
 
     <td class="w-40 min-w-20 text-right text-sm font-medium whitespace-nowrap">
       <NuxtLink
+        v-if="article.status === 'draft'"
         class="text-indigo-600 hover:text-indigo-900"
         :to="`/articles/edit/${article._id}`"
       >
-        {{ articleActionText }}
+        Edit
+      </NuxtLink>
+      <NuxtLink
+        v-if="article.status === 'review' || article.status === 'ready'"
+        class="text-indigo-600 hover:text-indigo-900"
+        :to="`/articles/${article._id}`"
+      >
+        View
       </NuxtLink>
     </td>
   </tr>
@@ -43,10 +51,5 @@ const formatDate = computed(() => {
   })
 
   return formattedDate
-})
-
-const articleActionText = computed(() => {
-  if (props.article.status === 'draft') return 'Edit'
-  else return 'View'
 })
 </script>
