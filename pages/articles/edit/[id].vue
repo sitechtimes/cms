@@ -1,7 +1,12 @@
 <template>
   <div v-if="article" class="mx-auto max-w-3xl py-8 md:max-w-7xl">
-    <ConfirmationMessage class="bg-green-300" icon="heroicons:check-circle-16-solid" :message="confirmationMessage"
-      :progress="progress" @close="confirmationMessage = ''" />
+    <ConfirmationMessage
+      class="bg-green-300"
+      icon="heroicons:check-circle-16-solid"
+      :message="confirmationMessage"
+      :progress="progress"
+      @close="confirmationMessage = ''"
+    />
     <dialog ref="modal1" class="du-modal">
       <div class="du-modal-box w-full max-w-lg">
         <h3 class="text-lg font-bold">
@@ -10,7 +15,10 @@
         <p class="py-4">THIS ACTION IS IRREVERSIBLE AND CANNOT BE UNDONE</p>
         <div class="du-modal-action">
           <form method="dialog">
-            <button class="du-btn bg-red-500 text-white hover:bg-red-600" @click="deleteArticle">
+            <button
+              class="du-btn bg-red-500 text-white hover:bg-red-600"
+              @click="deleteArticle"
+            >
               DELETE
             </button>
           </form>
@@ -28,7 +36,10 @@
         <p class="py-4">THEY MIGHT SEE THIS</p>
         <div class="du-modal-action">
           <form method="dialog">
-            <button class="du-btn bg-orange-500 text-white hover:bg-orange-600" @click="sendToReview">
+            <button
+              class="du-btn bg-orange-500 text-white hover:bg-orange-600"
+              @click="sendToReview"
+            >
               SEND
             </button>
           </form>
@@ -41,12 +52,18 @@
     <div class="flex justify-between">
       <h1 class="text-3xl font-bold text-gray-900">Edit Article</h1>
       <div>
-        <button @click="saveAndView" :to="`/articles/${route.params.id}`" class="du-btn text-md">
+        <button
+          @click="saveAndView"
+          :to="`/articles/${route.params.id}`"
+          class="du-btn text-md"
+        >
           <Icon class="align-middle" name="heroicons:link-16-solid" />View
         </button>
         <details ref="dropdown" class="du-dropdown du-dropdown-end">
           <summary class="du-btn m-1">Options</summary>
-          <ul class="du-menu du-dropdown-content bg-base-100 du-rounded-box z-1 w-52 p-2 shadow-sm">
+          <ul
+            class="du-menu du-dropdown-content bg-base-100 du-rounded-box z-1 w-52 p-2 shadow-sm"
+          >
             <li @click="saveArticle">
               <button>Save Article</button>
             </li>
@@ -63,8 +80,11 @@
     <div class="max-w-7xl py-4">
       <label class="text-md block font-medium text-gray-700"> Title </label>
       <div class="mt-1 flex w-80 rounded-md shadow-sm md:w-100 lg:w-120">
-        <input v-model="article.title" type="text"
-          class="du-input text-md block flex-1 rounded border border-gray-300 px-3 py-3" />
+        <input
+          v-model="article.title"
+          type="text"
+          class="du-input text-md block flex-1 rounded border border-gray-300 px-3 py-3"
+        />
       </div>
     </div>
     <div class="max-w-7xl py-4">
@@ -72,13 +92,19 @@
         Custom Author
       </label>
       <div class="mt-1 flex w-80 rounded-md shadow-sm md:w-100 lg:w-120">
-        <input v-model="article.customAuthor" type="text"
-          class="du-input text-md block flex-1 rounded border border-gray-300 px-3 py-3" />
+        <input
+          v-model="article.customAuthor"
+          type="text"
+          class="du-input text-md block flex-1 rounded border border-gray-300 px-3 py-3"
+        />
       </div>
     </div>
     <div class="max-w-7xl py-4">
       <label class="text-md block font-medium text-gray-700"> Category </label>
-      <select v-model="article.category" class="du-select mt-1 capitalize shadow">
+      <select
+        v-model="article.category"
+        class="du-select mt-1 capitalize shadow"
+      >
         <option v-for="topic in topics">
           {{ topic }}
         </option>
@@ -89,23 +115,36 @@
         Upload Image
       </label>
       <fieldset class="du-fieldset mt-1">
-        <input ref="file" type="file" class="du-file-input" multiple @change="changeImage" />
+        <input
+          ref="file"
+          type="file"
+          class="du-file-input"
+          multiple
+          @change="changeImage"
+        />
         <label class="du-label">Max size 2MB</label>
       </fieldset>
     </div>
-    <img v-if="article.imageUrl" class="mb-4 w-100 rounded-lg" :src="article.imageUrl"
-      :alt="article.imageAlt ?? 'Article Image'" />
+    <img
+      v-if="article.imageUrl"
+      class="mb-4 w-100 rounded-lg"
+      :src="article.imageUrl"
+      :alt="article.imageAlt ?? 'Article Image'"
+    />
     <div v-if="article.imageUrl" class="mb-6 max-w-7xl">
       <label class="text-md block font-medium text-gray-700">
         Image Description
       </label>
       <div class="mt-1 flex w-80 rounded-md shadow-sm md:w-100 lg:w-120">
-        <input v-model="article.imageAlt" type="text"
-          class="du-input text-md block flex-1 rounded border border-gray-300 px-3 py-3" />
+        <input
+          v-model="article.imageAlt"
+          type="text"
+          class="du-input text-md block flex-1 rounded border border-gray-300 px-3 py-3"
+        />
       </div>
     </div>
     <div class="max-w-7xl rounded border border-gray-300 shadow">
-      <QuillEditor v-model="article.content" />
+      <ToastEditor v-model="article.content" />
     </div>
   </div>
 </template>
@@ -183,7 +222,7 @@ function deleteArticle() {
 function saveAndView() {
   requestEndpoint(`/cms/${route.params.id}`, 'PUT', article.value)
   // router.push(`/articles/${route.params.id}`)
-  window.open(`/articles/${route.params.id}`, '_blank');
+  window.open(`/articles/${route.params.id}`, '_blank')
 }
 
 function startMessage(message: string) {
