@@ -4,7 +4,7 @@ export const useArticleStore = defineStore('articles', () => {
   const articles = ref<Article[]>([])
   const reviewArticles = ref<Article[]>([])
   const readyArticles = ref<Article[]>([])
-  const publishedArticle = ref<Response>()
+  const publishedArticle = ref<ArticleResponse>()
 
   const userStore = useUserStore()
 
@@ -26,7 +26,8 @@ export const useArticleStore = defineStore('articles', () => {
       if (userStore.user.role === 'admin') {
         const readyData = await requestEndpoint<Article[]>('/cms/ready')
         readyArticles.value = readyData
-        const publishedData = await requestEndpoint<Response>('/articles')
+        const publishedData =
+          await requestEndpoint<ArticleResponse>('/articles')
         publishedArticle.value = publishedData
       }
     } catch (e) {
