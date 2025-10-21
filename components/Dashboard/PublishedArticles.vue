@@ -21,6 +21,6 @@
 
 <script setup lang="ts">
 defineProps<{
-  response: Response
+  response: ArticleResponse
 }>()
 </script>

@@ -16,10 +16,10 @@ export type Article = {
   customAuthor: string
   imageAlt: string | null
   imageUrl: string | null
-  status: string
+  status?: string
   title: string
   updatedAt: string
-  userId: string
+  userId?: string
 }
 
 export type PublishedArticle = {
@@ -43,7 +43,7 @@ export type PublishedArticle = {
 
 export type Status = 'draft' | 'review' | 'ready'
 
-export type Response = {
+export type ArticleResponse = {
   articles: PublishedArticle[]
   isMore: boolean
 }
