@@ -2,7 +2,7 @@
   <div class="px-4 pt-2">
     <div v-if="response.articles.length > 0">
       <DashboardTable title="">
-        <DashboardArticleRows
+        <DashboardPublishedArticleRows
           v-for="article in response.articles"
           :key="article._id"
           :article="article"
