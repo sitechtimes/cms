@@ -59,6 +59,9 @@ const route = useRoute()
 const titleRef = useTemplateRef('titleRef')
 const contentRef = useTemplateRef('contentRef')
 
+console.log(titleRef.value)
+console.log(contentRef.value)
+
 const categoryMap = {
   news: 'bg-[var(--news)]',
   feature: 'bg-[var(--feature)]',
@@ -84,22 +87,22 @@ const formatDate = computed(() => {
 })
 
 onMounted(async () => {
-  if (article.value) {
-    if (contentRef.value) {
-      contentRef.value.innerHTML = article.value.content
-    }
-
-    if (titleRef.value) {
-      titleRef.value.innerHTML = article.value.title
-    }
-  }
-})
-
-onBeforeMount(async () => {
   article.value = await requestEndpoint<PublishedArticle>(
     `/articles/${route.params.slug}`,
     'GET'
   )
+  await nextTick()
   console.log(article.value)
+  if (article.value) {
+    if (contentRef.value) {
+      contentRef.value.innerHTML = article.value.content
+      console.log(contentRef.value)
+    }
+
+    if (titleRef.value) {
+      titleRef.value.innerHTML = article.value.title
+      console.log(titleRef.value)
+    }
+  }
 })
 </script>
