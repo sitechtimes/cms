@@ -67,6 +67,7 @@ const initializeEditor = async () => {
     // Update model on content change
     editor.on('change', () => {
       html.value = editor.getHTML()
+      console.log(html.value)
     })
 
     isEditorReady.value = true
