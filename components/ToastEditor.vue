@@ -38,8 +38,18 @@ const initializeEditor = async () => {
     editorContainer.value.innerHTML = ''
 
     // Dynamic imports for client-side only
+
     const { Editor } = await import('@toast-ui/editor')
     await import('@toast-ui/editor/dist/toastui-editor.css')
+    const colorSyntax = (
+      await import(
+        '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.js'
+      )
+    ).default
+
+    await import(
+      '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css'
+    )
 
     const editor = new Editor({
       el: editorContainer.value,
@@ -50,11 +60,12 @@ const initializeEditor = async () => {
       toolbarItems: [
         ['heading', 'bold', 'italic', 'strike'],
         ['hr', 'quote'],
-        ['ul', 'ol', 'task'],
-        ['table', 'link'],
-        ['code', 'codeblock'],
+        ['ul', 'ol', 'indent', 'outdent'],
+        ['table', 'image', 'link'],
+        ['codeblock'],
         ['scrollSync'],
       ],
+      plugins: [colorSyntax],
     })
 
     // Set initial content after a small delay to ensure editor is fully initialized
@@ -92,5 +103,12 @@ const initializeEditor = async () => {
 .toastui-editor-defaultUI {
   border: 1px solid #e5e5e5;
   border-radius: 4px;
+}
+
+.tui-colorpicker-svg {
+  max-width: fit-content;
+}
+
+.tui-colorpicker-clearfix {
 }
 </style>

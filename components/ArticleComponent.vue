@@ -81,3 +81,14 @@ onMounted(async () => {
   }
 })
 </script>
+
+<style>
+blockquote {
+  quotes: none;
+}
+
+blockquote::before,
+blockquote::after {
+  content: none;
+}
+</style>
