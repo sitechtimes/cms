@@ -1,0 +1,160 @@
+<template>
+  <div>
+    <div>
+      <NuxtLink :to="`/articles/${route.params.id}`" class="du-btn text-md">
+        <Icon class="align-middle" name="heroicons:link-16-solid" />View
+      </NuxtLink>
+      <details ref="dropdown" class="du-dropdown du-dropdown-end">
+        <summary class="du-btn m-1">Options</summary>
+        <ul
+          class="du-menu du-dropdown-content bg-base-100 du-rounded-box z-1 w-52 p-2 shadow-sm"
+        >
+          <li v-if="article.status === 'ready'" @click="confirmPublish">
+            <button>Publish Article</button>
+          </li>
+          <li @click="saveArticle">
+            <button>Save Article</button>
+          </li>
+          <li v-if="article.status === 'draft'" @click="confirmSend">
+            <button>Send to Review</button>
+          </li>
+          <li
+            v-if="article.status === 'review' && user?.role === 'admin'"
+            @click="confirmReady"
+          >
+            <button>Send to Ready</button>
+          </li>
+          <li @click="confirmArticleDeletion">
+            <button>Delete Article</button>
+          </li>
+        </ul>
+      </details>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+const route = useRoute()
+const router = useRouter()
+
+const dropdown = useTemplateRef('dropdown')
+const modal1 = useTemplateRef('modal1')
+const modal2 = useTemplateRef('modal2')
+const modal3 = useTemplateRef('modal3')
+const modal4 = useTemplateRef('modal4')
+
+const progress = ref(0)
+const confirmationMessage = ref('')
+
+const fileSelection = useTemplateRef('file')
+
+const article = ref<Article>()
+const userStore = useUserStore()
+const { user } = storeToRefs(userStore)
+
+onBeforeMount(async () => {
+  article.value = await requestEndpoint<Article>(
+    `/cms/${route.params.id}`,
+    'GET'
+  )
+})
+
+function changeImage() {
+  const file = fileSelection.value?.files?.[0]
+  if (file) {
+    const reader = new FileReader()
+    reader.onload = () => {
+      article.value!.imageUrl = reader.result as string
+    }
+    reader.readAsDataURL(file)
+  }
+}
+
+function closeDropdown() {
+  dropdown.value?.removeAttribute('open')
+}
+
+async function saveArticle() {
+  closeDropdown()
+  requestEndpoint(`/cms/${route.params.id}`, 'PUT', article.value)
+  startMessage('Article saved!')
+}
+
+function confirmSend() {
+  closeDropdown()
+  modal2.value?.showModal()
+}
+
+async function readyArticle() {
+  if (article.value) {
+    article.value.status = 'ready'
+    requestEndpoint(`/cms/${route.params.id}`, 'PUT', article.value)
+  }
+  startMessage('Article sent to ready!')
+}
+
+function confirmReady() {
+  closeDropdown()
+  modal4.value?.showModal()
+}
+
+async function publishArticle() {
+  closeDropdown()
+  requestEndpoint(`/cms/${route.params.id}/publish`, 'POST')
+  startMessage('Article published!')
+}
+
+function confirmPublish() {
+  closeDropdown()
+  modal3.value?.showModal()
+}
+
+function sendToReview() {
+  if (article.value) {
+    article.value.status = 'review'
+    requestEndpoint(`/cms/${route.params.id}`, 'PUT', article.value)
+  }
+  startMessage('Article sent for review!')
+}
+
+function confirmArticleDeletion() {
+  closeDropdown()
+  modal1.value?.showModal()
+}
+
+function deleteArticle() {
+  requestEndpoint(`/cms/${route.params.id}`, 'DELETE')
+  router.push('/')
+}
+
+function startMessage(message: string) {
+  confirmationMessage.value = message
+  progress.value = 0
+
+  const duration = 3000
+  const startTime = performance.now()
+
+  function update(now: DOMHighResTimeStamp) {
+    const elapsed = now - startTime
+    progress.value = Math.min(elapsed / duration, 1)
+    if (elapsed < duration) {
+      requestAnimationFrame(update)
+    } else {
+      confirmationMessage.value = ''
+    }
+  }
+
+  requestAnimationFrame(update)
+}
+
+const topics = [
+  'feature',
+  'news',
+  'school',
+  'entertainment',
+  'lifestyle',
+  'opinion',
+  'science',
+  'technology',
+] as const
+</script>
