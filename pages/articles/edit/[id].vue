@@ -161,9 +161,23 @@ function confirmSend() {
   modal2.value?.showModal()
 }
 
+async function readyArticle() {
+  if (article.value) {
+    article.value.status = 'ready'
+    requestEndpoint(`/cms/${route.params.id}`, 'PUT', article.value)
+  }
+  startMessage('Article sent to ready!')
+}
+
 function confirmReady() {
   closeDropdown()
   modal4.value?.showModal()
+}
+
+async function publishArticle() {
+  closeDropdown()
+  requestEndpoint(`/cms/${route.params.id}/publish`, 'POST')
+  startMessage('Article published!')
 }
 
 function confirmPublish() {
@@ -171,9 +185,22 @@ function confirmPublish() {
   modal3.value?.showModal()
 }
 
+function sendToReview() {
+  if (article.value) {
+    article.value.status = 'review'
+    requestEndpoint(`/cms/${route.params.id}`, 'PUT', article.value)
+  }
+  startMessage('Article sent for review!')
+}
+
 function confirmArticleDeletion() {
   closeDropdown()
   modal1.value?.showModal()
+}
+
+function deleteArticle() {
+  requestEndpoint(`/cms/${route.params.id}`, 'DELETE')
+  router.push('/')
 }
 
 function startMessage(message: string) {

@@ -38,7 +38,7 @@ export function useArticleEditor() {
 
   async function saveArticle() {
     closeDropdown()
-    await articleStore.saveArticle()
+    requestEndpoint(`/cms/${route.params.id}`, 'PUT', article.value)
     startMessage('Article saved!')
   }
 
@@ -48,7 +48,10 @@ export function useArticleEditor() {
   }
 
   async function sendToReview() {
-    await articleStore.sendToReview()
+    if (article.value) {
+      article.value.status = 'review'
+      requestEndpoint(`/cms/${route.params.id}`, 'PUT', article.value)
+    }
     startMessage('Article sent for review!')
   }
 
@@ -58,7 +61,10 @@ export function useArticleEditor() {
   }
 
   async function readyArticle() {
-    await articleStore.readyArticle()
+    if (article.value) {
+      article.value.status = 'ready'
+      requestEndpoint(`/cms/${route.params.id}`, 'PUT', article.value)
+    }
     startMessage('Article sent to ready!')
   }
 
@@ -68,7 +74,8 @@ export function useArticleEditor() {
   }
 
   async function publishArticle() {
-    await articleStore.publishArticle()
+    closeDropdown()
+    requestEndpoint(`/cms/${route.params.id}/publish`, 'POST')
     startMessage('Article published!')
   }
 
@@ -78,7 +85,7 @@ export function useArticleEditor() {
   }
 
   async function deleteArticle() {
-    await articleStore.deleteArticle()
+    requestEndpoint(`/cms/${route.params.id}`, 'DELETE')
     router.push('/')
   }
 

@@ -3,9 +3,9 @@
     <ConfirmationMessage
       class="bg-green-300"
       icon="heroicons:check-circle-16-solid"
-      :message="confirmationMessage"
-      :progress="progress"
-      @close="confirmationMessage = ''"
+      :message="editorModals.confirmationMessage"
+      :progress="editorModals.progress"
+      @close="editorModals.confirmationMessage = ''"
     />
     <dialog ref="modal1" class="du-modal">
       <div class="du-modal-box w-full max-w-lg">
@@ -17,7 +17,7 @@
           <form method="dialog">
             <button
               class="du-btn bg-red-500 text-white hover:bg-red-600"
-              @click="deleteArticle"
+              @click="editorModals.deleteArticle"
             >
               DELETE
             </button>
@@ -38,7 +38,7 @@
           <form method="dialog">
             <button
               class="du-btn bg-orange-500 text-white hover:bg-orange-600"
-              @click="sendToReview"
+              @click="editorModals.sendToReview"
             >
               SEND
             </button>
@@ -59,7 +59,7 @@
           <form method="dialog">
             <button
               class="du-btn bg-green-500 text-white hover:bg-green-600"
-              @click="publishArticle"
+              @click="editorModals.publishArticle"
             >
               SEND
             </button>
@@ -80,7 +80,7 @@
           <form method="dialog">
             <button
               class="du-btn bg-fuchsia-500 text-white hover:bg-fuchsia-600"
-              @click="readyArticle"
+              @click="editorModals.readyArticle"
             >
               SEND
             </button>
@@ -95,61 +95,9 @@
 </template>
 
 <script setup lang="ts">
+import { useArticleEditor } from '~/composables/useArticleEditor'
+import unpack from '~/composables/unpacker'
 
-const router = useRouter()
-
-const modal1 = useTemplateRef('modal1')
-const modal2 = useTemplateRef('modal2')
-const modal3 = useTemplateRef('modal3')
-const modal4 = useTemplateRef('modal4')
-
-const progress = ref(0)
-const confirmationMessage = ref('')
-
-async function readyArticle() {
-  if (article.value) {
-    article.value.status = 'ready'
-    requestEndpoint(`/cms/${route.params.id}`, 'PUT', article.value)
-  }
-  startMessage('Article sent to ready!')
-}
-
-async function publishArticle() {
-  closeDropdown()
-  requestEndpoint(`/cms/${route.params.id}/publish`, 'POST')
-  startMessage('Article published!')
-}
-
-function sendToReview() {
-  if (article.value) {
-    article.value.status = 'review'
-    requestEndpoint(`/cms/${route.params.id}`, 'PUT', article.value)
-  }
-  startMessage('Article sent for review!')
-}
-
-function deleteArticle() {
-  requestEndpoint(`/cms/${route.params.id}`, 'DELETE')
-  router.push('/')
-}
-
-function startMessage(message: string) {
-  confirmationMessage.value = message
-  progress.value = 0
-
-  const duration = 3000
-  const startTime = performance.now()
-
-  function update(now: DOMHighResTimeStamp) {
-    const elapsed = now - startTime
-    progress.value = Math.min(elapsed / duration, 1)
-    if (elapsed < duration) {
-      requestAnimationFrame(update)
-    } else {
-      confirmationMessage.value = ''
-    }
-  }
-
-  requestAnimationFrame(update)
-}
+const editor = useArticleEditor()
+const editorModals = unpack(editor)
 </script>
