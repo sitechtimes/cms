@@ -3,9 +3,9 @@
     <ConfirmationMessage
       class="bg-green-300"
       icon="heroicons:check-circle-16-solid"
-      :message="editorModals.confirmationMessage"
-      :progress="editorModals.progress"
-      @close="editorModals.confirmationMessage = ''"
+      :message="editorModals.confirmationMessage.value"
+      :progress="editorModals.progress.value"
+      @close="editorModals.confirmationMessage.value = ''"
     />
     <dialog ref="modal1" class="du-modal">
       <div class="du-modal-box w-full max-w-lg">

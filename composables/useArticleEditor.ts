@@ -7,33 +7,23 @@ export function useArticleEditor() {
   const modal2 = useTemplateRef('modal2')
   const modal3 = useTemplateRef('modal3')
   const modal4 = useTemplateRef('modal4')
-  const fileSelection = useTemplateRef('file')
 
   const progress = ref(0)
   const confirmationMessage = ref('')
 
-  const articleStore = useArticleStore()
   const userStore = useUserStore()
-  const { article } = storeToRefs(articleStore)
+  const article = ref<Article>()
   const { user } = storeToRefs(userStore)
 
-  onBeforeMount(() => {
-    articleStore.fetchArticle(route.params.id as string)
+  onBeforeMount(async () => {
+    article.value = await requestEndpoint<Article>(
+      `/cms/${route.params.id}`,
+      'GET'
+    )
   })
 
   function closeDropdown() {
     dropdown.value?.removeAttribute('open')
-  }
-
-  function changeImage() {
-    const file = fileSelection.value?.files?.[0]
-    if (file && article.value) {
-      const reader = new FileReader()
-      reader.onload = () => {
-        article.value!.imageUrl = reader.result as string
-      }
-      reader.readAsDataURL(file)
-    }
   }
 
   async function saveArticle() {
@@ -127,11 +117,9 @@ export function useArticleEditor() {
     modal2,
     modal3,
     modal4,
-    fileSelection,
     confirmationMessage,
     progress,
     topics,
-    changeImage,
     closeDropdown,
     saveArticle,
     confirmSend,
