@@ -1,10 +1,7 @@
 <template>
   <div>
-    <div v-if="editorModals.article.value && editorModals.user.value">
-      <NuxtLink
-        :to="`/articles/${editorModals.route.params.id}`"
-        class="du-btn text-md"
-      >
+    <div v-if="article && user">
+      <NuxtLink :to="`/articles/${route.params.id}`" class="du-btn text-md">
         <Icon class="align-middle" name="heroicons:link-16-solid" />View
       </NuxtLink>
       <details ref="dropdown" class="du-dropdown du-dropdown-end">
@@ -13,30 +10,27 @@
           class="du-menu du-dropdown-content bg-base-100 du-rounded-box z-1 w-52 p-2 shadow-sm"
         >
           <li
-            v-if="editorModals.article.value.status === 'ready'"
-            @click="editorModals.confirmPublish"
+            v-if="article.status === 'ready'"
+            @click="editorFunctions.confirmPublish"
           >
             <button>Publish Article</button>
           </li>
-          <li @click="editorModals.saveArticle">
+          <li @click="editorFunctions.saveArticle">
             <button>Save Article</button>
           </li>
           <li
-            v-if="editorModals.article.value.status === 'draft'"
-            @click="editorModals.confirmSend"
+            v-if="article.status === 'draft'"
+            @click="editorFunctions.confirmSend"
           >
             <button>Send to Review</button>
           </li>
           <li
-            v-if="
-              editorModals.article.value.status === 'review' &&
-              editorModals.user?.value.role === 'admin'
-            "
-            @click="editorModals.confirmReady"
+            v-if="article.status === 'review' && user.role === 'admin'"
+            @click="editorFunctions.confirmReady"
           >
             <button>Send to Ready</button>
           </li>
-          <li @click="editorModals.confirmArticleDeletion">
+          <li @click="editorFunctions.confirmArticleDeletion">
             <button>Delete Article</button>
           </li>
         </ul>
@@ -49,6 +43,12 @@
 import { useArticleEditor } from '~/composables/useArticleEditor'
 import unpack from '~/composables/unpacker'
 
+defineProps<{
+  article: Article
+  user: User
+}>()
+
+const route = useRoute()
 const editor = useArticleEditor()
-const editorModals = unpack(editor)
+const editorFunctions = unpack(editor)
 </script>

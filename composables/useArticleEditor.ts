@@ -15,13 +15,6 @@ export function useArticleEditor() {
   const article = ref<Article>()
   const { user } = storeToRefs(userStore)
 
-  onBeforeMount(async () => {
-    article.value = await requestEndpoint<Article>(
-      `/cms/${route.params.id}`,
-      'GET'
-    )
-  })
-
   function closeDropdown() {
     dropdown.value?.removeAttribute('open')
   }

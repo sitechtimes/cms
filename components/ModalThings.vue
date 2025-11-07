@@ -3,9 +3,9 @@
     <ConfirmationMessage
       class="bg-green-300"
       icon="heroicons:check-circle-16-solid"
-      :message="editorModals.confirmationMessage.value"
-      :progress="editorModals.progress.value"
-      @close="editorModals.confirmationMessage.value = ''"
+      :message="editorFunctions.confirmationMessage.value"
+      :progress="editorFunctions.progress.value"
+      @close="editorFunctions.confirmationMessage.value = ''"
     />
     <dialog ref="modal1" class="du-modal">
       <div class="du-modal-box w-full max-w-lg">
@@ -17,7 +17,7 @@
           <form method="dialog">
             <button
               class="du-btn bg-red-500 text-white hover:bg-red-600"
-              @click="editorModals.deleteArticle"
+              @click="editorFunctions.deleteArticle"
             >
               DELETE
             </button>
@@ -38,7 +38,7 @@
           <form method="dialog">
             <button
               class="du-btn bg-orange-500 text-white hover:bg-orange-600"
-              @click="editorModals.sendToReview"
+              @click="editorFunctions.sendToReview"
             >
               SEND
             </button>
@@ -59,7 +59,7 @@
           <form method="dialog">
             <button
               class="du-btn bg-green-500 text-white hover:bg-green-600"
-              @click="editorModals.publishArticle"
+              @click="editorFunctions.publishArticle"
             >
               SEND
             </button>
@@ -80,7 +80,7 @@
           <form method="dialog">
             <button
               class="du-btn bg-fuchsia-500 text-white hover:bg-fuchsia-600"
-              @click="editorModals.readyArticle"
+              @click="editorFunctions.readyArticle"
             >
               SEND
             </button>
@@ -99,5 +99,5 @@ import { useArticleEditor } from '~/composables/useArticleEditor'
 import unpack from '~/composables/unpacker'
 
 const editor = useArticleEditor()
-const editorModals = unpack(editor)
+const editorFunctions = unpack(editor)
 </script>

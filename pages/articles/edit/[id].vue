@@ -1,5 +1,6 @@
 <template>
   <div v-if="article" class="mx-auto max-w-3xl py-8 md:max-w-7xl">
+    <ModalThings />
     <div class="flex justify-between">
       <h1 class="text-3xl font-bold text-gray-900">Edit Article</h1>
       <div>
