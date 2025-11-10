@@ -1,38 +1,9 @@
 <template>
-  <div v-if="article" class="mx-auto max-w-3xl py-8 md:max-w-7xl">
+  <div v-if="article && user" class="mx-auto max-w-3xl py-8 md:max-w-7xl">
     <ModalThings />
     <div class="flex justify-between">
       <h1 class="text-3xl font-bold text-gray-900">Edit Article</h1>
-      <div>
-        <NuxtLink :to="`/articles/${route.params.id}`" class="du-btn text-md">
-          <Icon class="align-middle" name="heroicons:link-16-solid" />View
-        </NuxtLink>
-        <details ref="dropdown" class="du-dropdown du-dropdown-end">
-          <summary class="du-btn m-1">Options</summary>
-          <ul
-            class="du-menu du-dropdown-content bg-base-100 du-rounded-box z-1 w-52 p-2 shadow-sm"
-          >
-            <li v-if="article.status === 'ready'" @click="confirmPublish">
-              <button>Publish Article</button>
-            </li>
-            <li @click="saveArticle">
-              <button>Save Article</button>
-            </li>
-            <li v-if="article.status === 'draft'" @click="confirmSend">
-              <button>Send to Review</button>
-            </li>
-            <li
-              v-if="article.status === 'review' && user?.role === 'admin'"
-              @click="confirmReady"
-            >
-              <button>Send to Ready</button>
-            </li>
-            <li @click="confirmArticleDeletion">
-              <button>Delete Article</button>
-            </li>
-          </ul>
-        </details>
-      </div>
+      <ArticleActions :article="article" :user="user" />
     </div>
     <div class="max-w-7xl py-4">
       <label class="text-md block font-medium text-gray-700"> Title </label>
