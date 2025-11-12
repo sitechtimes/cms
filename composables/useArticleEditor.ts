@@ -2,32 +2,18 @@ export function useArticleEditor() {
   const route = useRoute()
   const router = useRouter()
 
-  const dropdown = useTemplateRef('dropdown')
-  const modal1 = useTemplateRef('modal1')
-  const modal2 = useTemplateRef('modal2')
-  const modal3 = useTemplateRef('modal3')
-  const modal4 = useTemplateRef('modal4')
-
   const progress = ref(0)
   const confirmationMessage = ref('')
 
   const userStore = useUserStore()
+  const modalStore = useModalStore()
   const article = ref<Article>()
   const { user } = storeToRefs(userStore)
 
-  function closeDropdown() {
-    dropdown.value?.removeAttribute('open')
-  }
-
   async function saveArticle() {
-    closeDropdown()
+    modalStore.closeDropdown()
     requestEndpoint(`/cms/${route.params.id}`, 'PUT', article.value)
     startMessage('Article saved!')
-  }
-
-  function confirmSend() {
-    closeDropdown()
-    modal2.value?.showModal()
   }
 
   async function sendToReview() {
@@ -38,11 +24,6 @@ export function useArticleEditor() {
     startMessage('Article sent for review!')
   }
 
-  function confirmReady() {
-    closeDropdown()
-    modal4.value?.showModal()
-  }
-
   async function readyArticle() {
     if (article.value) {
       article.value.status = 'ready'
@@ -51,20 +32,10 @@ export function useArticleEditor() {
     startMessage('Article sent to ready!')
   }
 
-  function confirmPublish() {
-    closeDropdown()
-    modal3.value?.showModal()
-  }
-
   async function publishArticle() {
-    closeDropdown()
+    modalStore.closeDropdown()
     requestEndpoint(`/cms/${route.params.id}/publish`, 'POST')
     startMessage('Article published!')
-  }
-
-  function confirmArticleDeletion() {
-    closeDropdown()
-    modal1.value?.showModal()
   }
 
   async function deleteArticle() {
@@ -105,23 +76,13 @@ export function useArticleEditor() {
     route,
     user,
     article,
-    dropdown,
-    modal1,
-    modal2,
-    modal3,
-    modal4,
     confirmationMessage,
     progress,
     topics,
-    closeDropdown,
     saveArticle,
-    confirmSend,
     sendToReview,
-    confirmReady,
     readyArticle,
-    confirmPublish,
     publishArticle,
-    confirmArticleDeletion,
     deleteArticle,
   }
 }
