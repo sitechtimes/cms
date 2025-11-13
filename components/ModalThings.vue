@@ -7,7 +7,7 @@
       :progress="editorFunctions.progress.value"
       @close="editorFunctions.confirmationMessage.value = ''"
     />
-    <dialog ref="modal1" class="du-modal">
+    <dialog :ref="`${modals.modal1}`" class="du-modal">
       <div class="du-modal-box w-full max-w-lg">
         <h3 class="text-lg font-bold">
           ARE YOU SURE YOU WANT TO DELETE THIS ARTICLE
@@ -28,7 +28,7 @@
         <button></button>
       </form>
     </dialog>
-    <dialog ref="modal2" class="du-modal">
+    <dialog :ref="`${modals.modal2}`" class="du-modal">
       <div class="du-modal-box w-full max-w-lg">
         <h3 class="text-lg font-bold">
           ARE YOU SURE YOU WANT TO SEND THIS TO REVIEW
@@ -49,7 +49,7 @@
         <button></button>
       </form>
     </dialog>
-    <dialog ref="modal3" class="du-modal">
+    <dialog :ref="`${modals.modal3}`" class="du-modal">
       <div class="du-modal-box w-full max-w-lg">
         <h3 class="text-lg font-bold">
           ARE YOU SURE YOU WANT TO PUBLISH THIS ARTICLE????
@@ -70,7 +70,7 @@
         <button></button>
       </form>
     </dialog>
-    <dialog ref="modal4" class="du-modal">
+    <dialog :ref="`${modals.modal4}`" class="du-modal">
       <div class="du-modal-box w-full max-w-lg">
         <h3 class="text-lg font-bold">
           ARE YOU SURE THIS ARTICLE IS READY????
@@ -100,4 +100,6 @@ import unpack from '~/composables/unpacker'
 
 const editor = useArticleEditor()
 const editorFunctions = unpack(editor)
+
+const modals = useModalStore()
 </script>
