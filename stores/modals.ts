@@ -1,10 +1,10 @@
 export const useModalStore = defineStore('modals', () => {
-  const modal1 = useTemplateRef('modal1')
-  const modal2 = useTemplateRef('modal2')
-  const modal3 = useTemplateRef('modal3')
-  const modal4 = useTemplateRef('modal4')
+  const modal1 = useTemplateRef<HTMLDialogElement>('modal1')
+  const modal2 = useTemplateRef<HTMLDialogElement>('modal2')
+  const modal3 = useTemplateRef<HTMLDialogElement>('modal3')
+  const modal4 = useTemplateRef<HTMLDialogElement>('modal4')
 
-  const dropdown = useTemplateRef('dropdown')
+  const dropdown = useTemplateRef<HTMLDialogElement>('dropdown')
 
   function closeDropdown() {
     dropdown.value?.removeAttribute('open')
@@ -40,5 +40,6 @@ export const useModalStore = defineStore('modals', () => {
     modal2,
     modal3,
     modal4,
+    dropdown,
   }
 })

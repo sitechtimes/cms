@@ -11,7 +11,6 @@ export function useArticleEditor() {
   const { user } = storeToRefs(userStore)
 
   async function saveArticle() {
-    modalStore.closeDropdown()
     requestEndpoint(`/cms/${route.params.id}`, 'PUT', article.value)
     startMessage('Article saved!')
   }
