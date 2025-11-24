@@ -38,4 +38,6 @@ defineProps<{
   message: string
   progress: number
 }>()
+
+console.log('im running')
 </script>

@@ -1,5 +1,12 @@
 <template>
   <div v-if="article && user" class="mx-auto max-w-3xl py-8 md:max-w-7xl">
+    <ConfirmationMessage
+      class="bg-green-300"
+      icon="heroicons:check-circle-16-solid"
+      :message="editorFunctions.confirmationMessage.value"
+      :progress="editorFunctions.progress.value"
+      @close="editorFunctions.confirmationMessage.value = ''"
+    />
     <ModalThings />
     <div class="flex justify-between">
       <h1 class="text-3xl font-bold text-gray-900">Edit Article</h1>
@@ -78,9 +85,15 @@
 </template>
 
 <script setup lang="ts">
+import { useArticleEditor } from '~/composables/useArticleEditor'
+import unpack from '~/composables/unpacker'
+
 definePageMeta({
   layout: 'navbar',
 })
+
+const editor = useArticleEditor()
+const editorFunctions = unpack(editor)
 
 const route = useRoute()
 

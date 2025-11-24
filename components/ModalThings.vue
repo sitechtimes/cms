@@ -1,12 +1,5 @@
 <template>
   <div>
-    <ConfirmationMessage
-      class="bg-green-300"
-      icon="heroicons:check-circle-16-solid"
-      :message="editorFunctions.confirmationMessage.value"
-      :progress="editorFunctions.progress.value"
-      @close="editorFunctions.confirmationMessage.value = ''"
-    />
     <dialog :ref="modals.modal1" class="du-modal">
       <div class="du-modal-box w-full max-w-lg">
         <h3 class="text-lg font-bold">
