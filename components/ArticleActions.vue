@@ -12,7 +12,7 @@
           <li v-if="article.status === 'ready'" @click="modals.confirmPublish">
             <button>Publish Article</button>
           </li>
-          <li @click="editorFunctions.saveArticle">
+          <li @click="articleStore.saveArticle">
             <button>Save Article</button>
           </li>
           <li v-if="article.status === 'draft'" @click="modals.confirmSend">
@@ -34,16 +34,12 @@
 </template>
 
 <script setup lang="ts">
-import unpack from '~/composables/unpacker'
-
 defineProps<{
   article: Article
   user: User
 }>()
 
 const route = useRoute()
-const editor = useArticleEditor()
-const editorFunctions = unpack(editor)
-
+const articleStore = useArticleStore()
 const modals = useModalStore()
 </script>

@@ -42,24 +42,6 @@ export function useArticleEditor() {
     router.push('/')
   }
 
-  function startMessage(message: string) {
-    confirmationMessage.value = message
-    progress.value = 0
-    const duration = 3000
-    const startTime = performance.now()
-
-    function update(now: number) {
-      const elapsed = now - startTime
-      progress.value = Math.min(elapsed / duration, 1)
-      if (elapsed < duration) {
-        requestAnimationFrame(update)
-      } else {
-        confirmationMessage.value = ''
-      }
-    }
-    requestAnimationFrame(update)
-  }
-
   const topics = [
     'feature',
     'news',

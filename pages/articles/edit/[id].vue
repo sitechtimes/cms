@@ -3,9 +3,9 @@
     <ConfirmationMessage
       class="bg-green-300"
       icon="heroicons:check-circle-16-solid"
-      :message="editorFunctions.confirmationMessage.value"
-      :progress="editorFunctions.progress.value"
-      @close="editorFunctions.confirmationMessage.value = ''"
+      :message="articleStore.confirmationMessage"
+      :progress="articleStore.progress"
+      @close="articleStore.confirmationMessage = ''"
     />
     <ModalThings />
     <div class="flex justify-between">
@@ -85,22 +85,19 @@
 </template>
 
 <script setup lang="ts">
-import { useArticleEditor } from '~/composables/useArticleEditor'
-import unpack from '~/composables/unpacker'
+import { useArticleStore } from '~/stores/articles'
 
 definePageMeta({
   layout: 'navbar',
 })
 
-const editor = useArticleEditor()
-const editorFunctions = unpack(editor)
+const fileSelection = useTemplateRef('file')
 
 const route = useRoute()
 
-const fileSelection = useTemplateRef('file')
-
 const article = ref<Article>()
 const userStore = useUserStore()
+const articleStore = useArticleStore()
 const { user } = storeToRefs(userStore)
 
 onBeforeMount(async () => {
