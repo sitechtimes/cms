@@ -3,9 +3,9 @@
     <ConfirmationMessage
       class="bg-green-300"
       icon="heroicons:check-circle-16-solid"
-      :message="articleStore.confirmationMessage"
-      :progress="articleStore.progress"
-      @close="articleStore.confirmationMessage = ''"
+      :message="modals.confirmationMessage"
+      :progress="modals.progress"
+      @close="modals.confirmationMessage = ''"
     />
     <ModalThings />
     <div class="flex justify-between">
@@ -85,8 +85,6 @@
 </template>
 
 <script setup lang="ts">
-import { useArticleStore } from '~/stores/articles'
-
 definePageMeta({
   layout: 'navbar',
 })
@@ -97,7 +95,7 @@ const route = useRoute()
 
 const article = ref<Article>()
 const userStore = useUserStore()
-const articleStore = useArticleStore()
+const modals = useModalStore()
 const { user } = storeToRefs(userStore)
 
 onBeforeMount(async () => {
@@ -105,6 +103,8 @@ onBeforeMount(async () => {
     `/cms/${route.params.id}`,
     'GET'
   )
+
+  modals.setArticle(article.value)
 })
 
 function changeImage() {

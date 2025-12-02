@@ -12,7 +12,7 @@
           <li v-if="article.status === 'ready'" @click="modals.confirmPublish">
             <button>Publish Article</button>
           </li>
-          <li @click="articleStore.saveArticle">
+          <li @click="modals.saveArticle">
             <button>Save Article</button>
           </li>
           <li v-if="article.status === 'draft'" @click="modals.confirmSend">
@@ -40,6 +40,5 @@ defineProps<{
 }>()
 
 const route = useRoute()
-const articleStore = useArticleStore()
 const modals = useModalStore()
 </script>
