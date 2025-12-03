@@ -1,5 +1,89 @@
 <template>
   <div>
+    <dialog ref="modal1" class="du-modal">
+      <div class="du-modal-box w-full max-w-lg">
+        <h3 class="text-lg font-bold">
+          ARE YOU SURE YOU WANT TO DELETE THIS ARTICLE
+        </h3>
+        <p class="py-4">THIS ACTION IS IRREVERSIBLE AND CANNOT BE UNDONE</p>
+        <div class="du-modal-action">
+          <form method="dialog">
+            <button
+              class="du-btn bg-red-500 text-white hover:bg-red-600"
+              @click="modals.deleteArticle"
+            >
+              DELETE
+            </button>
+          </form>
+        </div>
+      </div>
+      <form method="dialog" class="du-modal-backdrop">
+        <button></button>
+      </form>
+    </dialog>
+    <dialog ref="modal2" class="du-modal">
+      <div class="du-modal-box w-full max-w-lg">
+        <h3 class="text-lg font-bold">
+          ARE YOU SURE YOU WANT TO SEND THIS TO REVIEW
+        </h3>
+        <p class="py-4">THEY MIGHT SEE THIS</p>
+        <div class="du-modal-action">
+          <form method="dialog">
+            <button
+              class="du-btn bg-orange-500 text-white hover:bg-orange-600"
+              @click="modals.sendToReview"
+            >
+              SEND
+            </button>
+          </form>
+        </div>
+      </div>
+      <form method="dialog" class="du-modal-backdrop">
+        <button></button>
+      </form>
+    </dialog>
+    <dialog ref="modal3" class="du-modal">
+      <div class="du-modal-box w-full max-w-lg">
+        <h3 class="text-lg font-bold">
+          ARE YOU SURE YOU WANT TO PUBLISH THIS ARTICLE????
+        </h3>
+        <p class="py-4">EVERYONE MIGHT SEE THIS</p>
+        <div class="du-modal-action">
+          <form method="dialog">
+            <button
+              class="du-btn bg-green-500 text-white hover:bg-green-600"
+              @click="modals.publishArticle"
+            >
+              SEND
+            </button>
+          </form>
+        </div>
+      </div>
+      <form method="dialog" class="du-modal-backdrop">
+        <button></button>
+      </form>
+    </dialog>
+    <dialog ref="modal4" class="du-modal">
+      <div class="du-modal-box w-full max-w-lg">
+        <h3 class="text-lg font-bold">
+          ARE YOU SURE THIS ARTICLE IS READY????
+        </h3>
+        <p class="py-4">SOMEONE WILL PROBABLY SEE THIS</p>
+        <div class="du-modal-action">
+          <form method="dialog">
+            <button
+              class="du-btn bg-fuchsia-500 text-white hover:bg-fuchsia-600"
+              @click="modals.readyArticle"
+            >
+              SEND
+            </button>
+          </form>
+        </div>
+      </div>
+      <form method="dialog" class="du-modal-backdrop">
+        <button></button>
+      </form>
+    </dialog>
     <div v-if="article && user">
       <NuxtLink :to="`/articles/${route.params.id}`" class="du-btn text-md">
         <Icon class="align-middle" name="heroicons:link-16-solid" />View
@@ -41,4 +125,16 @@ defineProps<{
 
 const route = useRoute()
 const modals = useModalStore()
+
+const modal1 = ref<HTMLDialogElement | null>(null)
+const modal2 = ref<HTMLDialogElement | null>(null)
+const modal3 = ref<HTMLDialogElement | null>(null)
+const modal4 = ref<HTMLDialogElement | null>(null)
+
+onMounted(() => {
+  modals.modal1 = modal1.value
+  modals.modal2 = modal2.value
+  modals.modal3 = modal3.value
+  modals.modal4 = modal4.value
+})
 </script>

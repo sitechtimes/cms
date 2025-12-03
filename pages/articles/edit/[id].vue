@@ -7,7 +7,7 @@
       :progress="modals.progress"
       @close="modals.confirmationMessage = ''"
     />
-    <ModalThings />
+
     <div class="flex justify-between">
       <h1 class="text-3xl font-bold text-gray-900">Edit Article</h1>
       <ArticleActions :article="article" :user="user" />

@@ -2,11 +2,11 @@ export const useModalStore = defineStore('modals', () => {
   const route = useRoute()
   const router = useRouter()
 
-  const dropdown = useTemplateRef<HTMLDialogElement>('dropdown')
-  const modal1 = useTemplateRef<HTMLDialogElement>('modal1')
-  const modal2 = useTemplateRef<HTMLDialogElement>('modal2')
-  const modal3 = useTemplateRef<HTMLDialogElement>('modal3')
-  const modal4 = useTemplateRef<HTMLDialogElement>('modal4')
+  const dropdown = ref<HTMLDialogElement | null>(null)
+  const modal1 = ref<HTMLDialogElement | null>(null)
+  const modal2 = ref<HTMLDialogElement | null>(null)
+  const modal3 = ref<HTMLDialogElement | null>(null)
+  const modal4 = ref<HTMLDialogElement | null>(null)
 
   const progress = ref(0)
   const confirmationMessage = ref('')
@@ -24,13 +24,13 @@ export const useModalStore = defineStore('modals', () => {
   async function saveArticle() {
     closeDropdown()
     requestEndpoint(`/cms/${route.params.id}`, 'PUT', article.value)
-    console.log(article.value)
     startMessage('Article saved!')
   }
 
   function confirmSend() {
     closeDropdown()
     modal2.value?.showModal()
+    console.log('I HAVE BEEN CL:ICKED')
   }
 
   async function readyArticle() {
