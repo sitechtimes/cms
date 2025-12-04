@@ -2,7 +2,7 @@ export const useModalStore = defineStore('modals', () => {
   const route = useRoute()
   const router = useRouter()
 
-  const dropdown = ref<HTMLDialogElement | null>(null)
+  const dropdown = ref<HTMLDetailsElement | null>(null)
   const modal1 = ref<HTMLDialogElement | null>(null)
   const modal2 = ref<HTMLDialogElement | null>(null)
   const modal3 = ref<HTMLDialogElement | null>(null)
@@ -30,7 +30,6 @@ export const useModalStore = defineStore('modals', () => {
   function confirmSend() {
     closeDropdown()
     modal2.value?.showModal()
-    console.log('I HAVE BEEN CL:ICKED')
   }
 
   async function readyArticle() {

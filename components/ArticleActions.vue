@@ -126,15 +126,17 @@ defineProps<{
 const route = useRoute()
 const modals = useModalStore()
 
-const modal1 = ref<HTMLDialogElement | null>(null)
-const modal2 = ref<HTMLDialogElement | null>(null)
-const modal3 = ref<HTMLDialogElement | null>(null)
-const modal4 = ref<HTMLDialogElement | null>(null)
+const refs = {
+  modal1: ref<HTMLDialogElement | null>(null),
+  modal2: ref<HTMLDialogElement | null>(null),
+  modal3: ref<HTMLDialogElement | null>(null),
+  modal4: ref<HTMLDialogElement | null>(null),
+  dropdown: ref<HTMLDetailsElement | null>(null),
+}
 
 onMounted(() => {
-  modals.modal1 = modal1.value
-  modals.modal2 = modal2.value
-  modals.modal3 = modal3.value
-  modals.modal4 = modal4.value
+  for (const key in refs) {
+    modals[key] = refs[key].value
+  }
 })
 </script>
