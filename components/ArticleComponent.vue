@@ -37,7 +37,7 @@
         </div>
       </div>
 
-      <div ref="contentRef" class="whitespace-pre-wrap"></div>
+      <div ref="contentRef" class="whitespace-pre-wrap break-words max-w-full"></div>
     </article>
   </div>
 </template>
@@ -72,8 +72,8 @@ const formattedDate = today.toLocaleDateString('en-US', options)
 
 onMounted(async () => {
   if (contentRef.value) {
-    console.log(props.article.content)
-    contentRef.value.innerHTML = props.article.content
+    contentRef.value.innerHTML = props.article.content;
+    console.log(contentRef.value.innerHTML)
   }
 
   if (titleRef.value) {

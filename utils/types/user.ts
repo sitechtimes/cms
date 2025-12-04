@@ -20,6 +20,7 @@ export type Article = {
   title: string
   updatedAt: string
   userId: string
+  editorResponses: Array<{"name": string, "text": string}>
 }
 
 export type Status = 'draft' | 'review' | 'ready'
