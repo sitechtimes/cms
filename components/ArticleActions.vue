@@ -1,6 +1,6 @@
 <template>
   <div>
-    <dialog ref="modal1" class="du-modal">
+    <dialog :ref="refs.modal1" class="du-modal">
       <div class="du-modal-box w-full max-w-lg">
         <h3 class="text-lg font-bold">
           ARE YOU SURE YOU WANT TO DELETE THIS ARTICLE
@@ -21,7 +21,7 @@
         <button></button>
       </form>
     </dialog>
-    <dialog ref="modal2" class="du-modal">
+    <dialog :ref="refs.modal2" class="du-modal">
       <div class="du-modal-box w-full max-w-lg">
         <h3 class="text-lg font-bold">
           ARE YOU SURE YOU WANT TO SEND THIS TO REVIEW
@@ -42,7 +42,7 @@
         <button></button>
       </form>
     </dialog>
-    <dialog ref="modal3" class="du-modal">
+    <dialog :ref="refs.modal3" class="du-modal">
       <div class="du-modal-box w-full max-w-lg">
         <h3 class="text-lg font-bold">
           ARE YOU SURE YOU WANT TO PUBLISH THIS ARTICLE????
@@ -63,7 +63,7 @@
         <button></button>
       </form>
     </dialog>
-    <dialog ref="modal4" class="du-modal">
+    <dialog :ref="refs.modal4" class="du-modal">
       <div class="du-modal-box w-full max-w-lg">
         <h3 class="text-lg font-bold">
           ARE YOU SURE THIS ARTICLE IS READY????
@@ -88,7 +88,7 @@
       <NuxtLink :to="`/articles/${route.params.id}`" class="du-btn text-md">
         <Icon class="align-middle" name="heroicons:link-16-solid" />View
       </NuxtLink>
-      <details ref="dropdown" class="du-dropdown du-dropdown-end">
+      <details :ref="refs.dropdown" class="du-dropdown du-dropdown-end">
         <summary class="du-btn m-1">Options</summary>
         <ul
           class="du-menu du-dropdown-content bg-base-100 du-rounded-box z-1 w-52 p-2 shadow-sm"
@@ -134,9 +134,11 @@ const refs = {
   dropdown: ref<HTMLDetailsElement | null>(null),
 }
 
+type Key = 'modal1' | 'modal2' | 'modal3' | 'modal4' | 'dropdown'
+
 onMounted(() => {
   for (const key in refs) {
-    modals[key] = refs[key].value
+    modals[key as Key] = refs[key as Key].value
   }
 })
 </script>
