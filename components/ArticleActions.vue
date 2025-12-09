@@ -92,9 +92,23 @@
       </form>
     </dialog>
     <div v-if="article && user">
-      <NuxtLink :to="`/articles/${route.params.id}`" class="du-btn text-md">
-        <Icon class="align-middle" name="heroicons:link-16-solid" />View
-      </NuxtLink>
+      <span v-if="toggle === false">
+        <NuxtLink
+          :to="`/articles/${route.params.id}`"
+          class="du-btn text-md"
+          @click="modals.saveArticle"
+        >
+          <Icon class="align-middle" name="heroicons:link-16-solid" />View
+        </NuxtLink>
+      </span>
+      <span v-if="toggle === true">
+        <NuxtLink
+          :to="`/articles/edit/${route.params.id}`"
+          class="du-btn text-md"
+        >
+          <Icon class="align-middle" name="heroicons:link-16-solid" />Edit
+        </NuxtLink>
+      </span>
       <details :ref="refs.dropdown" class="du-dropdown du-dropdown-end">
         <summary class="du-btn m-1">Options</summary>
         <ul
@@ -128,6 +142,7 @@
 defineProps<{
   article: Article
   user: User
+  toggle: boolean
 }>()
 
 const route = useRoute()
