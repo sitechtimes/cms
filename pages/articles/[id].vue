@@ -1,6 +1,9 @@
 <template>
   <div>
-    <main v-if="article"><ArticleComponent :article="article" /></main>
+    <main v-if="article && user">
+      <ArticleActions :article="article" :user="user" />
+      <ArticleComponent :article="article" />
+    </main>
   </div>
 </template>
 
@@ -10,6 +13,8 @@ definePageMeta({
 })
 
 const article = ref<Article>()
+const userStore = useUserStore()
+const { user } = storeToRefs(userStore)
 const route = useRoute()
 
 onBeforeMount(async () => {

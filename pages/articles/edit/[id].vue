@@ -1,13 +1,5 @@
 <template>
   <div v-if="article && user" class="mx-auto max-w-3xl py-8 md:max-w-7xl">
-    <ConfirmationMessage
-      class="bg-green-300"
-      icon="heroicons:check-circle-16-solid"
-      :message="modals.confirmationMessage"
-      :progress="modals.progress"
-      @close="modals.confirmationMessage = ''"
-    />
-
     <div class="flex justify-between">
       <h1 class="text-3xl font-bold text-gray-900">Edit Article</h1>
       <ArticleActions :article="article" :user="user" />

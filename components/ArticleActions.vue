@@ -1,5 +1,12 @@
 <template>
   <div>
+    <ConfirmationMessage
+      class="bg-green-300"
+      icon="heroicons:check-circle-16-solid"
+      :message="modals.confirmationMessage"
+      :progress="modals.progress"
+      @close="modals.confirmationMessage = ''"
+    />
     <dialog :ref="refs.modal1" class="du-modal">
       <div class="du-modal-box w-full max-w-lg">
         <h3 class="text-lg font-bold">
