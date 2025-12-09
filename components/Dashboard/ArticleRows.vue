@@ -20,14 +20,14 @@
 
     <td class="w-40 min-w-20 text-right text-sm font-medium whitespace-nowrap">
       <NuxtLink
-        v-if="article.status === 'draft'"
+        v-if="article.status === 'review' || article.status === 'draft'"
         class="text-indigo-600 hover:text-indigo-900"
         :to="`/articles/edit/${article._id}`"
       >
         Edit
       </NuxtLink>
       <NuxtLink
-        v-if="article.status === 'review' || article.status === 'ready'"
+        v-if="article.status === 'ready'"
         class="text-indigo-600 hover:text-indigo-900"
         :to="`/articles/${article._id}`"
       >
