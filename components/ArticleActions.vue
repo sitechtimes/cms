@@ -143,6 +143,7 @@ defineProps<{
   article: Article
   user: User
   toggle: boolean
+  published?: boolean
 }>()
 
 const route = useRoute()
