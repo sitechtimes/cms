@@ -105,10 +105,31 @@ const initializeEditor = async () => {
   border-radius: 4px;
 }
 
-.tui-colorpicker-svg {
-  max-width: fit-content;
+.tui-colorpicker-clearfix {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 
-.tui-colorpicker-clearfix {
+.tui-colorpicker-slider-part{
+  width: 120px;
+  height: 120px;
+  aspect-ratio: 1 / 1;
 }
+
+.tui-colorpicker-slider-right{
+  width: 18px;
+  height: 120px;
+}
+
+.tui-colorpicker-svg-slider {
+  width: 120px;
+  height: 120px;
+}
+
+.tui-colorpicker-svg-huebar {
+  width: 18px;
+  height: 120px;
+}
+
 </style>

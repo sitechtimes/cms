@@ -1,7 +1,7 @@
 <template>
     <div>
         <main v-if="article" class="mx-auto max-w-3xl py-8 md:max-w-7xl">
-            <dialog ref="modal" class="du-modal">
+            <dialog ref="modal1" class="du-modal">
                 <div class="du-modal-box w-full max-w-lg">
                     <h3 class="text-lg font-bold">
                     ARE YOU SURE YOU WANT TO SEND THIS TO READY
@@ -22,6 +22,27 @@
                     <button></button>
                 </form>
             </dialog>
+             <dialog ref="modal2" class="du-modal">
+                <div class="du-modal-box w-full max-w-lg">
+                    <h3 class="text-lg font-bold">
+                    ARE YOU SURE YOU WANT TO SEND THIS TO READY
+                    </h3>
+                    <p class="py-4">THEY (THE RADICALS) MIGHT SEE THIS</p>
+                    <div class="du-modal-action">
+                    <form method="dialog">
+                        <button
+                        class="du-btn bg-orange-500 text-white hover:bg-orange-600"
+                        @click="sendToDraft"
+                        >
+                        SEND
+                        </button>
+                    </form>
+                    </div>
+                </div>
+                <form method="dialog" class="du-modal-backdrop">
+                    <button></button>
+                </form>
+            </dialog>
             <div class="flex justify-between">
                 <h1 class="text-3xl font-bold text-gray-900">Review Article</h1>
                 <div>
@@ -30,7 +51,10 @@
                     <ul
                         class="du-menu du-dropdown-content bg-base-100 du-rounded-box z-1 w-52 p-2 shadow-sm"
                     >
-                        <li @click="confirmSend">
+                        <li @click="confirmSendtoDraft">
+                        <button> Send to Draft </button>
+                        </li>
+                        <li @click="confirmSendtoReady">
                         <button> Send to Ready </button>
                         </li>
                     </ul>
@@ -87,15 +111,21 @@ const article = ref<Article>()
 const newNote = ref<string>('')
 
 const dropdown = useTemplateRef('dropdown')
-const modal = useTemplateRef('modal')
+const modal1 = useTemplateRef('modal')
+const modal2 = useTemplateRef('modal')
 
 function closeDropdown() {
   dropdown.value?.removeAttribute('open')
 }
 
-function confirmSend() {
+function confirmSendtoReady() {
   closeDropdown()
-  modal.value?.showModal()
+  modal1.value?.showModal()
+}
+
+function confirmSendtoDraft() {
+  closeDropdown()
+  modal2.value?.showModal()
 }
 
 function deleteNotes(response: { name: string; text: string }) {
@@ -119,6 +149,14 @@ async function saveArticle() {
 function sendToReady() {
   if (article.value) {
     article.value.status = 'ready'
+    requestEndpoint(`/cms/${route.params.id}`, 'PUT', article.value)
+  }
+//   startMessage('Article sent for review.')
+}
+
+function sendToDraft() {
+  if (article.value) {
+    article.value.status = 'draft'
     requestEndpoint(`/cms/${route.params.id}`, 'PUT', article.value)
   }
 //   startMessage('Article sent for review.')
