@@ -4,7 +4,6 @@ export const useUserStore = defineStore(
   'user',
   () => {
     const user = ref<User>()
-    const router = useRouter()
 
     async function signIn(email: string, password: string) {
       signOut()
@@ -49,12 +48,12 @@ export const useUserStore = defineStore(
 
     async function verifyToken(token: string) {
       user.value = await requestEndpoint<User>(`/auth/verify?token=${token}`)
-      router.push('/')
+      await navigateTo('/', { replace: true })
     }
 
     function signOut() {
       user.value = undefined
-      router.push('/auth/signin')
+      navigateTo('/auth/signin', { replace: true })
     }
 
     return { user, signIn, signUp, requestVerification, signOut, verifyToken }

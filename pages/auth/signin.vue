@@ -85,12 +85,11 @@ const email = ref('')
 const password = ref('')
 
 const userStore = useUserStore()
-const router = useRouter()
 
 async function signIn() {
   try {
     await userStore.signIn(email.value, password.value)
-    router.push('/')
+    await navigateTo('/', { replace: true })
   } catch (e) {
     // todo: add error handling (booooo)
     console.error(e)

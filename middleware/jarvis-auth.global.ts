@@ -11,6 +11,11 @@ export default defineNuxtRouteMiddleware((to) => {
   //   .startsWith('​j​a​r​v​i​s​')
   // if (isJarvis) return
 
-  if (!to.path.startsWith('/auth') && !userStore.user)
-    return navigateTo('/auth/signin')
+  // Allow auth routes
+  if (to.path.startsWith('/auth')) return
+
+  // Redirect to signin if no user
+  if (!userStore.user) {
+    return navigateTo('/auth/signin', { replace: true })
+  }
 })
