@@ -105,31 +105,69 @@ const initializeEditor = async () => {
   border-radius: 4px;
 }
 
-.tui-colorpicker-clearfix {
+ul.tui-colorpicker-clearfix {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
 }
 
-.tui-colorpicker-slider-part{
-  width: 120px;
-  height: 120px;
-  aspect-ratio: 1 / 1;
+div.tui-colorpicker-clearfix {
+  display: inline-block;
+  margin: 5px 0;
+  width: 102px;
 }
 
-.tui-colorpicker-slider-right{
+.tui-colorpicker-palette-hex {
+    font-family: inherit;
+    font-size: 13px;
+    height: 31.6px;
+    width: 101.6px;
+    padding: 3px 25px 3px 10px;
+    border: 1px solid #e1e3e9;
+    border-radius: 2px;
+    float: left;
+}
+
+.tui-colorpicker-palette-preview {
+    margin-top: 8px;
+    margin-left: -22px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 1px solid rgba(0, 0, 0, .1);
+    box-sizing: border-box;
+}
+
+.tui-colorpicker-svg {
+  display: block;
+}
+
+.tui-colorpicker-slider-container {
+  margin: 5px 0 0;
+  height: 122px;
+  zoom: 1;
+  padding: 0;
+}
+
+.tui-colorpicker-slider-left {
+  width: 120px;
+  height: 120px;
+}
+
+.tui-colorpicker-slider-right {
   width: 18px;
   height: 120px;
 }
 
 .tui-colorpicker-svg-slider {
-  width: 120px;
-  height: 120px;
+  width: 121.6px;
+  height: 121.6px;
+  overflow: hidden;
 }
 
 .tui-colorpicker-svg-huebar {
-  width: 18px;
-  height: 120px;
+  width: 19.6px;
+  height: 121.6px;
 }
 
 </style>
