@@ -6,7 +6,8 @@ export const useUserStore = defineStore(
     const user = ref<User>()
 
     async function signIn(email: string, password: string) {
-      signOut()
+      // Clear any existing user state
+      user.value = undefined
 
       const data = await requestEndpoint<User>('/auth/signin', 'POST', {
         email,
@@ -41,7 +42,7 @@ export const useUserStore = defineStore(
         return data
       } catch (error) {
         // unauthorized. get out
-        if (error.status === 401) signOut()
+        if (error.status === 401) await signOut()
         throw error
       }
     }
@@ -51,9 +52,9 @@ export const useUserStore = defineStore(
       await navigateTo('/', { replace: true })
     }
 
-    function signOut() {
+    async function signOut() {
       user.value = undefined
-      navigateTo('/auth/signin', { replace: true })
+      await navigateTo('/auth/signin', { replace: true })
     }
 
     return { user, signIn, signUp, requestVerification, signOut, verifyToken }
