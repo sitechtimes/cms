@@ -114,28 +114,18 @@ ul.tui-colorpicker-clearfix {
 div.tui-colorpicker-clearfix {
   display: inline-block;
   margin: 5px 0;
-  width: 102px;
-}
-
-.tui-colorpicker-palette-hex {
-    font-family: inherit;
-    font-size: 13px;
-    height: 31.6px;
-    width: 101.6px;
-    padding: 3px 25px 3px 10px;
-    border: 1px solid #e1e3e9;
-    border-radius: 2px;
-    float: left;
 }
 
 .tui-colorpicker-palette-preview {
-    margin-top: 8px;
-    margin-left: -22px;
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    border: 1px solid rgba(0, 0, 0, .1);
-    box-sizing: border-box;
+  margin-top: 4px;
+  margin-left: -22px;
+  width: 16px !important;
+  height: 16px !important;
+  display: inline-block; 
+  border-radius: 50%;
+  border: solid 1px rgba(0, 0, 0, 0.1);
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 .tui-colorpicker-svg {
