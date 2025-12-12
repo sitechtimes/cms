@@ -14,22 +14,14 @@
       <span
         class="inline-flex rounded-full bg-green-100 px-2 py-1 text-xs font-semibold text-green-800 capitalize"
       >
-        {{ article.status }}
+        Published
       </span>
     </td>
 
     <td class="w-40 min-w-20 text-right text-sm font-medium whitespace-nowrap">
       <NuxtLink
-        v-if="article.status === 'review' || article.status === 'draft'"
         class="text-indigo-600 hover:text-indigo-900"
-        :to="`/articles/edit/${article._id}`"
-      >
-        Edit
-      </NuxtLink>
-      <NuxtLink
-        v-if="article.status === 'ready'"
-        class="text-indigo-600 hover:text-indigo-900"
-        :to="`/articles/${article._id}`"
+        :to="`/articles/view/${article.slug}`"
       >
         View
       </NuxtLink>
@@ -38,7 +30,7 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{ article: Article }>()
+const props = defineProps<{ article: PublishedArticle }>()
 
 const formatDate = computed(() => {
   const date = new Date(props.article.updatedAt)

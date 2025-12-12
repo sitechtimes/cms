@@ -1,0 +1,26 @@
+<template>
+  <div class="px-4 pt-2">
+    <div v-if="response.articles.length > 0">
+      <DashboardTable title="">
+        <DashboardPublishedArticleRows
+          v-for="article in response.articles"
+          :key="article._id"
+          :article="article"
+        />
+      </DashboardTable>
+    </div>
+
+    <div
+      v-if="response.articles.length === 0"
+      class="mx-auto flex max-w-7xl flex-col gap-4 p-4"
+    >
+      There are no published articles.
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+defineProps<{
+  response: ArticleResponse
+}>()
+</script>
