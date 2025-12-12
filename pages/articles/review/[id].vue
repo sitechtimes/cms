@@ -131,9 +131,8 @@ function confirmSendtoDraft() {
 
 function deleteNotes(response: { name: string; text: string }) {
   const index = article.value?.editorResponses.findIndex((note) => note === response)
-  if (!index || index === -1) return
+  if (index === undefined || index === -1) return
   article.value?.editorResponses.splice(index, 1)
-  console.log(index, response)
   requestEndpoint(`/cms/${route.params.id}`, 'PUT', article.value)
 }
 
