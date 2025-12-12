@@ -105,10 +105,22 @@ const initializeEditor = async () => {
   border-radius: 4px;
 }
 
+.toastui-editor-popup-color button {
+  height: 32px;
+  width: 40px;
+  color: #555;
+  background: #f7f9fc;
+  border: 1px solid #e1e3e9;
+  top: 68px !important;
+  position: absolute;
+  right: 15px;
+}
+
 ul.tui-colorpicker-clearfix {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  height: 38px;
 }
 
 div.tui-colorpicker-clearfix {
@@ -116,9 +128,23 @@ div.tui-colorpicker-clearfix {
   margin: 5px 0;
 }
 
+.tui-colorpicker-clearfix:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+.tui-colorpicker-palette-container {
+  height: 92.6px !important;
+}
+
+.tui-colorpicker-palette-hex {
+  width: 101.6px !important;
+  height: 31.6px !important;
+  display: inline-block;
+}
+
 .tui-colorpicker-palette-preview {
-  margin-top: 4px;
-  margin-left: -22px;
   width: 16px !important;
   height: 16px !important;
   display: inline-block; 
@@ -126,6 +152,7 @@ div.tui-colorpicker-clearfix {
   border: solid 1px rgba(0, 0, 0, 0.1);
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
+  overflow: hidden !important;
 }
 
 .tui-colorpicker-svg {
@@ -142,11 +169,13 @@ div.tui-colorpicker-clearfix {
 .tui-colorpicker-slider-left {
   width: 120px;
   height: 120px;
+  float: left;
 }
 
 .tui-colorpicker-slider-right {
   width: 18px;
   height: 120px;
+  float: right;
 }
 
 .tui-colorpicker-svg-slider {
