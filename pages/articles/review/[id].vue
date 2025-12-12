@@ -106,6 +106,7 @@ definePageMeta({
 const route = useRoute()
 
 const userStore = useUserStore()
+const modalStore = useModalStore()
 
 const article = ref<Article>()
 const newNote = ref<string>('')
@@ -132,6 +133,7 @@ function deleteNotes(response: { name: string; text: string }) {
   const index = article.value?.editorResponses.findIndex((note) => note === response)
   if (!index || index === -1) return
   article.value?.editorResponses.splice(index, 1)
+  console.log(index, response)
   requestEndpoint(`/cms/${route.params.id}`, 'PUT', article.value)
 }
 
@@ -143,6 +145,7 @@ async function saveArticle() {
         })
         newNote.value = ''
     }
+    console.log(article.value)
   requestEndpoint(`/cms/${route.params.id}`, 'PUT', article.value)
 }
 

@@ -73,7 +73,6 @@ const formattedDate = today.toLocaleDateString('en-US', options)
 onMounted(async () => {
   if (contentRef.value) {
     contentRef.value.innerHTML = props.article.content;
-    console.log(contentRef.value.innerHTML)
   }
 
   if (titleRef.value) {
