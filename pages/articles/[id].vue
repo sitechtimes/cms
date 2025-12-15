@@ -27,5 +27,6 @@ onBeforeMount(async () => {
     `/cms/${route.params.id}`,
     'GET'
   )
+  
 })
 </script>
