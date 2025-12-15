@@ -91,6 +91,27 @@
         <button></button>
       </form>
     </dialog>
+    <dialog :ref="refs.modal5" class="du-modal">
+      <div class="du-modal-box w-full max-w-lg">
+        <h3 class="text-lg font-bold">
+          ARE YOU SURE YOU WANT TO SEND THIS TO DRAFT
+        </h3>
+        <p class="py-4">SOMEONE MIGHT FEEL BAD</p>
+        <div class="du-modal-action">
+          <form method="dialog">
+            <button
+              class="du-btn bg-blue-500 text-white hover:bg-blue-600"
+              @click="modals.sendToDraft"
+            >
+              SEND
+            </button>
+          </form>
+        </div>
+      </div>
+      <form method="dialog" class="du-modal-backdrop">
+        <button></button>
+      </form>
+    </dialog>
     <div v-if="article && user">
       <span v-if="toggle === false">
         <NuxtLink
@@ -114,13 +135,13 @@
         <ul
           class="du-menu du-dropdown-content bg-base-100 du-rounded-box z-1 w-52 p-2 shadow-sm"
         >
-          <li v-if="article.status === 'ready'" @click="modals.confirmPublish">
-            <button>Publish Article</button>
-          </li>
           <li @click="modals.saveArticle">
             <button>Save Article</button>
           </li>
-          <li v-if="article.status === 'draft'" @click="modals.confirmSend">
+          <li v-if="article.status === 'review'" @click="modals.confirmSendToDraft">
+            <button>Send to Draft</button>
+          </li>
+          <li v-if="article.status === 'draft' || article.status === 'ready'" @click="modals.confirmSendToReview">
             <button>Send to Review</button>
           </li>
           <li
@@ -128,6 +149,9 @@
             @click="modals.confirmReady"
           >
             <button>Send to Ready</button>
+          </li>
+          <li v-if="article.status === 'ready'" @click="modals.confirmPublish">
+            <button>Publish Article</button>
           </li>
           <li @click="modals.confirmArticleDeletion">
             <button>Delete Article</button>
@@ -153,10 +177,11 @@ const refs = {
   modal2: ref<HTMLDialogElement | null>(null),
   modal3: ref<HTMLDialogElement | null>(null),
   modal4: ref<HTMLDialogElement | null>(null),
+  modal5: ref<HTMLDialogElement | null>(null),
   dropdown: ref<HTMLDetailsElement | null>(null),
 }
 
-type Key = 'modal1' | 'modal2' | 'modal3' | 'modal4' | 'dropdown'
+type Key = 'modal1' | 'modal2' | 'modal3' | 'modal4' | 'modal5' | 'dropdown'
 
 onMounted(() => {
   for (const key in refs) {

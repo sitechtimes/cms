@@ -71,7 +71,7 @@
       </div>
     </div>
     <div class="max-w-7xl rounded border border-gray-300 shadow">
-      <QuillEditor v-model="article.content" />
+      <ToastEditor v-model="article.content" />
     </div>
   </div>
 </template>

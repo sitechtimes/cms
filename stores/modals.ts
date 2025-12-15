@@ -7,6 +7,7 @@ export const useModalStore = defineStore('modals', () => {
   const modal2 = ref<HTMLDialogElement | null>(null)
   const modal3 = ref<HTMLDialogElement | null>(null)
   const modal4 = ref<HTMLDialogElement | null>(null)
+  const modal5 = ref<HTMLDialogElement | null>(null)
 
   const progress = ref(0)
   const confirmationMessage = ref('')
@@ -23,11 +24,16 @@ export const useModalStore = defineStore('modals', () => {
 
   async function saveArticle() {
     closeDropdown()
-    requestEndpoint(`/cms/${route.params.id}`, 'PUT', article.value)
+    requestEndpoint(`/cms/${route.params.id}/`, 'PUT', article.value)
     startMessage('Article saved!')
   }
 
-  function confirmSend() {
+  function confirmSendToDraft() {
+    closeDropdown()
+    modal5.value?.showModal()
+  }
+
+  function confirmSendToReview() {
     closeDropdown()
     modal2.value?.showModal()
   }
@@ -54,6 +60,14 @@ export const useModalStore = defineStore('modals', () => {
   function confirmPublish() {
     closeDropdown()
     modal3.value?.showModal()
+  }
+
+  function sendToDraft() {
+    if (article.value) {
+      article.value.status = 'draft'
+      requestEndpoint(`/cms/${route.params.id}`, 'PUT', article.value)
+    }
+    startMessage('Article sent to draft!')
   }
 
   function sendToReview() {
@@ -99,9 +113,11 @@ export const useModalStore = defineStore('modals', () => {
     saveArticle,
     readyArticle,
     deleteArticle,
+    sendToDraft,
     sendToReview,
     publishArticle,
-    confirmSend,
+    confirmSendToDraft,
+    confirmSendToReview,
     confirmArticleDeletion,
     confirmPublish,
     confirmReady,
@@ -110,6 +126,7 @@ export const useModalStore = defineStore('modals', () => {
     modal2,
     modal3,
     modal4,
+    modal5,
     dropdown,
     confirmationMessage,
     progress,
