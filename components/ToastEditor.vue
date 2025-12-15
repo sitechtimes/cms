@@ -21,23 +21,18 @@ const html = defineModel<string>()
 const editorContainer = ref<HTMLElement>()
 const isEditorReady = ref(false)
 
-// Initialize editor only after mount
 onMounted(() => {
   initializeEditor()
 })
 
 const initializeEditor = async () => {
   if (!editorContainer.value) {
-    // Retry after a short delay if container isn't ready
     setTimeout(initializeEditor, 100)
     return
   }
 
   try {
-    // Clear any existing content
     editorContainer.value.innerHTML = ''
-
-    // Dynamic imports for client-side only
 
     const { Editor } = await import('@toast-ui/editor')
     await import('@toast-ui/editor/dist/toastui-editor.css')
@@ -68,21 +63,18 @@ const initializeEditor = async () => {
       plugins: [colorSyntax],
     })
 
-    // Set initial content after a small delay to ensure editor is fully initialized
     setTimeout(() => {
       if (html.value) {
         editor.setHTML(html.value)
       }
     }, 100)
 
-    // Update model on content change
     editor.on('change', () => {
       html.value = editor.getHTML()
     })
 
     isEditorReady.value = true
 
-    // Cleanup
     onBeforeUnmount(() => {
       try {
         editor.destroy()
@@ -98,7 +90,6 @@ const initializeEditor = async () => {
 </script>
 
 <style>
-/* Ensure proper styling */
 .toastui-editor-defaultUI {
   border: 1px solid #e5e5e5;
   border-radius: 4px;
