@@ -17,8 +17,15 @@
                         </span>
 
                         <button 
+                            v-if="response.name === user.name"
                             class="shrink-0 pl-2 text-gray-500 hover:text-red-500 font-bold text-2xl leading-none"
                             @click="deleteNotes(response)"
+                        >
+                            <Icon name="heroicons:x-mark-16-solid" />                            
+                        </button>
+                        <button 
+                            v-if="response.name !== user.name"
+                            class="shrink-0 pl-2 text-gray-300 font-bold text-2xl leading-none"
                         >
                             <Icon name="heroicons:x-mark-16-solid" />                            
                         </button>
@@ -32,6 +39,7 @@
                     v-model="newNote"
                     type="text"
                     class="du-input text-md block flex-1 shadow-sm rounded border border-gray-300 pl-3 py-3"
+                    @keydown="handleKeydown"
                     />
                     <button @click="saveNewNote" class="ml-2 du-btn du-btn-success shadow-sm"> Send </button>
                 </div>
@@ -69,15 +77,21 @@ function deleteNotes(response: { name: string; text: string }) {
 }
 
 async function saveNewNote() {
-    if (newNote.value.trim() !== '') {
-        article.value?.editorResponses.push({
-        name: userStore.user?.name || 'Anonymous',
-        text: newNote.value.trim(),
-        })
-        newNote.value = ''
-    }
-    console.log(article.value)
+    if (newNote.value.trim() === '') return
+
+    article.value?.editorResponses.push({
+    name: userStore.user?.name || 'Anonymous',
+    text: newNote.value.trim(),
+    })
+    newNote.value = ''   
+
     modals.saveArticle()
+}
+
+function handleKeydown(event: KeyboardEvent) {
+    if (event.key === 'Enter') {
+        saveNewNote()
+    }
 }
 
 onBeforeMount(async () => {
