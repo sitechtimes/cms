@@ -122,7 +122,7 @@
           <Icon class="align-middle" name="heroicons:link-16-solid" />View
         </NuxtLink>
       </span>
-      <span v-if="toggle === true">
+      <span v-if="toggle === true && article.status !== 'ready'">
         <NuxtLink
           v-if="article.userId === user.id"
           :to="`/articles/edit/${route.params.id}`"
