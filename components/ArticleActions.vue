@@ -122,12 +122,20 @@
           <Icon class="align-middle" name="heroicons:link-16-solid" />View
         </NuxtLink>
       </span>
-      <span v-if="toggle === true">
+      <span v-if="toggle === true && article.status !== 'ready'">
         <NuxtLink
+          v-if="article.userId === user.id"
           :to="`/articles/edit/${route.params.id}`"
           class="du-btn text-md"
         >
           <Icon class="align-middle" name="heroicons:link-16-solid" />Edit
+        </NuxtLink>
+        <NuxtLink
+          v-if="article.userId !== user.id"
+          :to="`/articles/review/${route.params.id}`"
+          class="du-btn text-md"
+        >
+          <Icon class="align-middle" name="heroicons:link-16-solid" />Review
         </NuxtLink>
       </span>
       <details :ref="refs.dropdown" class="du-dropdown du-dropdown-end">
@@ -141,7 +149,7 @@
           <li v-if="article.status === 'review'" @click="modals.confirmSendToDraft">
             <button>Send to Draft</button>
           </li>
-          <li v-if="article.status === 'draft' || article.status === 'ready'" @click="modals.confirmSendToReview">
+          <li v-if="article.status === 'draft'" @click="modals.confirmSendToReview">
             <button>Send to Review</button>
           </li>
           <li
