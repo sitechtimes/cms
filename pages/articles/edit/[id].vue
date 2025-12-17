@@ -2,7 +2,7 @@
   <div v-if="article && user" class="mx-auto max-w-3xl py-8 md:max-w-7xl">
     <div class="flex justify-between">
       <h1 class="text-3xl font-bold text-gray-900">Edit Article</h1>
-      <ArticleActions :article="article" :user="user" :toggle="toggle" />
+      <ArticleActions :article="article" :user="user" :toggle="false" />
     </div>
     <div v-if="article.editorResponses.length != 0 && article.status === 'review'" class="max-w-7xl py-4">
       <label class="text-md block font-medium text-gray-700"> Editor Notes </label>
@@ -102,7 +102,6 @@ const article = ref<Article>()
 const userStore = useUserStore()
 const modals = useModalStore()
 const { user } = storeToRefs(userStore)
-const toggle = false
 
 onBeforeMount(async () => {
   article.value = await requestEndpoint<Article>(
