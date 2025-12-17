@@ -56,11 +56,14 @@ const modals = useModalStore()
 const newNote = ref<string>('')
 
 const { user } = storeToRefs(userStore)
-const toggle = true
+const toggle = false
 
 function deleteNotes(response: { name: string; text: string }) {
+    if (response.name !== userStore.user?.name) return
+
     const index = article.value?.editorResponses.findIndex((note) => note === response)
     if (index === undefined || index === -1) return
+
     article.value?.editorResponses.splice(index, 1)
     requestEndpoint(`/cms/${route.params.id}`, 'PUT', article.value)
 }
@@ -73,7 +76,7 @@ async function saveNewNote() {
         })
         newNote.value = ''
     }
-
+    console.log(article.value)
     modals.saveArticle()
 }
 
