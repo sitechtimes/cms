@@ -5,10 +5,7 @@
         <h1 class="text-3xl font-bold text-gray-900">Review Article</h1>
         <ArticleActions :article="article" :user="user" :toggle="false" />
       </div>
-      <div
-        v-if="article.editorResponses && article.editorResponses.length != 0"
-        class="max-w-7xl py-4"
-      >
+      <div v-if="article.editorResponses.length !== 0" class="max-w-7xl py-4">
         <label class="text-md block font-medium text-gray-700">
           Editor Notes
         </label>
@@ -16,9 +13,9 @@
           class="mt-1 flex w-140 flex-col flex-wrap rounded-md shadow-md md:w-160 lg:w-180"
         >
           <h3
+            class="flex items-start justify-between gap-2 px-3 py-3 break-all whitespace-normal"
             v-for="response in article.editorResponses"
             :key="response.name"
-            class="flex items-start justify-between gap-2 px-3 py-3 break-all whitespace-normal"
           >
             <span class="flex-1 break-all">
               {{ response.name }}: {{ response.text }}
@@ -114,6 +111,17 @@ onBeforeMount(async () => {
     `/cms/${route.params.id}`,
     'GET'
   )
+  article.value = await requestEndpoint<Article>(
+    `/cms/${route.params.id}`,
+    'GET'
+  )
+
+  if (
+    article.value.editorResponses === undefined ||
+    article.value.editorResponses === null
+  ) {
+    article.value.editorResponses = []
+  }
 
   modals.setArticle(article.value)
 })
