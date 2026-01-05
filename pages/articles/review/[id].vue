@@ -13,9 +13,9 @@
           class="mt-1 flex w-140 flex-col flex-wrap rounded-md shadow-md md:w-160 lg:w-180"
         >
           <h3
-            class="flex items-start justify-between gap-2 px-3 py-3 break-all whitespace-normal"
             v-for="response in article.editorResponses"
             :key="response.name"
+            class="flex items-start justify-between gap-2 px-3 py-3 break-all whitespace-normal"
           >
             <span class="flex-1 break-all">
               {{ response.name }}: {{ response.text }}
