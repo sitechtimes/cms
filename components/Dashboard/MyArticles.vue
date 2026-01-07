@@ -1,4 +1,5 @@
 <template>
+  <div><SearchBar :article="articleStore.articles" /></div>
   <div v-for="status in statuses" :key="status" class="px-4 pt-2">
     <DashboardTable
       v-if="articleStore.sortArticles(status).length > 0"

@@ -13,17 +13,34 @@
           fill="none"
           stroke="currentColor"
         >
-          <circle cx="11" cy="11" r="8"></circle>
-          <path d="m21 21-4.3-4.3"></path>
+          <circle cx="11" cy="11" r="8" />
+          <path d="m21 21-4.3-4.3" />
         </g>
       </svg>
-      <input type="search" required placeholder="Search" />
+
+      <input v-model="search" type="search" placeholder="Search" />
     </label>
+
+    <ul class="mt-4">
+      <li v-for="a in filteredArticles" :key="a._id">
+        {{ a.title }}
+      </li>
+    </ul>
   </div>
 </template>
 
 <script setup lang="ts">
-defineProps<{
+const props = defineProps<{
   article: Article[]
 }>()
+
+const search = ref('')
+
+const filteredArticles = computed(() => {
+  if (!search.value) return props.article
+
+  return props.article.filter((a) =>
+    a.title.toLowerCase().includes(search.value.toLowerCase())
+  )
+})
 </script>
