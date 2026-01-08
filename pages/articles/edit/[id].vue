@@ -92,6 +92,7 @@
 <script setup lang="ts">
 definePageMeta({
   layout: 'navbar',
+  middleware: 'article',
 })
 
 const fileSelection = useTemplateRef('file')
