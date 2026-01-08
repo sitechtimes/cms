@@ -21,8 +21,8 @@
       <input v-model="search" type="search" placeholder="Search" />
     </label>
 
-    <ul class="mt-4">
-      <li v-for="a in filteredArticles" :key="a._id">
+    <ul v-if="searchedArticles" class="mt-4">
+      <li v-for="a in searchedArticles" :key="a._id">
         {{ a.title }}
       </li>
     </ul>
@@ -36,8 +36,8 @@ const props = defineProps<{
 
 const search = ref('')
 
-const filteredArticles = computed(() => {
-  if (!search.value) return props.article
+const searchedArticles = computed(() => {
+  if (!search.value) return
 
   return props.article.filter((a) =>
     a.title.toLowerCase().includes(search.value.toLowerCase())
