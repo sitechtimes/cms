@@ -22,25 +22,24 @@
     </label>
 
     <ul v-if="searchedArticles" class="mt-4">
-      <li v-for="a in searchedArticles" :key="a._id">
-        {{ a.title }}
-      </li>
+      <li v-for="a in searchedArticles" :key="a._id"></li>
     </ul>
   </div>
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{
-  article: Article[]
-}>()
+const articleStore =
+
+const article = ref<Article[]>()
 
 const search = ref('')
 
 const searchedArticles = computed(() => {
   if (!search.value) return
-
-  return props.article.filter((a) =>
-    a.title.toLowerCase().includes(search.value.toLowerCase())
-  )
+  if (article.value) {
+    return article.value.filter((a) =>
+      a.title.toLowerCase().includes(search.value.toLowerCase())
+    )
+  } else return ''
 })
 </script>
