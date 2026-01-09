@@ -1,7 +1,6 @@
 
 export default defineNuxtRouteMiddleware((to, from) => {
     if (import.meta.server) return
-    if (to.path === from.path) return
 
     const articleStore = useArticleStore()
     const userStore = useUserStore()
@@ -19,7 +18,7 @@ export default defineNuxtRouteMiddleware((to, from) => {
 
         if (userStore.user?.id == article?.userId) {
             console.log("User is author, allowing edit")
-            return navigateTo(`/articles/edit/${article?._id}`)   
+            return navigateTo(article?._id ? `/articles/edit/${article?._id}` : `/articles/` )   
         } 
         else {
             console.log("User is not author, redirecting to home")
