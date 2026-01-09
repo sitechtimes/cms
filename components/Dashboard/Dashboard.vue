@@ -7,6 +7,7 @@
         v-model="chosenTab"
         :names="names"
       />
+      <SearchBar :article="articleStore.articles" />
       <DashboardMyArticles v-if="chosenTab === 0" />
       <DashboardFilteredArticles
         v-if="chosenTab === 1"

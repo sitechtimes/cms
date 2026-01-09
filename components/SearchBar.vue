@@ -20,26 +20,28 @@
 
       <input v-model="search" type="search" placeholder="Search" />
     </label>
-
-    <ul v-if="searchedArticles" class="mt-4">
-      <li v-for="a in searchedArticles" :key="a._id"></li>
-    </ul>
+    <div class="mx-auto flex max-w-7xl flex-col gap-4 p-4">
+      <DashboardTable title="">
+        <DashboardArticleRows
+          v-for="a in searchedArticles"
+          :key="a._id"
+          :article="a"
+        />
+      </DashboardTable>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-const articleStore =
-
-const article = ref<Article[]>()
+const articleStore = useArticleStore()
 
 const search = ref('')
 
 const searchedArticles = computed(() => {
   if (!search.value) return
-  if (article.value) {
-    return article.value.filter((a) =>
-      a.title.toLowerCase().includes(search.value.toLowerCase())
-    )
-  } else return ''
+
+  return articleStore.articles.filter((a) =>
+    a.title.toLowerCase().includes(search.value.toLowerCase())
+  )
 })
 </script>
