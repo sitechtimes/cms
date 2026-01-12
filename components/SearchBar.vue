@@ -33,15 +33,27 @@
 </template>
 
 <script setup lang="ts">
-const articleStore = useArticleStore()
+const props = defineProps<{
+  articles?: Article[]
+  publishedArticles?: PublishedArticle[]
+}>()
+
+// const articleStore = useArticleStore()
 
 const search = ref('')
 
 const searchedArticles = computed(() => {
   if (!search.value) return
 
-  return articleStore.articles.filter((a) =>
-    a.title.toLowerCase().includes(search.value.toLowerCase())
-  )
+  if (props.articles)
+    return props.articles.filter((a) =>
+      a.title.toLowerCase().includes(search.value.toLowerCase())
+    )
+
+  if (props.publishedArticles)
+    return props.publishedArticles.filter((a) =>
+      a.title.toLowerCase().includes(search.value.toLowerCase())
+    )
+  else return ''
 })
 </script>

@@ -7,17 +7,18 @@
         v-model="chosenTab"
         :names="names"
       />
-      <SearchBar :article="articleStore.articles" />
+      <SearchBar :articles="articleSets[chosenTab]" />
+
       <DashboardMyArticles v-if="chosenTab === 0" />
       <DashboardFilteredArticles
         v-if="chosenTab === 1"
         status="review"
-        :article-list="articleStore.reviewArticles"
+        :article-list="articleSets[chosenTab]"
       />
       <DashboardFilteredArticles
         v-if="chosenTab === 2"
         status="ready"
-        :article-list="articleStore.readyArticles"
+        :article-list="articleSets[chosenTab]"
       />
       <DashboardPublishedArticles
         v-if="chosenTab === 3 && articleStore.publishedArticle"
@@ -34,6 +35,13 @@ const userStore = useUserStore()
 const articleStore = useArticleStore()
 
 const names = ref(['My Articles', 'In Review'])
+
+const articleSets = computed(() => [
+  articleStore.articles,
+  articleStore.reviewArticles,
+  articleStore.readyArticles,
+  articleStore.publishedArticle,
+])
 
 onMounted(() => {
   if (userStore.user && userStore.user.role === 'admin') {
