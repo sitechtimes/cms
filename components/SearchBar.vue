@@ -20,7 +20,7 @@
 
       <input v-model="search" type="search" placeholder="Search" />
     </label>
-    <div class="mx-auto flex max-w-7xl flex-col gap-4 p-4">
+    <div v-if="articles" class="mx-auto flex max-w-7xl flex-col gap-4 p-4">
       <DashboardTable title="">
         <DashboardArticleRows
           v-for="a in searchedArticles"
@@ -45,15 +45,8 @@ const search = ref('')
 const searchedArticles = computed(() => {
   if (!search.value) return
 
-  if (props.articles)
-    return props.articles.filter((a) =>
-      a.title.toLowerCase().includes(search.value.toLowerCase())
-    )
-
-  if (props.publishedArticles)
-    return props.publishedArticles.filter((a) =>
-      a.title.toLowerCase().includes(search.value.toLowerCase())
-    )
-  else return ''
+  return props.articles.filter((a) =>
+    a.title.toLowerCase().includes(search.value.toLowerCase())
+  )
 })
 </script>
