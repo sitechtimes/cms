@@ -7,7 +7,8 @@
         v-model="chosenTab"
         :names="names"
       />
-      <SearchBar :articles="articleSets[chosenTab]" />
+      <SearchBar v-if="chosenTab <= 2" :articles="articleSets[chosenTab]" />
+      <SearchBar v-if="chosenTab = 3" :published-articles="articleSets[3]" />
 
       <DashboardMyArticles v-if="chosenTab === 0" />
       <DashboardFilteredArticles
