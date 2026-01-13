@@ -1,47 +1,47 @@
+export default defineNuxtRouteMiddleware(async (to, from) => {
+  if (import.meta.server) {
+    return
+  }
 
-export default defineNuxtRouteMiddleware((to, from) => {
-    if (import.meta.server) return
+  console.log(to.matched)
 
-    const articleStore = useArticleStore()
-    const userStore = useUserStore()
+  const articleStore = useArticleStore()
+  const userStore = useUserStore()
 
-    if (articleStore.articles.length === 0) {
-        articleStore.fetchArticles()
-    }
+  if (articleStore.articles.length === 0) {
+    await articleStore.fetchArticles()
+  }
 
-    const article = articleStore.articles.find(a => a._id === to.params.id)
+  const articleData = computed(() => articleStore.articles.concat(articleStore.reviewArticles, articleStore.readyArticles))
 
-    console.log("Article Middleware Triggered for article:", article, userStore.user)
+  const article = articleData.value.find(
+    a => a._id === to.params.id
+  )
 
-    if (article?.status === 'draft') {
-        console.log("Article is in draft status")
+  if (!article) {
+    return navigateTo('/')
+  }
 
-        if (userStore.user?.id == article?.userId) {
-            console.log("User is author, allowing edit")
-            return navigateTo(article?._id ? `/articles/edit/${article?._id}` : `/articles/` )   
-        } 
-        else {
-            console.log("User is not author, redirecting to home")
-            return navigateTo(`/`)
-        }
-    }
+  const isAuthor = userStore.user?.id === article.userId
 
-    else if (article?.status === 'review') {
-        console.log("Article is in review status")
+  let targetPath: string | null = null
 
-        if (userStore.user?.id == article?.userId) {
-            console.log("User is author, redirecting to edit")
-            return navigateTo(`/articles/edit/${article?._id}`)
-        }
-        else {
-            console.log("User is not author, redirecting to review")
-            return navigateTo(`/articles/review/${article?._id}`)
-        }
-    }
+  if (article.status === 'draft') {
+    targetPath = isAuthor
+      ? `/articles/edit/${article._id}`
+      : `/`
+  } else if (article.status === 'review') {
+    targetPath = isAuthor
+      ? `/articles/edit/${article._id}`
+      : `/articles/review/${article._id}`
 
-    else {
-        console.log("Article is ready")
+  } else {
+    targetPath = `/articles/${article._id}`
+  }
 
-        return navigateTo(`/articles/${article?._id}`)
-    }
+  if (targetPath === to.path) {
+    return
+  }
+
+  return navigateTo(targetPath)
 })
