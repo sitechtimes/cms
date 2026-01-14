@@ -53,6 +53,7 @@
 <script setup lang="ts">
 definePageMeta({
     layout: 'navbar',
+    middleware: 'article',
 })
 
 const route = useRoute()
