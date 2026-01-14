@@ -1,9 +1,7 @@
-export default defineNuxtRouteMiddleware(async (to, from) => {
+export default defineNuxtRouteMiddleware(async (to) => {
   if (import.meta.server) {
     return
   }
-
-  console.log(to.matched)
 
   const articleStore = useArticleStore()
   const userStore = useUserStore()
