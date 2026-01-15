@@ -21,7 +21,7 @@
       <input v-model="search" type="search" placeholder="Search" />
     </label>
     <div
-      v-if="articles && !publishedArticles"
+      v-if="articles && !publishedArticles?.length"
       class="mx-auto flex max-w-7xl flex-col gap-4 p-4"
     >
       <DashboardTable title="">

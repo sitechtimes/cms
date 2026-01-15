@@ -8,18 +8,18 @@
         :names="names"
       />
       <SearchBar v-if="chosenTab <= 2" :articles="articleSets[chosenTab]" />
-      <SearchBar v-if="chosenTab = 3" :published-articles="articleSets[3]" />
+      <SearchBar v-if="chosenTab === 3" :published-articles="articleSets[3]" />
 
       <DashboardMyArticles v-if="chosenTab === 0" />
       <DashboardFilteredArticles
         v-if="chosenTab === 1"
         status="review"
-        :article-list="articleSets[chosenTab]"
+        :article-list="articleStore.reviewArticles"
       />
       <DashboardFilteredArticles
         v-if="chosenTab === 2"
         status="ready"
-        :article-list="articleSets[chosenTab]"
+        :article-list="articleStore.readyArticles"
       />
       <DashboardPublishedArticles
         v-if="chosenTab === 3 && articleStore.publishedArticle"
