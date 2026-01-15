@@ -7,8 +7,7 @@
         v-model="chosenTab"
         :names="names"
       />
-      <SearchBar v-if="chosenTab <= 2" :articles="articleSets[chosenTab]" />
-      <SearchBar v-if="chosenTab === 3" :published-articles="articleSets[3]" />
+      <SearchBar :articles="articleSets[chosenTab]" :chosen-tab="chosenTab" />
 
       <DashboardMyArticles v-if="chosenTab === 0" />
       <DashboardFilteredArticles
@@ -41,7 +40,7 @@ const articleSets = computed(() => [
   articleStore.articles,
   articleStore.reviewArticles,
   articleStore.readyArticles,
-  articleStore.publishedArticle,
+  articleStore.publishedArticle?.articles,
 ])
 
 onMounted(() => {

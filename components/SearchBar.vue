@@ -21,7 +21,7 @@
       <input v-model="search" type="search" placeholder="Search" />
     </label>
     <div
-      v-if="articles && !publishedArticles?.length"
+      v-if="chosenTab <= 2"
       class="mx-auto flex max-w-7xl flex-col gap-4 p-4"
     >
       <DashboardTable title="">
@@ -33,7 +33,7 @@
       </DashboardTable>
     </div>
     <div
-      v-if="!articles && publishedArticles"
+      v-if="chosenTab === 3"
       class="mx-auto flex max-w-7xl flex-col gap-4 p-4"
     >
       <DashboardTable title="">
@@ -51,11 +51,17 @@
 const props = defineProps<{
   articles?: Article[]
   publishedArticles?: PublishedArticle[]
+  chosenTab: number
 }>()
 
-// const articleStore = useArticleStore()
-
 const search = ref('')
+
+watch(
+  () => props.chosenTab,
+  () => {
+    search.value = ''
+  }
+)
 
 const searchedArticles = computed(() => {
   if (!search.value || (!props.articles && !props.publishedArticles)) return []
