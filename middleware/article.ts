@@ -1,14 +1,10 @@
 export default defineNuxtRouteMiddleware(async (to) => {
-  if (import.meta.server) {
-    return
-  }
-
+  if (import.meta.server) return
+  
   const articleStore = useArticleStore()
   const userStore = useUserStore()
 
-  if (articleStore.articles.length === 0) {
-    await articleStore.fetchArticles()
-  }
+  if (articleStore.articles.length === 0) await articleStore.fetchArticles()
 
   const articleData = computed(() => articleStore.articles.concat(articleStore.reviewArticles, articleStore.readyArticles))
 
@@ -16,9 +12,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
     a => a._id === to.params.id
   )
 
-  if (!article) {
-    return navigateTo('/')
-  }
+  if (!article) return navigateTo('/')
 
   const isAuthor = userStore.user?.id === article.userId
 
@@ -37,9 +31,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
     targetPath = `/articles/${article._id}`
   }
 
-  if (targetPath === to.path) {
-    return
-  }
+  if (targetPath === to.path) return
 
   return navigateTo(targetPath)
 })

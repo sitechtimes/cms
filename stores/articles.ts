@@ -26,8 +26,7 @@ export const useArticleStore = defineStore('articles', () => {
       if (userStore.user.role === 'admin') {
         const readyData = await requestEndpoint<Article[]>('/cms/ready')
         readyArticles.value = readyData
-        const publishedData =
-          await requestEndpoint<ArticleResponse>('/articles')
+        const publishedData = await requestEndpoint<ArticleResponse>('/articles')
         publishedArticle.value = publishedData
       }
     } catch (e) {
@@ -38,6 +37,7 @@ export const useArticleStore = defineStore('articles', () => {
   function sortArticles(status: Status) {
     return articles.value.filter((article) => article.status === status)
   }
+
 
   return {
     fetchArticles,
