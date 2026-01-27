@@ -9,6 +9,7 @@
 <script setup lang="ts">
 definePageMeta({
   layout: 'navbar',
+  middleware: 'published-article',
 })
 
 const article = ref<PublishedArticle>()
