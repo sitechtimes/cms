@@ -20,11 +20,18 @@
 
     <td class="w-40 min-w-20 text-right text-sm font-medium whitespace-nowrap">
       <NuxtLink
-        v-if="article.status === 'review' || article.status === 'draft'"
+        v-if="userStore.user && (article.status === 'review' || article.status === 'draft') && userStore.user.id === article.userId"
         class="text-indigo-600 hover:text-indigo-900"
         :to="`/articles/edit/${article._id}`"
       >
         Edit
+      </NuxtLink>
+      <NuxtLink
+        v-if="userStore.user && article.status === 'review' && userStore.user.id !== article.userId"
+        class="text-indigo-600 hover:text-indigo-900"
+        :to="`/articles/review/${article._id}`"
+      >
+        Review
       </NuxtLink>
       <NuxtLink
         v-if="article.status === 'ready'"
@@ -39,6 +46,8 @@
 
 <script setup lang="ts">
 const props = defineProps<{ article: Article }>()
+
+const userStore = useUserStore()
 
 const formatDate = computed(() => {
   const date = new Date(props.article.updatedAt)

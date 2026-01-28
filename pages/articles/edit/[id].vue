@@ -2,7 +2,20 @@
   <div v-if="article && user" class="mx-auto max-w-3xl py-8 md:max-w-7xl">
     <div class="flex justify-between">
       <h1 class="text-3xl font-bold text-gray-900">Edit Article</h1>
-      <ArticleActions :article="article" :user="user" :toggle="toggle" />
+      <ArticleActions :article="article" :user="user" :toggle="false" />
+    </div>
+    <div v-if="article.editorResponses.length != 0 && article.status === 'review'" class="max-w-7xl py-4">
+      <label class="text-md block font-medium text-gray-700"> Editor Notes </label>
+      <div class="mt-1 flex flex-col w-140 rounded-md shadow-md md:w-160 lg:w-180 flex-wrap">
+          <h3 class="flex justify-between items-start gap-2 px-3 py-3 whitespace-normal break-all"
+              v-for="response in article.editorResponses" 
+              :key="response.name"
+              >
+              <span class="flex-1 break-all">
+                  {{ response.name }}: {{ response.text }}
+              </span>
+          </h3>
+      </div>
     </div>
     <div class="max-w-7xl py-4">
       <label class="text-md block font-medium text-gray-700"> Title </label>
@@ -71,7 +84,7 @@
       </div>
     </div>
     <div class="max-w-7xl rounded border border-gray-300 shadow">
-      <QuillEditor v-model="article.content" />
+      <ToastEditor v-model="article.content" />
     </div>
   </div>
 </template>
@@ -79,6 +92,7 @@
 <script setup lang="ts">
 definePageMeta({
   layout: 'navbar',
+  middleware: 'article',
 })
 
 const fileSelection = useTemplateRef('file')
@@ -89,7 +103,6 @@ const article = ref<Article>()
 const userStore = useUserStore()
 const modals = useModalStore()
 const { user } = storeToRefs(userStore)
-const toggle = false
 
 onBeforeMount(async () => {
   article.value = await requestEndpoint<Article>(

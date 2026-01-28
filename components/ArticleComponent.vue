@@ -10,7 +10,7 @@
     >
       {{ article?.category }}
     </div>
-    <article class="prose max-w-[56%]">
+    <article class="prose wrap-normal max-w-[66%] text-wrap">
       <div ref="titleRef" class="m-auto mb-3.5 text-5xl font-semibold"></div>
       <div v-if="article" class="my-8">
         <img
@@ -37,7 +37,7 @@
         </div>
       </div>
 
-      <div ref="contentRef"></div>
+      <div ref="contentRef" class="whitespace-pre-wrap break-words max-w-full"></div>
     </article>
   </div>
 </template>
@@ -80,3 +80,14 @@ onMounted(async () => {
   }
 })
 </script>
+
+<style>
+blockquote {
+  quotes: none;
+}
+
+blockquote::before,
+blockquote::after {
+  content: none;
+}
+</style>
