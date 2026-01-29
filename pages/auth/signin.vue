@@ -90,6 +90,7 @@ async function signIn() {
   try {
     await userStore.signIn(email.value, password.value)
     await navigateTo('/', { replace: true })
+    reloadNuxtApp()
   } catch (e) {
     // todo: add error handling (booooo)
     console.error(e)
