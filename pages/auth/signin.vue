@@ -85,12 +85,14 @@ const email = ref('')
 const password = ref('')
 
 const userStore = useUserStore()
-const router = useRouter()
 
 async function signIn() {
   try {
     await userStore.signIn(email.value, password.value)
-    router.push('/')
+    // Wait for next tick to ensure state is properly set and persisted
+    await nextTick()
+    // Use navigateTo instead of router.push for better Nuxt integration
+    await navigateTo('/', { replace: true })
   } catch (e) {
     // todo: add error handling (booooo)
     console.error(e)

@@ -4,7 +4,6 @@ export const useUserStore = defineStore(
   'user',
   () => {
     const user = ref<User>()
-    const router = useRouter()
 
     async function signIn(email: string, password: string) {
       signOut()
@@ -49,12 +48,17 @@ export const useUserStore = defineStore(
 
     async function verifyToken(token: string) {
       user.value = await requestEndpoint<User>(`/auth/verify?token=${token}`)
-      router.push('/')
+      // Wait for next tick to ensure state is properly set and persisted
+      await nextTick()
+      // Use navigateTo instead of router.push for better Nuxt integration
+      await navigateTo('/', { replace: true })
     }
 
-    function signOut() {
+    async function signOut() {
       user.value = undefined
-      router.push('/auth/signin')
+      // Wait for next tick to ensure state is properly cleared and persisted
+      await nextTick()
+      await navigateTo('/auth/signin', { replace: true })
     }
 
     return { user, signIn, signUp, requestVerification, signOut, verifyToken }
