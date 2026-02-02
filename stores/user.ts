@@ -54,9 +54,11 @@ export const useUserStore = defineStore(
       await navigateTo('/', { replace: true })
     }
 
-    function signOut() {
+    async function signOut() {
       user.value = undefined
-      navigateTo('/auth/signin', { replace: true })
+      // Wait for next tick to ensure state is properly cleared and persisted
+      await nextTick()
+      await navigateTo('/auth/signin', { replace: true })
     }
 
     return { user, signIn, signUp, requestVerification, signOut, verifyToken }
