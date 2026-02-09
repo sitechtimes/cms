@@ -8,11 +8,11 @@
             <div v-if="article.editorResponses.length !== 0" class="max-w-7xl py-4">
                 <label class="text-md block font-medium text-gray-700"> Editor Notes </label>
                 <div class="mt-1 flex flex-col w-140 rounded-md shadow-md md:w-160 lg:w-180 flex-wrap">
-                    <h3 class="flex justify-between items-start gap-2 px-3 py-3 whitespace-normal break-all"
+                    <h3 class="flex min-w-0 max-w-full justify-between items-start gap-2 px-3 py-3"
                         v-for="response in article.editorResponses" 
                         :key="response.name"
                         >
-                        <span class="flex-1 break-all">
+                        <span class="flex-1 break-words overflow-hidden">
                             {{ response.name }}: {{ response.text }}
                         </span>
 
