@@ -37,7 +37,10 @@
         </div>
       </div>
 
-      <div ref="contentRef" class="whitespace-pre-wrap break-words max-w-full"></div>
+      <div
+        ref="contentRef"
+        class="max-w-full break-words whitespace-pre-wrap"
+      ></div>
     </article>
   </div>
 </template>

@@ -7,6 +7,8 @@
         v-model="chosenTab"
         :names="names"
       />
+      <SearchBar :articles="articleSets[chosenTab]" :chosen-tab="chosenTab" />
+
       <DashboardMyArticles v-if="chosenTab === 0" />
       <DashboardFilteredArticles
         v-if="chosenTab === 1"
@@ -33,6 +35,13 @@ const userStore = useUserStore()
 const articleStore = useArticleStore()
 
 const names = ref(['My Articles', 'In Review'])
+
+const articleSets = computed(() => [
+  articleStore.articles,
+  articleStore.reviewArticles,
+  articleStore.readyArticles,
+  articleStore.publishedArticle?.articles,
+])
 
 onMounted(() => {
   if (userStore.user && userStore.user.role === 'admin') {

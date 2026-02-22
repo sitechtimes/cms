@@ -66,45 +66,53 @@ const newNote = ref<string>('')
 
 const { user } = storeToRefs(userStore)
 
-
 function deleteNotes(response: { name: string; text: string }) {
-    if (response.name !== userStore.user?.name) return
+  if (response.name !== userStore.user?.name) return
 
-    const index = article.value?.editorResponses.findIndex((note) => note === response)
-    if (index === undefined || index === -1) return
+  const index = article.value?.editorResponses.findIndex(
+    (note) => note === response
+  )
+  if (index === undefined || index === -1) return
 
-    article.value?.editorResponses.splice(index, 1)
-    requestEndpoint(`/cms/${route.params.id}`, 'PUT', article.value)
+  article.value?.editorResponses.splice(index, 1)
+  requestEndpoint(`/cms/${route.params.id}`, 'PUT', article.value)
 }
 
 async function saveNewNote() {
-    if (newNote.value.trim() === '') return
+  if (newNote.value.trim() === '') return
 
-    article.value?.editorResponses.push({
+  article.value?.editorResponses.push({
     name: userStore.user?.name || 'Anonymous',
     text: newNote.value.trim(),
-    })
-    newNote.value = ''   
+  })
+  newNote.value = ''
 
-    modals.saveArticle()
+  modals.saveArticle()
 }
 
 function handleKeydown(event: KeyboardEvent) {
-    if (event.key === 'Enter') {
-        saveNewNote()
-    }
+  if (event.key === 'Enter') {
+    saveNewNote()
+  }
 }
 
 onBeforeMount(async () => {
-    article.value = await requestEndpoint<Article>(
-        `/cms/${route.params.id}`,
-        'GET'
-    )
+  article.value = await requestEndpoint<Article>(
+    `/cms/${route.params.id}`,
+    'GET'
+  )
+  article.value = await requestEndpoint<Article>(
+    `/cms/${route.params.id}`,
+    'GET'
+  )
 
-    if (article.value.editorResponses === undefined || article.value.editorResponses === null) {
-        article.value.editorResponses = []
-    }
+  if (
+    article.value.editorResponses === undefined ||
+    article.value.editorResponses === null
+  ) {
+    article.value.editorResponses = []
+  }
 
-    modals.setArticle(article.value)
+  modals.setArticle(article.value)
 })
 </script>
