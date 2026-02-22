@@ -1,6 +1,8 @@
 <template>
-  <div>
-    <label class="input">
+  <div class="my-5 flex flex-col items-center">
+    <label
+      class="input flex w-8/12 items-center gap-2 rounded-xl border-2 border-gray-200 p-2"
+    >
       <svg
         class="h-[1em] opacity-50"
         xmlns="http://www.w3.org/2000/svg"
@@ -18,7 +20,20 @@
         </g>
       </svg>
 
-      <input v-model="search" type="search" placeholder="Search" />
+      <input
+        v-model="search"
+        type="text"
+        class="flex-1 border-0 bg-transparent text-sm outline-none placeholder:text-neutral-400"
+        placeholder="Search"
+      />
+      <button
+        v-if="search"
+        @click="search = ''"
+        type="button"
+        class="flex h-5 w-5 items-center justify-center text-gray-400 transition hover:text-gray-600"
+      >
+        ✕
+      </button>
     </label>
     <div
       v-if="chosenTab <= 2"
