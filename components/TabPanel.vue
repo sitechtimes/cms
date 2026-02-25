@@ -10,15 +10,25 @@
       :checked="model === i"
       @click="changeModel(i)"
     />
+    <SearchBar :articles="articleSets[chosenTab]" :chosen-tab="chosenTab" />
   </div>
 </template>
 
 <script setup lang="ts">
 defineProps<{
   names: string[]
+  chosenTab: number
 }>()
 
 const model = defineModel<number>()
+const articleStore = useArticleStore()
+
+const articleSets = computed(() => [
+  articleStore.articles,
+  articleStore.reviewArticles,
+  articleStore.readyArticles,
+  articleStore.publishedArticle?.articles,
+])
 
 function changeModel(i: number) {
   model.value = i

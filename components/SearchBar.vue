@@ -1,10 +1,13 @@
 <template>
   <div class="my-5 flex flex-col items-center">
-    <label
-      class="input flex w-8/12 items-center gap-2 rounded-xl border-2 border-gray-200 p-2"
+    <button
+      type="button"
+      class="flex items-center gap-2 rounded-lg px-4 py-2 text-sm text-gray-600 transition hover:border-gray-400 hover:text-gray-800"
+      @click="isOpen = !isOpen"
     >
       <svg
-        class="h-[1em] opacity-50"
+      v-if="!isOpen"
+        class="h-4 w-4"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
       >
@@ -19,46 +22,73 @@
           <path d="m21 21-4.3-4.3" />
         </g>
       </svg>
+      <Icon 
+    </button>
 
-      <input
-        v-model="search"
-        type="text"
-        class="flex-1 border-0 bg-transparent text-sm outline-none placeholder:text-neutral-400"
-        placeholder="Search"
-      />
-      <button
-        v-if="search"
-        @click="search = ''"
-        type="button"
-        class="flex h-5 w-5 items-center justify-center text-gray-400 transition hover:text-gray-600"
-      >
-        ✕
-      </button>
-    </label>
-    <div
-      v-if="chosenTab <= 2"
-      class="mx-auto flex max-w-7xl flex-col gap-4 p-4"
-    >
-      <DashboardTable title="">
-        <DashboardArticleRows
-          v-for="a in searchedArticles"
-          :key="a._id"
-          :article="a"
-        />
-      </DashboardTable>
-    </div>
-    <div
-      v-if="chosenTab === 3"
-      class="mx-auto flex max-w-7xl flex-col gap-4 p-4"
-    >
-      <DashboardTable title="">
-        <DashboardPublishedArticleRows
-          v-for="a in searchedArticles"
-          :key="a._id"
-          :article="a"
-        />
-      </DashboardTable>
-    </div>
+    <Transition name="fade">
+      <div v-if="isOpen" class="mt-3 flex w-full flex-col items-center">
+        <label
+          class="input flex w-8/12 items-center gap-2 rounded-xl border-2 border-gray-200 p-2"
+        >
+          <svg
+            class="h-[1em] opacity-50"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+          >
+            <g
+              stroke-linejoin="round"
+              stroke-linecap="round"
+              stroke-width="2.5"
+              fill="none"
+              stroke="currentColor"
+            >
+              <circle cx="11" cy="11" r="8" />
+              <path d="m21 21-4.3-4.3" />
+            </g>
+          </svg>
+
+          <input
+            v-model="search"
+            type="text"
+            class="flex-1 border-0 bg-transparent text-sm outline-none placeholder:text-neutral-400"
+            placeholder="Search"
+          />
+          <button
+            v-if="search"
+            type="button"
+            class="flex h-5 w-5 items-center justify-center text-gray-400 transition hover:text-gray-600"
+            @click="search = ''"
+          >
+            ✕
+          </button>
+        </label>
+
+        <div
+          v-if="chosenTab <= 2"
+          class="mx-auto flex max-w-7xl flex-col gap-4 p-4"
+        >
+          <DashboardTable title="">
+            <DashboardArticleRows
+              v-for="a in searchedArticles"
+              :key="a._id"
+              :article="a"
+            />
+          </DashboardTable>
+        </div>
+        <div
+          v-if="chosenTab === 3"
+          class="mx-auto flex max-w-7xl flex-col gap-4 p-4"
+        >
+          <DashboardTable title="">
+            <DashboardPublishedArticleRows
+              v-for="a in searchedArticles"
+              :key="a._id"
+              :article="a"
+            />
+          </DashboardTable>
+        </div>
+      </div>
+    </Transition>
   </div>
 </template>
 
@@ -69,12 +99,14 @@ const props = defineProps<{
   chosenTab: number
 }>()
 
+const isOpen = ref(false)
 const search = ref('')
 
 watch(
   () => props.chosenTab,
   () => {
     search.value = ''
+    isOpen.value = false
   }
 )
 
@@ -92,3 +124,14 @@ const searchedArticles = computed(() => {
   return []
 })
 </script>
+
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.25s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>
