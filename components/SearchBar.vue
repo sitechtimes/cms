@@ -6,7 +6,7 @@
       @click="isOpen = !isOpen"
     >
       <svg
-      v-if="!isOpen"
+        v-if="!isOpen"
         class="h-4 w-4"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
@@ -22,7 +22,7 @@
           <path d="m21 21-4.3-4.3" />
         </g>
       </svg>
-      <Icon 
+      <Icon v-if="isOpen" name="heroicons:x-mark-20-solid"></Icon>
     </button>
 
     <Transition name="fade">
