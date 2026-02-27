@@ -99,5 +99,3 @@ async function signIn() {
   }
 }
 </script>
-
-<style scoped></style>
