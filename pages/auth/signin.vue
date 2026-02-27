@@ -44,6 +44,10 @@
           </div>
         </div>
 
+        <div v-if="noPassword" class="text-sm text-red-500">
+          Incorrect login
+        </div>
+
         <div>
           <button
             class="du-btn group w-full bg-indigo-600 text-sm font-medium text-white contain-content hover:bg-indigo-500 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
@@ -83,6 +87,7 @@ definePageMeta({
 
 const email = ref('')
 const password = ref('')
+const noPassword = ref(false)
 
 const userStore = useUserStore()
 
@@ -96,6 +101,7 @@ async function signIn() {
   } catch (e) {
     // todo: add error handling (booooo)
     console.error(e)
+    noPassword.value = true
   }
 }
 </script>
