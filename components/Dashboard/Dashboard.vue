@@ -5,6 +5,7 @@
       <TabPanel
         v-if="['editor', 'admin'].includes(userStore.user.role)"
         v-model="chosenTab"
+        :chosen-tab="chosenTab"
         :names="names"
       />
 
