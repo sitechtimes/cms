@@ -12,13 +12,15 @@
         @click="changeModel(i)"
       />
     </div>
-    <div class="ml-4"><SearchButton :chosen-tab="chosenTab" /></div>
-    <SearchBar
-      v-if="isOpen"
-      :articles="articleSets[chosenTab]"
-      :chosen-tab="chosenTab"
-    />
+    <div class="ml-4">
+      <SearchButton :chosen-tab="chosenTab" @update:is-open="openStatus" />
+    </div>
   </div>
+  <SearchBar
+    v-if="isOpen"
+    :articles="articleSets[chosenTab]"
+    :chosen-tab="chosenTab"
+  />
 </template>
 
 <script setup lang="ts">
@@ -28,6 +30,19 @@ defineProps<{
 }>()
 
 const model = defineModel<number>()
+const articleStore = useArticleStore()
+const isOpen = ref(false)
+
+const articleSets = computed(() => [
+  articleStore.articles,
+  articleStore.reviewArticles,
+  articleStore.readyArticles,
+  articleStore.publishedArticle?.articles,
+])
+
+function openStatus(status: boolean) {
+  isOpen.value = status
+}
 
 function changeModel(i: number) {
   model.value = i
