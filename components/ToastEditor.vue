@@ -1,6 +1,6 @@
 <template>
   <ClientOnly>
-    <div class="bg-white" ref="editorContainer"></div>
+    <div ref="editorContainer" class="bg-white"></div>
     <template #fallback>
       <div
         class="flex h-[500px] items-center justify-center rounded border bg-white text-gray-500"
@@ -119,7 +119,7 @@ div.tui-colorpicker-clearfix {
 }
 
 .tui-colorpicker-clearfix:after {
-  content: "";
+  content: '';
   display: block;
   clear: both;
 }
@@ -137,7 +137,7 @@ div.tui-colorpicker-clearfix {
 .tui-colorpicker-palette-preview {
   width: 16px !important;
   height: 16px !important;
-  display: inline-block; 
+  display: inline-block;
   border-radius: 50%;
   border: solid 1px rgba(0, 0, 0, 0.1);
   -webkit-box-sizing: border-box;
@@ -178,5 +178,4 @@ div.tui-colorpicker-clearfix {
   width: 19.6px;
   height: 121.6px;
 }
-
 </style>

@@ -12,9 +12,12 @@
         @click="changeModel(i)"
       />
     </div>
-    <div class="ml-4">
-      <SearchBar :articles="articleSets[chosenTab]" :chosen-tab="chosenTab" />
-    </div>
+    <div class="ml-4"><SearchButton :chosen-tab="chosenTab" /></div>
+    <SearchBar
+      v-if="isOpen"
+      :articles="articleSets[chosenTab]"
+      :chosen-tab="chosenTab"
+    />
   </div>
 </template>
 
@@ -25,14 +28,6 @@ defineProps<{
 }>()
 
 const model = defineModel<number>()
-const articleStore = useArticleStore()
-
-const articleSets = computed(() => [
-  articleStore.articles,
-  articleStore.reviewArticles,
-  articleStore.readyArticles,
-  articleStore.publishedArticle?.articles,
-])
 
 function changeModel(i: number) {
   model.value = i
