@@ -29,14 +29,14 @@
       <button
         v-if="search"
         type="button"
-        class="flex h-5 w-5 items-center justify-center text-gray-400 transition hover:text-gray-600"
+        class="flex h-5 w-5 cursor-pointer items-center justify-center text-gray-400 transition hover:text-gray-600"
         @click="search = ''"
       >
         ✕
       </button>
     </label>
     <div
-      v-if="chosenTab <= 2"
+      v-if="chosenTab <= 2 && searchedArticles.length"
       class="mx-auto flex max-w-7xl flex-col gap-4 p-4"
     >
       <DashboardTable title="">
@@ -48,7 +48,7 @@
       </DashboardTable>
     </div>
     <div
-      v-if="chosenTab === 3"
+      v-if="chosenTab === 3 && searchedArticles.length"
       class="mx-auto flex max-w-7xl flex-col gap-4 p-4"
     >
       <DashboardTable title="">
