@@ -33,7 +33,7 @@ export async function requestEndpoint<T>(
   const headers: HeadersInit = {}
 
   if (userStore.user)
-    headers['Authorization'] = `Bearer ${userStore.user.token}`
+    headers['Authorization'] = `${userStore.user.token}`
 
   const options: RequestInit = {}
 

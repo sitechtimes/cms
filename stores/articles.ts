@@ -35,6 +35,7 @@ export const useArticleStore = defineStore('articles', () => {
   }
 
   function sortArticles(status: Status) {
+    if (!articles.value) return console.error("uh oh")
     return articles.value.filter((article) => article.status === status)
   }
 
